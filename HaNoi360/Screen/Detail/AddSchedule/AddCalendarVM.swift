@@ -75,7 +75,6 @@ class AddCalendarVM: BaseVM {
                                      date: date.value ?? Date().toString(),
                                      createAt: Date())
         calendarService.set(place, withId: id) { result in
-            self.isLoading.accept(false)
             switch result {
             case .success():
                 self.isSuccess.accept(true)

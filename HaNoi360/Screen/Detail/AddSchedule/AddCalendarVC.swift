@@ -199,7 +199,6 @@ class AddCalendarVC: BaseViewController {
         viewModel.isAddPlaceContinue
             .subscribe(onNext: { isAddPlaceContinue in
                 if isAddPlaceContinue {
-                    self.vm.isLoading.accept(true)
                     self.viewModel.addPlaceCalendar()
                 }
             })

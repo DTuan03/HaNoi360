@@ -12,9 +12,7 @@ class BaseVM {
     let calendarService = BaseFirestoreService<AddCalendarModel>(collectionPath: "calendars")
     let placeService = BaseFirestoreService<DetailModel>(collectionPath: "places")
     let favoriteService = BaseFirestoreService<FavoriteModel>(collectionPath: "favorites")
-    
-    var isLoading = PublishRelay<Bool>()
-    
+        
     let userId = UserDefaults.standard.string(forKey: "userId")
 
 }
