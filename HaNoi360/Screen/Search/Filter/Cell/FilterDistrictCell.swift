@@ -24,7 +24,7 @@ class FilterDistrictCell: UITableViewCell {
     var selectedIndex: [IndexPath] = []
     
     var isSelectedIndex: Bool = false
-        
+    
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         setupUI()
@@ -69,11 +69,12 @@ class FilterDistrictCell: UITableViewCell {
     }
     
     func setSelectedState(_ selected: Bool) {
-        if selected {
-            chooseIv.image = UIImage(systemName: "checkmark.circle.fill")
-        } else {
-            chooseIv.image = UIImage(systemName: "circle")
+        UIView.animate(withDuration: 0.2) {
+            if selected {
+                self.chooseIv.image = UIImage(systemName: "checkmark.circle.fill")
+            } else {
+                self.chooseIv.image = UIImage(systemName: "circle")
+            }
         }
     }
-
 }

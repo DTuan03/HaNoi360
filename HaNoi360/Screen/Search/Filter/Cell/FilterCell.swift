@@ -39,7 +39,18 @@ class FilterCell: UICollectionViewCell {
         }
     }
     
-    func configData(model: CategoryModel) {
+    func configData(model: CategoryModel, isSelected: Bool) {
         titleLabel.text = model.name
+        if isSelected {
+            contentView.layer.borderColor = UIColor.white.cgColor
+            contentView.backgroundColor = .primaryColor
+            titleLabel.textColor = .white
+            titleLabel.font = UIFont.medium16
+        } else {
+            contentView.layer.borderColor = UIColor(hex: "#6B7280").cgColor
+            contentView.backgroundColor = .clear
+            titleLabel.textColor = .black
+            titleLabel.font = UIFont.regular16
+        }
     }
 }

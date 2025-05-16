@@ -32,7 +32,7 @@ extension UIColor {
     }
     
     static let primaryColor = UIColor { traitCollection in
-        return traitCollection.userInterfaceStyle == .light ? UIColor(hex: "#FF3E00") : UIColor(hex: "#FF3E00")
+        return traitCollection.userInterfaceStyle == .light ? UIColor(hex: "#F97316") : UIColor(hex: "#F97316")
     }
     
     static let primaryTextColor = UIColor { traitCollection in

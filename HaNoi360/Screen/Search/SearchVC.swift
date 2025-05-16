@@ -75,6 +75,16 @@ class SearchVC: BaseViewController {
         }
         
     }
+    
+    override func setupEvent() {
+        filterBtn.rx.tap
+            .subscribe(onNext: { [weak self] in
+                guard let self = self else { return }
+                let vc = FilterVC()
+                self.navigationController?.pushViewController(vc, animated: true)
+            })
+            .disposed(by: disposeBag)
+    }
 }
 
 extension SearchVC: NavigationViewDelegate {

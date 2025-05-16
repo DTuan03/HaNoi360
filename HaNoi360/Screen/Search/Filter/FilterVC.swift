@@ -64,8 +64,35 @@ class FilterVC: BaseViewController {
         return rangeSlider
     }()
     
+    lazy var districtLabel = LabelFactory.createLabel(text: "Quận/Huyện", font: .medium18)
+    
+    lazy var districtTF = {
+        let tf =  TextFieldFactory.createTextField(placeholder: "Chọn Quận/Huyện",
+                                                   bgColor: .white)
+        tf.imageLeftView(image: .location)
+        let paddingView = UIView(frame: CGRect(x: 0, y: 0, width: 32, height: 46))
+        let imageView = UIImageView(image: UIImage(systemName: "chevron.down"))
+        imageView.tintColor = .black
+        imageView.frame = CGRect(x: 8, y: 19, width: 8, height: 8)
+        imageView.contentMode = .scaleAspectFill
+        paddingView.addSubview(imageView)
+        
+        tf.rightView = paddingView
+        tf.rightViewMode = .always
+        tf.keyboardType = .default
+        tf.layer.borderWidth = 1
+        tf.layer.borderColor = UIColor(hex: "#D1D5DB").cgColor
+        return tf
+    }()
+    
+    lazy var overlayView = UIViewFactory.overlayView()
+    
+    var selectedCategory: [String] = []
+    var selectedIndexPath: Set<IndexPath> = [IndexPath(row: 0, section: 0)]
+    
     override func setupUI() {
-        view.addSubviews([navigationView, categoryLabel, categoryCV, ratingLabel, rangeRating])
+        
+        view.addSubviews([navigationView, categoryLabel, categoryCV, ratingLabel, rangeRating, districtLabel, districtTF, overlayView])
         
         navigationView.snp.makeConstraints { make in
             make.top.equalTo(view.safeAreaLayoutGuide)
@@ -92,10 +119,36 @@ class FilterVC: BaseViewController {
             make.top.equalTo(ratingLabel.snp.bottom).offset(14)
             make.left.right.equalToSuperview().inset(8)
         }
+        
+        districtLabel.snp.makeConstraints { make in
+            make.top.equalTo(rangeRating.snp.bottom).offset(24)
+            make.left.equalToSuperview().offset(20)
+        }
+        
+        districtTF.snp.makeConstraints { make in
+            make.top.equalTo(districtLabel.snp.bottom).offset(14)
+            make.left.right.equalToSuperview().inset(20)
+            make.height.equalTo(46)
+        }
+        
+        overlayView.snp.makeConstraints { make in
+            make.top.equalTo(districtLabel.snp.bottom).offset(14)
+            make.left.right.equalToSuperview().inset(20)
+            make.height.equalTo(46)
+        }
     }
     
     override func setupEvent() {
-
+        let overlayViewTap = UITapGestureRecognizer(target: self, action: #selector(overlayViewAction))
+        overlayView.addGestureRecognizer(overlayViewTap)
+    }
+    
+    @objc func overlayViewAction() {
+        let vc = FilterDistrictVC()
+        vc.modalTransitionStyle = .coverVertical
+        vc.modalPresentationStyle = .overCurrentContext
+//        vc.delegate = self
+        self.present(vc, animated: true)
     }
     
    
@@ -109,12 +162,32 @@ extension FilterVC: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "FilterCell", for: indexPath) as? FilterCell else { return UICollectionViewCell() }
         let model = viewModel.itemsCategory.value[indexPath.row]
-        cell.configData(model: model)
+        if selectedIndexPath.contains(indexPath) {
+            cell.configData(model: model, isSelected: true)
+        } else {
+            cell.configData(model: model, isSelected: false)
+        }
         return cell
     }
 }
 
 extension FilterVC: UICollectionViewDelegate {
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        let model = viewModel.categories[indexPath.row]
+        if indexPath == IndexPath(row: 0, section: 0) {
+            selectedIndexPath = []
+            selectedIndexPath = [IndexPath(row: 0, section: 0)]
+            collectionView.reloadData()
+        } else {
+            selectedIndexPath.remove(IndexPath(row: 0, section: 0))
+            if selectedIndexPath.contains(indexPath) {
+                selectedIndexPath.remove(indexPath)
+            } else {
+                selectedIndexPath.insert(indexPath)
+            }
+            collectionView.reloadData()
+        }
+    }
 }
 
 extension FilterVC: TTRangeSliderDelegate {

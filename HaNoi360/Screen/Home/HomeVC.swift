@@ -226,8 +226,15 @@ class HomeVC: BaseViewController {
                 self.navigationController?.pushViewController(AddPlaceVC(), animated: true)
             })
             .disposed(by: disposeBag)
+        
+        filterBtn.rx.tap
+            .subscribe(onNext: { [weak self] in
+                guard let self = self else { return }
+                self.navigationController?.pushViewController(FilterVC(), animated: true)
+            })
+            .disposed(by: disposeBag)
     }
-    
+                       
     override func bindState() {
         viewModel.itemsPlace
             .subscribe(onNext: { [weak self] _ in

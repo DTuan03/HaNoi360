@@ -18,4 +18,11 @@ class UIViewFactory {
         
         return lineView
     }
+    
+    static func overlayView() -> UIView {
+        let view = UIView()
+        view.backgroundColor = .clear
+        
+        return view
+    }
 }

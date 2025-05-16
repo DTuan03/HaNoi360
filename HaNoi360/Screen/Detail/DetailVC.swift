@@ -232,7 +232,7 @@ class DetailVC: BaseViewController {
         imageScrollView.snp.makeConstraints { make in
             make.top.equalToSuperview()
             make.left.right.equalToSuperview()
-            make.height.equalTo(400)
+            make.height.equalTo(450)
         }
         
         pageControl.snp.makeConstraints { make in
@@ -430,8 +430,8 @@ class DetailVC: BaseViewController {
         imageScrollView.frame.size.width = UIScreen.main.bounds.width
         imageScrollView.contentSize = CGSize(width: imageScrollView.frame.width * CGFloat(viewModel.place.value?.subPlaceImage?.count ?? 0), height: imageScrollView.frame.height)
         imageScrollView.showsHorizontalScrollIndicator = false
-        imageScrollView.isPagingEnabled = false
-        imageScrollView.isScrollEnabled = false
+        imageScrollView.isPagingEnabled = true
+        imageScrollView.isScrollEnabled = true
 
         if let subImage = viewModel.place.value?.subPlaceImage {
             for (index, item) in subImage.enumerated() {

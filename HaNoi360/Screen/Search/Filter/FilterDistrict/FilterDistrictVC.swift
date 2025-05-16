@@ -19,6 +19,11 @@ class FilterDistrictVC: BaseViewController, FilterDistrictCellDelegate {
         view.backgroundColor = .white
         view.layer.cornerRadius = 20
         view.layer.maskedCorners = [.layerMaxXMinYCorner, .layerMinXMinYCorner]
+        view.layer.shadowColor = UIColor.black.cgColor
+        view.layer.shadowOpacity = 0.1
+        view.layer.shadowOffset = CGSize(width: 0, height: -2)
+        view.layer.shadowRadius = 8
+        
         return view
     }()
     
@@ -31,6 +36,12 @@ class FilterDistrictVC: BaseViewController, FilterDistrictCellDelegate {
     
     lazy var addBtn = ButtonFactory.createButton("Thêm", font: .medium18, textColor: .primaryColor, bgColor: .clear)
     
+    let searchBarV: UISearchBar = {
+        let sb = UISearchBar()
+        sb.placeholder = "Tìm kiếm địa điểm..."
+        return sb
+    }()
+
     lazy var tableView = {
         let tv = TableViewFactory.createTableView()
         tv.register(FilterDistrictCell.self, forCellReuseIdentifier: "FilterDistrictCell")
@@ -38,10 +49,10 @@ class FilterDistrictVC: BaseViewController, FilterDistrictCellDelegate {
         return tv
     }()
     
-    lazy var categories: [String] = []
+    lazy var districts: [String] = []
     
     weak var delegate: FilterDistrictDelegate?
-  
+    
     override func setupUI() {
         view.backgroundColor = UIColor(hex: "#000000", alpha: 0.62)
         view.addSubview(containerView)
@@ -49,10 +60,10 @@ class FilterDistrictVC: BaseViewController, FilterDistrictCellDelegate {
         containerView.snp.makeConstraints { make in
             make.bottom.equalToSuperview()
             make.left.right.equalToSuperview()
-            make.height.equalToSuperview().multipliedBy(0.5)
+            make.height.equalToSuperview().multipliedBy(0.8)
         }
         
-        containerView.addSubviews([pullDownView, tableView, addBtn])
+        containerView.addSubviews([pullDownView, tableView, addBtn, searchBarV])
         
         pullDownView.snp.makeConstraints { make in
             make.width.equalTo(40)
@@ -62,16 +73,21 @@ class FilterDistrictVC: BaseViewController, FilterDistrictCellDelegate {
         }
         
         addBtn.snp.makeConstraints { make in
-            make.top.equalToSuperview()
+            make.top.equalToSuperview().offset(8)
             make.right.equalToSuperview().inset(24)
         }
         
+        searchBarV.delegate = self
+        searchBarV.snp.makeConstraints { make in
+            make.top.equalTo(addBtn.snp.bottom).offset(8)
+            make.left.right.equalToSuperview().inset(16)
+        }
+        
         tableView.snp.makeConstraints { make in
-            make.top.equalTo(addBtn.snp.bottom).offset(16)
+            make.top.equalTo(searchBarV.snp.bottom).offset(16)
             make.left.right.equalToSuperview().inset(20)
             make.bottom.equalToSuperview().inset(24)
         }
-    
     }
     
     override func setupEvent() {
@@ -81,10 +97,10 @@ class FilterDistrictVC: BaseViewController, FilterDistrictCellDelegate {
         
         addBtn.rx.tap
             .subscribe(onNext: {
-                if self.categories.isEmpty {
+                if self.districts.isEmpty {
                     print("show popUp")
                 } else {
-                    self.delegate?.didSelected(self.categories)
+                    self.delegate?.didSelected(self.districts)
                     self.dismiss(animated: true)
                 }
             })
@@ -95,8 +111,8 @@ class FilterDistrictVC: BaseViewController, FilterDistrictCellDelegate {
         dismiss(animated: true, completion: nil)
     }
     var selectedIndexPaths: Set<IndexPath> = []
-
-
+    
+    
 }
 
 extension FilterDistrictVC: UITableViewDataSource {
@@ -119,21 +135,25 @@ extension FilterDistrictVC: UITableViewDataSource {
     }
 }
 
-extension FilterDistrictVC: FilterDistrictDelegate {
-    func didSelected(_ data: [String]) {
-        
-    }
-    
+extension FilterDistrictVC {
     func didTapChooseIV(in cell: FilterDistrictCell) {
         let model = viewModel.itemDistricts.value[cell.indexPath.row]
         guard let indexPath = tableView.indexPath(for: cell) else { return }
         
         if selectedIndexPaths.contains(indexPath) {
             selectedIndexPaths.remove(indexPath)
+            if let item = districts.firstIndex(of: model.id) {
+                districts.remove(at: item)
+            }
         } else {
             selectedIndexPaths.insert(indexPath)
+            districts.append(model.id)
         }
         
         tableView.reloadRows(at: [indexPath], with: .none)
     }
+}
+
+extension FilterDistrictVC: UISearchBarDelegate {
+    
 }
