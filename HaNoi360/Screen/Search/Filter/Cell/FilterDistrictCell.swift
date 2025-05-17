@@ -16,15 +16,13 @@ protocol FilterDistrictCellDelegate: AnyObject {
 class FilterDistrictCell: UITableViewCell {
     lazy var nameLabel = LabelFactory.createLabel(text: "Ba Dinh", font: .medium18)
     
-    lazy var chooseIv = ImageViewFactory.createImageView(image: UIImage(systemName: "circle"), tintColor: .primaryColor, contentMode: .scaleAspectFill)
+    lazy var chooseIv = ImageViewFactory.createImageView(image: UIImage(systemName: "square"), tintColor: .primaryColor, contentMode: .scaleAspectFill)
     
     weak var delegate: FilterDistrictCellDelegate?
-    var indexPath: IndexPath!
+    var idDistrict: String!
     
-    var selectedIndex: [IndexPath] = []
-    
-    var isSelectedIndex: Bool = false
-    
+    var selectedId: [String] = []
+        
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         setupUI()
@@ -33,16 +31,16 @@ class FilterDistrictCell: UITableViewCell {
     }
     
     @objc func chooseIvAction() {
-        if selectedIndex.contains(indexPath) {
+        if selectedId.contains(idDistrict) {
             delegate?.didTapChooseIV(in: self)
-            chooseIv.image = UIImage(systemName: "circle")
-            if let index = selectedIndex.firstIndex(of: indexPath) {
-                selectedIndex.remove(at: index)
+            chooseIv.image = UIImage(systemName: "square")
+            if let index = selectedId.firstIndex(of: idDistrict) {
+                selectedId.remove(at: index)
             }
         } else {
             delegate?.didTapChooseIV(in: self)
-            chooseIv.image = UIImage(systemName: "checkmark.circle.fill")
-            selectedIndex.append(indexPath)
+            chooseIv.image = UIImage(systemName: "checkmark.square.fill")
+            selectedId.append(idDistrict)
         }
     }
     
@@ -71,9 +69,9 @@ class FilterDistrictCell: UITableViewCell {
     func setSelectedState(_ selected: Bool) {
         UIView.animate(withDuration: 0.2) {
             if selected {
-                self.chooseIv.image = UIImage(systemName: "checkmark.circle.fill")
+                self.chooseIv.image = UIImage(systemName: "checkmark.square.fill")
             } else {
-                self.chooseIv.image = UIImage(systemName: "circle")
+                self.chooseIv.image = UIImage(systemName: "square")
             }
         }
     }

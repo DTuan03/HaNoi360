@@ -9,11 +9,12 @@ import UIKit
 import SnapKit
 
 protocol FilterDistrictDelegate: AnyObject {
-    func didSelected(_ data: [String])
+    func didSelected(districtsId: [String], districtsName: [String])
 }
 
 class FilterDistrictVC: BaseViewController, FilterDistrictCellDelegate {
     let viewModel = FilterDistrictVM()
+//    var
     lazy var containerView = {
         let view = UIView()
         view.backgroundColor = .white
@@ -49,7 +50,8 @@ class FilterDistrictVC: BaseViewController, FilterDistrictCellDelegate {
         return tv
     }()
     
-    lazy var districts: [String] = []
+    lazy var districtsId: [String] = []
+    lazy var districtsName: [String] = []
     
     weak var delegate: FilterDistrictDelegate?
     
@@ -97,10 +99,10 @@ class FilterDistrictVC: BaseViewController, FilterDistrictCellDelegate {
         
         addBtn.rx.tap
             .subscribe(onNext: {
-                if self.districts.isEmpty {
+                if self.districtsId.isEmpty {
                     print("show popUp")
                 } else {
-                    self.delegate?.didSelected(self.districts)
+                    self.delegate?.didSelected(districtsId: self.districtsId, districtsName: self.districtsName)
                     self.dismiss(animated: true)
                 }
             })
@@ -110,9 +112,15 @@ class FilterDistrictVC: BaseViewController, FilterDistrictCellDelegate {
     @objc func handleSwipeDown() {
         dismiss(animated: true, completion: nil)
     }
-    var selectedIndexPaths: Set<IndexPath> = []
     
-    
+    override func bindState() {
+        viewModel.itemDistricts
+            .subscribe(onNext: { [weak self] item in
+                guard let self = self else { return }
+                self.tableView.reloadData()
+            })
+            .disposed(by: disposeBag)
+    }
 }
 
 extension FilterDistrictVC: UITableViewDataSource {
@@ -128,8 +136,8 @@ extension FilterDistrictVC: UITableViewDataSource {
         let model = viewModel.itemDistricts.value[indexPath.row]
         cell.configData(model: model)
         cell.delegate = self
-        cell.indexPath = indexPath
-        let isSelected = selectedIndexPaths.contains(indexPath)
+        cell.idDistrict = model.id
+        let isSelected = districtsId.contains(cell.idDistrict)
         cell.setSelectedState(isSelected)
         return cell
     }
@@ -137,17 +145,14 @@ extension FilterDistrictVC: UITableViewDataSource {
 
 extension FilterDistrictVC {
     func didTapChooseIV(in cell: FilterDistrictCell) {
-        let model = viewModel.itemDistricts.value[cell.indexPath.row]
         guard let indexPath = tableView.indexPath(for: cell) else { return }
-        
-        if selectedIndexPaths.contains(indexPath) {
-            selectedIndexPaths.remove(indexPath)
-            if let item = districts.firstIndex(of: model.id) {
-                districts.remove(at: item)
-            }
+        let model = viewModel.itemDistricts.value[indexPath.row]
+        if let item = districtsId.firstIndex(of: model.id) {
+            districtsId.remove(at: item)
+            districtsName.remove(at: item)
         } else {
-            selectedIndexPaths.insert(indexPath)
-            districts.append(model.id)
+            districtsId.append(model.id)
+            districtsName.append(model.name)
         }
         
         tableView.reloadRows(at: [indexPath], with: .none)
@@ -155,5 +160,13 @@ extension FilterDistrictVC {
 }
 
 extension FilterDistrictVC: UISearchBarDelegate {
-    
+    func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
+        if searchText.isEmpty {
+            viewModel.itemDistricts.accept(viewModel.districts)
+        } else {
+            let keyword = searchText.lowercased()
+            let fitered = viewModel.districts.filter { $0.name.lowercased().contains(keyword) }
+            viewModel.itemDistricts.accept(fitered)
+        }
+    }
 }

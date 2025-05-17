@@ -87,12 +87,14 @@ class FilterVC: BaseViewController {
     
     lazy var overlayView = UIViewFactory.overlayView()
     
+    lazy var filterBtn = ButtonFactory.createButton("Áp dụng lọc", font: .medium18)
+    
     var selectedCategory: [String] = []
     var selectedIndexPath: Set<IndexPath> = [IndexPath(row: 0, section: 0)]
     
     override func setupUI() {
         
-        view.addSubviews([navigationView, categoryLabel, categoryCV, ratingLabel, rangeRating, districtLabel, districtTF, overlayView])
+        view.addSubviews([navigationView, categoryLabel, categoryCV, ratingLabel, rangeRating, districtLabel, districtTF, overlayView, filterBtn])
         
         navigationView.snp.makeConstraints { make in
             make.top.equalTo(view.safeAreaLayoutGuide)
@@ -126,7 +128,7 @@ class FilterVC: BaseViewController {
         }
         
         districtTF.snp.makeConstraints { make in
-            make.top.equalTo(districtLabel.snp.bottom).offset(14)
+            make.top.equalTo(districtLabel.snp.bottom).offset(24)
             make.left.right.equalToSuperview().inset(20)
             make.height.equalTo(46)
         }
@@ -135,6 +137,12 @@ class FilterVC: BaseViewController {
             make.top.equalTo(districtLabel.snp.bottom).offset(14)
             make.left.right.equalToSuperview().inset(20)
             make.height.equalTo(46)
+        }
+        
+        filterBtn.snp.makeConstraints { make in
+            make.left.right.equalToSuperview().inset(20)
+            make.bottom.equalToSuperview().inset(56)
+            make.height.equalTo(48)
         }
     }
     
@@ -147,7 +155,7 @@ class FilterVC: BaseViewController {
         let vc = FilterDistrictVC()
         vc.modalTransitionStyle = .coverVertical
         vc.modalPresentationStyle = .overCurrentContext
-//        vc.delegate = self
+        vc.delegate = self
         self.present(vc, animated: true)
     }
     
@@ -193,6 +201,19 @@ extension FilterVC: UICollectionViewDelegate {
 extension FilterVC: TTRangeSliderDelegate {
     func rangeSlider(_ sender: TTRangeSlider!, didChangeSelectedMinimumValue selectedMinimum: Float, andMaximumValue selectedMaximum: Float) {
         print("Giá trị: \(selectedMinimum) - \(selectedMaximum)")
+    }
+}
+
+extension FilterVC: FilterDistrictDelegate {
+    func didSelected(districtsId: [String], districtsName: [String]) {
+        var districtName: String = ""
+        for name in districtsName {
+            districtName += name + ", "
+        }
+        if !districtName.isEmpty {
+            let districtName = districtsName.joined(separator: ", ")
+            self.districtTF.text = districtName
+        }
     }
 }
 

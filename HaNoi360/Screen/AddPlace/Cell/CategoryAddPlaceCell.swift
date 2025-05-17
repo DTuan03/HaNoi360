@@ -15,7 +15,7 @@ protocol CategoryAddPlaceCellDelegate: AnyObject {
 class CategoryAddPlaceCell: UITableViewCell {
     lazy var nameLabel = LabelFactory.createLabel(text: "Ẩm thực", font: .medium18)
     
-    lazy var chooseIv = ImageViewFactory.createImageView(image: UIImage(systemName: "circle"), tintColor: .primaryColor, contentMode: .scaleAspectFill)
+    lazy var chooseIv = ImageViewFactory.createImageView(image: UIImage(systemName: "square"), tintColor: .primaryColor, contentMode: .scaleAspectFill)
     
     weak var delegate: CategoryAddPlaceCellDelegate?
     var indexPath: IndexPath!
@@ -34,13 +34,13 @@ class CategoryAddPlaceCell: UITableViewCell {
     @objc func chooseIvAction() {
         if selectedIndex.contains(indexPath) {
             delegate?.didTapChooseIV(indexPath: indexPath, isSelectedIndex: true)
-            chooseIv.image = UIImage(systemName: "circle")
+            chooseIv.image = UIImage(systemName: "square")
             if let index = selectedIndex.firstIndex(of: indexPath) {
                 selectedIndex.remove(at: index)
             }
         } else {
             delegate?.didTapChooseIV(indexPath: indexPath, isSelectedIndex: false)
-            chooseIv.image = UIImage(systemName: "checkmark.circle.fill")
+            chooseIv.image = UIImage(systemName: "checkmark.square.fill")
             selectedIndex.append(indexPath)
         }
     }
