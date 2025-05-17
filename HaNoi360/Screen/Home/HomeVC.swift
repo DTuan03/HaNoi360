@@ -40,6 +40,8 @@ class HomeVC: BaseViewController {
         return tf
     }()
     
+    lazy var overlayView = UIViewFactory.overlayView()
+    
     lazy var filterBtn = {
         let btn = UIButton()
         btn.setImage(.filter, for: .normal)
@@ -145,7 +147,7 @@ class HomeVC: BaseViewController {
             make.width.equalTo(scrollView.snp.width)
         }
        
-        contentView.addSubviews([navigationView, titleLabel, searchTF, filterBtn, nameDistrictCV, placeCV, categoryLabel, categoryCV, tredingLabel, allLabel, trendingCV])
+        contentView.addSubviews([navigationView, titleLabel, searchTF, overlayView, filterBtn, nameDistrictCV, placeCV, categoryLabel, categoryCV, tredingLabel, allLabel, trendingCV])
       
         navigationView.snp.makeConstraints { make in
             make.top.left.right.equalToSuperview()
@@ -163,6 +165,13 @@ class HomeVC: BaseViewController {
         }
         
         searchTF.snp.makeConstraints { make in
+            make.top.equalTo(titleLabel.snp.bottom).offset(16)
+            make.left.equalToSuperview().offset(20)
+            make.right.equalTo(filterBtn.snp.left).inset(-10)
+            make.height.equalTo(46)
+        }
+        
+        overlayView.snp.makeConstraints { make in
             make.top.equalTo(titleLabel.snp.bottom).offset(16)
             make.left.equalToSuperview().offset(20)
             make.right.equalTo(filterBtn.snp.left).inset(-10)
@@ -233,6 +242,14 @@ class HomeVC: BaseViewController {
                 self.navigationController?.pushViewController(FilterVC(), animated: true)
             })
             .disposed(by: disposeBag)
+        
+        let overlayViewTap = UITapGestureRecognizer(target: self, action: #selector(overlayViewAction))
+        overlayView.addGestureRecognizer(overlayViewTap)
+    }
+    
+    @objc func overlayViewAction() {
+        let vc = SearchVC()
+        self.navigationController?.pushViewController(vc, animated: true)
     }
                        
     override func bindState() {
