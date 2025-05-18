@@ -11,8 +11,8 @@ import MapKit
 import Cosmos
 import Kingfisher
 
-class DetailVC: BaseViewController {
-    let viewModel = DetailViewModel()
+class DetailVC: BaseVC {
+    let viewModel = DetailVM()
     
     lazy var safeAreaView = {
         let view = UIView()
@@ -367,6 +367,13 @@ class DetailVC: BaseViewController {
             })
             .disposed(by: disposeBag)
         
+        viewModel.isLoading
+            .subscribe(onNext: { [weak self] value in
+                guard let self = self else { return }
+                self.isLoading.accept(value)
+                self.isBgWhiteLoading.accept(value)
+            })
+            .disposed(by: disposeBag)
     }
     
     func setupMapView(latitude: CLLocationDegrees, longitude: CLLocationDegrees) {

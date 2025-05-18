@@ -8,7 +8,7 @@
 import RxSwift
 import RxCocoa
 
-class HomeViewModel {
+class HomeVM {
     let districts: [District] = [
         District(id: "TH1", name: "Ba Đình"),
         District(id: "TH2", name: "Ba Vì"),
@@ -44,7 +44,7 @@ class HomeViewModel {
 
     var itemsNameDistrict = BehaviorRelay<[District]>(value: [])
     var itemsPlace = BehaviorRelay<[PlaceModel]>(value: [])
-    
+
     let placeService = BaseFirestoreService<PlaceModel>(collectionPath: "places")
     
     let categories: [CategoryModel] = [

@@ -334,8 +334,10 @@ extension HomeVC: UICollectionViewDelegate {
         case placeCV:
             let detailVC = DetailVC()
             detailVC.viewModel.placeId.accept(viewModel.itemsPlace.value[indexPath.row].placeId)
+            isLoading.accept(true)
             detailVC.viewModel.isFavoritePlace {
                 detailVC.viewModel.featchPlace() {
+                    self.isLoading.accept(false)
                     self.navigationController?.pushViewController(detailVC, animated: true)
                 }
             }
@@ -350,8 +352,10 @@ extension HomeVC: UICollectionViewDelegate {
         default:
             let detailVC = DetailVC()
             detailVC.viewModel.placeId.accept(viewModel.itemsTrendingPlace.value[indexPath.row].placeId)
+            isLoading.accept(true)
             detailVC.viewModel.isFavoritePlace {
                 detailVC.viewModel.featchPlace() {
+                    self.isLoading.accept(false)
                     self.navigationController?.pushViewController(detailVC, animated: true)
                 }
             }

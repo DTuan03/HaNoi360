@@ -11,7 +11,7 @@ import CoreLocation
 import RxSwift
 import RxCocoa
 
-class MapDetailVC: BaseViewController {
+class MapDetailVC: BaseVC {
     var placeLocation = CLLocationCoordinate2D(latitude: 0, longitude: 0)
     var namePlace: String?
     var address: String?

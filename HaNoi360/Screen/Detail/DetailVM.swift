@@ -9,7 +9,7 @@ import RxSwift
 import RxCocoa
 import FirebaseFirestore
 
-class DetailViewModel: BaseVM {
+class DetailVM: BaseVM {
     var placeId = BehaviorRelay<String?>(value: nil)
     var place = BehaviorRelay<DetailModel?>(value: nil)
     
@@ -23,12 +23,15 @@ class DetailViewModel: BaseVM {
     var isCalendar = PublishRelay<Bool>()
     
     var countReview = BehaviorRelay<Int>(value: 0)
-        
+    
+    var isLoading = BehaviorRelay<Bool>(value: true)
+
     func featchPlace(completion: @escaping () -> Void) {
         guard let id = placeId.value else {
             return
         }
         placeService.fetchWhereEqualTo(field: "placeId", value: id) { result in
+            self.isLoading.accept(false)
             switch result {
             case .success(let place):
                 self.place.accept(place.first)
@@ -39,7 +42,8 @@ class DetailViewModel: BaseVM {
         }
     }
     
-    func isFavoritePlace(completion: @escaping () -> Void)  {
+    func isFavoritePlace(completion: @escaping () -> Void) {
+        isLoading.accept(true)
         guard let placeId = placeId.value else {
             return
         }
@@ -57,8 +61,8 @@ class DetailViewModel: BaseVM {
             case .failure(let error):
                 self.isFavorite.accept(false)
             }
+            completion()
         }
-        completion()
     }
     
     func addFavorite() {

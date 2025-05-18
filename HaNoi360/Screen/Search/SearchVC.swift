@@ -88,6 +88,21 @@ class SearchVC: BaseVC {
             })
             .disposed(by: disposeBag)
     }
+    
+    override func bindState() {
+        viewModel.recentSearch
+            .subscribe(onNext: { [weak self] value in
+                guard let self = self else { return }
+                let isValue = value?.isEmpty ?? true
+                if isValue {
+                    tableView.setLottieBackground(name: "empty_state")
+                } else {
+                    tableView.clearBackground()
+                    tableView.reloadData()
+                }
+            })
+            .disposed(by: disposeBag)
+    }
 }
 
 extension SearchVC: NavigationViewDelegate {
