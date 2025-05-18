@@ -24,7 +24,7 @@ class ReviewCell: UITableViewCell {
     lazy var sv = [sv1, starReview, contentReviewLabel].vStack(8)
     
     lazy var reportBtn = {
-        let btn = ButtonFactory.createButton("Báo cáo", font: .regular14, textColor: .primaryTextColor, bgColor: .backgroundColor, rounded: false)
+        let btn = ButtonFactory.createButton("Báo cáo", font: .regular14, textColor: .primaryTextColor, bgColor: .backgroundColor, rounded: false, height: 30)
         btn.layer.borderColor = UIColor.lightGray.cgColor
         btn.layer.borderWidth = 1
         btn.layer.cornerRadius = 6
@@ -71,7 +71,6 @@ class ReviewCell: UITableViewCell {
         
         reportBtn.snp.makeConstraints { make in
             make.width.equalTo(60)
-            make.height.equalTo(30)
             make.top.equalTo(reportIconIV.snp.bottom)
             make.right.equalTo(reportIconIV.snp.left).inset(4)
         }

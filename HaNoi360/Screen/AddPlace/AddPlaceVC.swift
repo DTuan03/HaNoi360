@@ -383,7 +383,7 @@ extension AddPlaceVC: UIImagePickerControllerDelegate, UINavigationControllerDel
         let containerView = UIView()
         
         let imageView = ImageViewFactory.createImageView(image: image, contentMode: .scaleAspectFill ,radius: 10)
-        let deleteBtn = ButtonFactory.createButton("×", font: .medium16, bgColor: .lightGray, rounded: false)
+        let deleteBtn = ButtonFactory.createButton("×", font: .medium16, bgColor: .lightGray, rounded: false, height: 20)
         deleteBtn.addTarget(self, action: #selector(deleteBtnAction), for: .touchUpInside)
         
         containerView.addSubviews([imageView, deleteBtn])
@@ -394,7 +394,7 @@ extension AddPlaceVC: UIImagePickerControllerDelegate, UINavigationControllerDel
         deleteBtn.snp.makeConstraints { make in
             make.top.equalToSuperview()
             make.right.equalToSuperview()
-            make.height.width.equalTo(20)
+            make.width.equalTo(20)
         }
         
         subImageSV.addArrangedSubview(containerView)

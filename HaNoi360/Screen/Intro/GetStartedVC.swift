@@ -43,7 +43,6 @@ class GetStartedVC: BaseViewController {
         startButton.snp.makeConstraints { make in
             make.top.equalTo(image.snp.bottom).offset(24)
             make.left.right.equalToSuperview().inset(20)
-            make.height.equalTo(58)
         }
         signInLabel.snp.makeConstraints { make in
             make.top.equalTo(startButton.snp.bottom).offset(24)

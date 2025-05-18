@@ -19,6 +19,8 @@ class SearchVC: BaseViewController {
         tf.imageLeftView(image: .search)
         tf.layer.borderWidth = 1
         tf.layer.borderColor = UIColor(hex: "#D1D5DB").cgColor
+        tf.returnKeyType = .search
+        tf.delegate = self
         return tf
     }()
     
@@ -122,5 +124,17 @@ extension SearchVC: UITableViewDelegate {
         let spacer = UIView()
         spacer.backgroundColor = .clear
         return spacer
+    }
+}
+
+extension SearchVC: UITextFieldDelegate {
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        // an ban phim
+        textField.resignFirstResponder()
+        
+        let vc = ResultVC()
+        vc.viewModel.keyWord.accept(textField.text)
+        self.navigationController?.pushViewController(vc, animated: true)
+        return true
     }
 }

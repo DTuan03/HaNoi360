@@ -50,7 +50,6 @@ class IntroVC: BaseViewController {
         nextButton.snp.makeConstraints { make in
             make.left.right.equalToSuperview().inset(20)
             make.bottom.equalToSuperview().inset(48)
-            make.height.equalTo(58)
         }
         
         pageControl.snp.makeConstraints { make in

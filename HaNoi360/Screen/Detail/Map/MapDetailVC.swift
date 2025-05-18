@@ -66,19 +66,19 @@ class MapDetailVC: BaseViewController {
     }()
     
     lazy var namePlaceLabel = LabelFactory.createLabel(text: "Khoảng cách: 0 km", font: .medium20, numberOfLines: 2)
-        
+    
     lazy var closeBtn = ButtonFactory.createImageButton(withImage: UIImage(systemName: "multiply"), tinColor: .white)
     
     lazy var chooseBtn = ButtonFactory.createButton("   Chỉ đường   ", font: .medium14, rounded: true)
     
     weak var delegate: MapVCDelegate?
-        
+    
     var coordinateSearch: CLLocationCoordinate2D?
     
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .white
-                
+        
         let region = MKCoordinateRegion(center: placeLocation, latitudinalMeters: 100, longitudinalMeters: 100)
         mapView.setRegion(region, animated: false)
         
@@ -87,7 +87,7 @@ class MapDetailVC: BaseViewController {
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-
+        
         guard let pointA = locationManager.location?.coordinate else { return }
         let pointB = placeLocation
         
@@ -143,7 +143,7 @@ class MapDetailVC: BaseViewController {
             make.right.equalToSuperview().inset(8)
             make.height.width.equalTo(40)
         }
-    
+        
         chooseBtn.isHidden = true
     }
     
@@ -212,7 +212,7 @@ class MapDetailVC: BaseViewController {
                                            animated: true)
         }
     }
-
+    
     
     func addPinAtCoordinate(_ coordinate: CLLocationCoordinate2D, title: String?, subtitle: String?) {
         let annotation = MKPointAnnotation()

@@ -154,7 +154,7 @@ class DetailVC: BaseViewController {
     lazy var rangeReviewLabel = LabelFactory.createLabel(text: "0/250", font: .regular16, textColor: .lightGray)
     
     lazy var sendReviewBtn = {
-        let btn = ButtonFactory.createButton("Gửi", rounded: false)
+        let btn = ButtonFactory.createButton("Gửi", rounded: false, height: 38)
         btn.layer.cornerRadius = 16
         return btn
     }()
@@ -301,7 +301,6 @@ class DetailVC: BaseViewController {
             make.top.equalTo(rangeReviewLabel.snp.bottom).offset(16)
             make.width.equalTo(80)
             make.right.equalToSuperview().inset(24)
-            make.height.equalTo(38)
         }
         
         reviewLabel.snp.makeConstraints { make in

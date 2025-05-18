@@ -9,28 +9,28 @@ import UIKit
 import SnapKit
 
 class PopupVC: UIViewController {
-//    var popupImage: String?
-//    var popupTitle: String?
-//    var popupMessgae: String?
-//    
-//    init(popupImage: String? = nil, popupTitle: String? = nil, popupMessgae: String? = nil) {
-//        self.popupImage = popupImage
-//        self.popupTitle = popupTitle
-//        self.popupMessgae = popupMessgae
-//        super.init(nibName: nil, bundle: nil)
-//    }
-//    
-//    required init?(coder: NSCoder) {
-//        fatalError("init(coder:) has not been implemented")
-//    }
+    //    var popupImage: String?
+    //    var popupTitle: String?
+    //    var popupMessgae: String?
+    //    
+    //    init(popupImage: String? = nil, popupTitle: String? = nil, popupMessgae: String? = nil) {
+    //        self.popupImage = popupImage
+    //        self.popupTitle = popupTitle
+    //        self.popupMessgae = popupMessgae
+    //        super.init(nibName: nil, bundle: nil)
+    //    }
+    //    
+    //    required init?(coder: NSCoder) {
+    //        fatalError("init(coder:) has not been implemented")
+    //    }
     
     let containerView: UIView = {
-       let view = UIView()
+        let view = UIView()
         view.backgroundColor = .backgroundPopupColor
         view.layer.cornerRadius = 24
         return view
     }()
-        
+    
     let titleLabel = LabelFactory.createLabel(text: "Xoá khỏi mục yêu thích?",
                                               font: .bold18,
                                               textColor: .primaryTextColor)
@@ -43,13 +43,15 @@ class PopupVC: UIViewController {
     let okBtn = ButtonFactory.createButton("Xoá",
                                            font: .medium16,
                                            textColor: .textButtonColor,
-                                           bgColor: .primaryButtonColor)
+                                           bgColor: .primaryButtonColor,
+                                           height: 42)
     
     let cancelBtn = {
         let btn = ButtonFactory.createButton("Huỷ",
-                                   font: .medium16,
-                                   textColor: .primaryColor,
-                                   bgColor: .white)
+                                             font: .medium16,
+                                             textColor: .primaryColor,
+                                             bgColor: .white,
+                                             height: 42)
         btn.layer.borderColor = UIColor(hex: "#F97316").cgColor
         btn.layer.borderWidth = 1
         return btn
@@ -88,13 +90,11 @@ class PopupVC: UIViewController {
         okBtn.snp.makeConstraints { make in
             make.top.equalTo(messageLabel.snp.bottom).offset(20)
             make.left.right.equalToSuperview().inset(40)
-            make.height.equalTo(42)
         }
         
         cancelBtn.snp.makeConstraints { make in
             make.top.equalTo(okBtn.snp.bottom).offset(8)
             make.left.right.equalToSuperview().inset(40)
-            make.height.equalTo(42)
             make.bottom.equalToSuperview().inset(24)
         }
     }

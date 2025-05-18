@@ -10,12 +10,12 @@ import SnapKit
 
 class PopupCalendarVC: UIViewController {
     let containerView: UIView = {
-       let view = UIView()
+        let view = UIView()
         view.backgroundColor = .backgroundPopupColor
         view.layer.cornerRadius = 24
         return view
     }()
-        
+    
     let titleLabel = LabelFactory.createLabel(text: "Bạn có muốn tiếp tục thêm địa điểm vào lịch trình ?",
                                               font: .bold20,
                                               textColor: .primaryTextColor,
@@ -28,13 +28,15 @@ class PopupCalendarVC: UIViewController {
     let okBtn = ButtonFactory.createButton("Tiếp tục",
                                            font: .medium16,
                                            textColor: .textButtonColor,
-                                           bgColor: .primaryButtonColor)
+                                           bgColor: .primaryButtonColor,
+                                           height: 40)
     
     let cancelBtn = {
         let btn = ButtonFactory.createButton("Huỷ",
-                                   font: .medium16,
-                                   textColor: .primaryColor,
-                                   bgColor: .white)
+                                             font: .medium16,
+                                             textColor: .primaryColor,
+                                             bgColor: .white,
+                                             height: 40)
         btn.layer.borderColor = UIColor(hex: "#F97316").cgColor
         btn.layer.borderWidth = 1
         return btn
@@ -77,14 +79,6 @@ class PopupCalendarVC: UIViewController {
             make.top.equalTo(messageLabel.snp.bottom).offset(32)
             make.left.right.equalToSuperview().inset(40)
             make.bottom.equalToSuperview().inset(24)
-        }
-        
-        cancelBtn.snp.makeConstraints { make in
-            make.height.equalTo(40)
-        }
-        
-        okBtn.snp.makeConstraints { make in
-            make.height.equalTo(40)
         }
     }
     

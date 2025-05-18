@@ -63,7 +63,7 @@ class AddCalendarVC: BaseViewController {
     
     lazy var selectedDateLabel = LabelFactory.createLabel(font: .medium18, textColor: UIColor(hex: "#000000", alpha: 0.8))
     
-    lazy var addBtn = ButtonFactory.createButton("Thêm", font: .medium16)
+    lazy var addBtn = ButtonFactory.createButton("Thêm", font: .medium16, height: 48)
     
     lazy var backBtn = ButtonFactory.createImageButton(withImage: UIImage(systemName: "chevron.left"), tinColor: UIColor(hex: "#000000", alpha: 0.8))
     
@@ -135,7 +135,6 @@ class AddCalendarVC: BaseViewController {
         addBtn.snp.makeConstraints { make in
             make.bottom.equalToSuperview().inset(32)
             make.left.right.equalToSuperview().inset(20)
-            make.height.equalTo(48)
         }
         
     }

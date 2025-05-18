@@ -87,7 +87,7 @@ class FilterVC: BaseViewController {
     
     lazy var overlayView = UIViewFactory.overlayView()
     
-    lazy var filterBtn = ButtonFactory.createButton("Áp dụng lọc", font: .medium18)
+    lazy var filterBtn = ButtonFactory.createButton("Áp dụng lọc", font: .medium18, height: 48)
     
     var selectedCategory: [String] = []
     var selectedIndexPath: Set<IndexPath> = [IndexPath(row: 0, section: 0)]
@@ -142,7 +142,6 @@ class FilterVC: BaseViewController {
         filterBtn.snp.makeConstraints { make in
             make.left.right.equalToSuperview().inset(20)
             make.bottom.equalToSuperview().inset(56)
-            make.height.equalTo(48)
         }
     }
     

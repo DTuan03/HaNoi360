@@ -68,7 +68,7 @@ class MapVC: BaseViewController {
     
     lazy var deleteBtn = ButtonFactory.createImageButton(withImage: UIImage(systemName: "multiply"), tinColor: .white)
     
-    lazy var chooseBtn = ButtonFactory.createButton("   Chọn địa điểm   ", font: .medium14, rounded: true)
+    lazy var chooseBtn = ButtonFactory.createButton("   Chọn địa điểm   ", font: .medium14, rounded: true, height: 40)
     
     weak var delegate: MapVCDelegate?
     
@@ -152,7 +152,6 @@ class MapVC: BaseViewController {
         chooseBtn.snp.makeConstraints { make in
             make.top.equalTo(addressLabel.snp.bottom).offset(16)
             make.right.equalToSuperview().inset(48)
-            make.height.equalTo(40)
         }
         
     }

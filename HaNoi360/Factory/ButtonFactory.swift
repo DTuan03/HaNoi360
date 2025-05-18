@@ -13,7 +13,8 @@ class ButtonFactory {
                              font: UIFont = .bold16,
                              textColor: UIColor = .textButtonColor,
                              bgColor: UIColor = .primaryButtonColor,
-                             rounded: Bool = true) -> UIButton {
+                             rounded: Bool = true,
+                             height: Int = 58) -> UIButton {
         let button = UIButton()
         button.setTitle(NSLocalizedString(title ?? "", comment: ""), for: .normal)
         button.titleLabel?.font = font
@@ -22,9 +23,9 @@ class ButtonFactory {
         button.layer.cornerRadius = rounded ? 16 : 0
         button.layer.masksToBounds = true
         button.snp.makeConstraints { make in
-            make.height.equalTo(58)
+            make.height.equalTo(height)
         }
-
+        
         return button
     }
     
