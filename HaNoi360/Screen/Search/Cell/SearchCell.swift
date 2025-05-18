@@ -71,10 +71,10 @@ class SearchCell: UITableViewCell {
         }
     }
     
-    func configData(model: FavoriteModel) {
-        placeIV.kf.setImage(with: URL(string: model.placeImage ?? ""))
-        namePlaceLabel.text = model.name
-        addressLabel.text = model.address
-        avgStarLabel.text = String(model.avgRating ?? 0)
+    func configData(model: SearchModel) {
+        placeIV.kf.setImage(with: URL(string: model.imagePlace))
+        namePlaceLabel.text = model.namePlace
+        addressLabel.text = model.addressPlace
+        avgStarLabel.text = String(model.ratingPlace)
     }
 }

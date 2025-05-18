@@ -148,6 +148,14 @@ class FilterVC: BaseViewController {
     override func setupEvent() {
         let overlayViewTap = UITapGestureRecognizer(target: self, action: #selector(overlayViewAction))
         overlayView.addGestureRecognizer(overlayViewTap)
+        
+        filterBtn.rx.tap
+            .subscribe(onNext: {
+                let vc = ResultVC()
+                vc.previousVCName = .filter
+                self.navigationController?.pushViewController(vc, animated: true)
+            })
+            .disposed(by: disposeBag)
     }
     
     @objc func overlayViewAction() {

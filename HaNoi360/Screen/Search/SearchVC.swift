@@ -11,6 +11,7 @@ import RxCocoa
 import SnapKit
 
 class SearchVC: BaseViewController {
+    let viewModel = SeachVM()
     lazy var navigationView = NavigationViewFactory.createNavigationViewWithBackButtonAndTitle(image: .back, title: "Tìm kiếm", delegate: self)
     
     lazy var searchTF = {
@@ -98,7 +99,7 @@ extension SearchVC: NavigationViewDelegate {
 
 extension SearchVC: UITableViewDataSource {
     func numberOfSections(in tableView: UITableView) -> Int {
-        return 10
+        return viewModel.recentSearch.value?.count ?? 0
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -106,11 +107,11 @@ extension SearchVC: UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        guard let cell = tableView.dequeueReusableCell(withIdentifier: "SearchCell", for: indexPath) as? SearchCell else {
+        guard let cell = tableView.dequeueReusableCell(withIdentifier: "SearchCell", for: indexPath) as? SearchCell, let model = viewModel.recentSearch.value?[indexPath.row] else {
             return UITableViewCell()
         }
         cell.selectionStyle = .none
-        
+        cell.configData(model: model)
         return cell
     }
 }
@@ -134,6 +135,7 @@ extension SearchVC: UITextFieldDelegate {
         
         let vc = ResultVC()
         vc.viewModel.keyWord.accept(textField.text)
+        vc.previousVCName = .search
         self.navigationController?.pushViewController(vc, animated: true)
         return true
     }

@@ -162,7 +162,8 @@ class AddPlaceViewModel {
             authorName: userName,
             districId: idAddress,
             avgRating: 0,
-            totalReviews: 0
+            totalReviews: 0,
+            keyword: KeyWord.shared.generateAllSearchKeywords(from: name)
         )
         
         placeService.set(newPlace, withId: id) { [weak self] result in

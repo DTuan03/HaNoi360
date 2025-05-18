@@ -21,6 +21,7 @@ struct AddPlaceModel: Codable {
     let districId: String?
     let avgRating: Double?
     let totalReviews: Int?
+    let keyword: [String]?
 }
 
 struct Coordinate: Codable {

@@ -46,4 +46,9 @@ class BaseViewController: UIViewController {
     @objc func dismissKeyboard() {
         self.view.endEditing(true)
     }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        print("[\(String(describing: type(of: self)))] appeared")
+    }
 }
