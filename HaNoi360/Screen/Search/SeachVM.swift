@@ -9,5 +9,5 @@ import RxSwift
 import RxCocoa
 
 class SeachVM: BaseVM {
-    var recentSearch = BehaviorRelay<[SearchModel]?>(value: nil)
+    var recentSearch = BehaviorRelay<[DetailModel]?>(value: nil)
 }

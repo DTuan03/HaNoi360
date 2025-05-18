@@ -102,6 +102,13 @@ class ResultVC: BaseViewController {
                 }
             })
             .disposed(by: disposeBag)
+        
+        viewModel.categoryFilter
+            .subscribe(onNext: { [weak self] value in
+                guard let self = self else { return }
+                self.filterClv.reloadData()
+            })
+            .disposed(by: disposeBag)
     }
 }
 
@@ -122,7 +129,7 @@ extension ResultVC: UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        guard let cell = tableView.dequeueReusableCell(withIdentifier: "SearchCell", for: indexPath) as? SearchCell, let model = viewModel.resultSearch.value?[indexPath.row] else {
+        guard let cell = tableView.dequeueReusableCell(withIdentifier: "SearchCell", for: indexPath) as? SearchCell, let model = viewModel.resultSearch.value?[indexPath.section] else {
             return UITableViewCell()
         }
         cell.selectionStyle = .none
@@ -145,7 +152,7 @@ extension ResultVC: UITableViewDelegate {
 
 extension ResultVC: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return 12
+        return viewModel.categoryFilter.value.count
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
@@ -171,13 +178,16 @@ extension ResultVC: UICollectionViewDataSource {
         view.snp.makeConstraints { make in
             make.top.bottom.equalToSuperview().inset(4)
         }
+        
+        let model = viewModel.categoryFilter.value[indexPath.row]
+        label.text = model
         return cell
     }
 }
 
 extension ResultVC: UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        let namePlace = "Am thuc"
+        let namePlace = viewModel.categoryFilter.value[indexPath.row]
         
         let label = UILabel()
         label.text = namePlace

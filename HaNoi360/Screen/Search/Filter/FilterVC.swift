@@ -89,8 +89,9 @@ class FilterVC: BaseViewController {
     
     lazy var filterBtn = ButtonFactory.createButton("Áp dụng lọc", font: .medium18, height: 48)
     
-    var selectedCategory: [String] = []
+    var selectedCategory: Set<String>?
     var selectedIndexPath: Set<IndexPath> = [IndexPath(row: 0, section: 0)]
+    var districtName: [String] = []
     
     override func setupUI() {
         
@@ -153,7 +154,17 @@ class FilterVC: BaseViewController {
             .subscribe(onNext: {
                 let vc = ResultVC()
                 vc.previousVCName = .filter
-                self.navigationController?.pushViewController(vc, animated: true)
+                vc.viewModel.categoryFilter.accept(Array(self.selectedCategory ?? ["Tất cả"]) + self.districtName)
+                self.viewModel.filter { result in
+                    switch result {
+                    case .success(let places):
+                        print(places)
+                        vc.viewModel.resultSearch.accept(places)
+                    case .failure(let error):
+                        print("Lỗi khi lọc: \(error.localizedDescription)")
+                    }
+                    self.navigationController?.pushViewController(vc, animated: true)
+                }
             })
             .disposed(by: disposeBag)
     }
@@ -166,7 +177,16 @@ class FilterVC: BaseViewController {
         self.present(vc, animated: true)
     }
     
-   
+    override func bindState() {
+        viewModel.districtId
+            .subscribe(onNext: { [weak self] value in
+                guard let self = self else { return }
+                let isEmpty = value?.isEmpty
+                self.filterBtn.isEnabled = !(isEmpty ?? false)
+                self.filterBtn.backgroundColor = isEmpty ?? true ? .lightGray : .primaryButtonColor
+            })
+            .disposed(by: disposeBag)
+    }
 }
 
 extension FilterVC: UICollectionViewDataSource {
@@ -189,30 +209,47 @@ extension FilterVC: UICollectionViewDataSource {
 extension FilterVC: UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         let model = viewModel.categories[indexPath.row]
+        guard let id = model.id else { return }
+        
         if indexPath == IndexPath(row: 0, section: 0) {
-            selectedIndexPath = []
-            selectedIndexPath = [IndexPath(row: 0, section: 0)]
-            collectionView.reloadData()
+            selectedIndexPath = [indexPath]
+            selectedCategory = ["Tất cả"]
+            viewModel.categoriesId.accept([id])
         } else {
             selectedIndexPath.remove(IndexPath(row: 0, section: 0))
+            selectedCategory!.remove("Tất cả")
+            var id = viewModel.categoriesId.value
+            id.remove("tatCa")
             if selectedIndexPath.contains(indexPath) {
                 selectedIndexPath.remove(indexPath)
+                selectedCategory!.remove(model.name!)
+                if let index = id.firstIndex(of: model.id ?? "") {
+                    id.remove(at: index)
+                }
+                viewModel.categoriesId.accept(id)
             } else {
                 selectedIndexPath.insert(indexPath)
+                selectedCategory?.insert(model.name!)
+                id.insert(model.id!)
+                viewModel.categoriesId.accept(id)
             }
-            collectionView.reloadData()
         }
+        collectionView.reloadData()
     }
 }
 
 extension FilterVC: TTRangeSliderDelegate {
     func rangeSlider(_ sender: TTRangeSlider!, didChangeSelectedMinimumValue selectedMinimum: Float, andMaximumValue selectedMaximum: Float) {
         print("Giá trị: \(selectedMinimum) - \(selectedMaximum)")
+        viewModel.minReview.accept(Double(selectedMinimum))
+        viewModel.maxReview.accept(Double(selectedMaximum))
     }
 }
 
 extension FilterVC: FilterDistrictDelegate {
     func didSelected(districtsId: [String], districtsName: [String]) {
+        viewModel.districtId.accept(districtsId)
+        self.districtName = districtsName
         var districtName: String = ""
         for name in districtsName {
             districtName += name + ", "
