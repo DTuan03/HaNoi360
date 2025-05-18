@@ -12,7 +12,7 @@ protocol FilterDistrictDelegate: AnyObject {
     func didSelected(districtsId: [String], districtsName: [String])
 }
 
-class FilterDistrictVC: BaseViewController, FilterDistrictCellDelegate {
+class FilterDistrictVC: BaseVC, FilterDistrictCellDelegate {
     let viewModel = FilterDistrictVM()
 //    var
     lazy var containerView = {

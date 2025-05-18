@@ -10,7 +10,7 @@ import SnapKit
 import RxSwift
 import RxCocoa
 
-class IntroVC: BaseViewController {
+class IntroVC: BaseVC {
     lazy var scrollView = ScrollViewFactory.createScrollView(backgroundColor: .backgroundColor,
                                                              showsHorizontalScrollIndicator: true,
                                                              bounces: false)

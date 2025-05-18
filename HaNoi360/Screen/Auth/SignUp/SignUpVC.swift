@@ -10,7 +10,7 @@ import RxSwift
 import RxCocoa
 import Toast_Swift
 
-class SignUpVC: BaseViewController {
+class SignUpVC: BaseVC {
     let viewModel = SignUpViewModel()
     lazy var navigation = NavigationViewFactory.createNavigationViewWithBackButtonOnly(image: .back,
                                                                                        isHiddenBtn: true,

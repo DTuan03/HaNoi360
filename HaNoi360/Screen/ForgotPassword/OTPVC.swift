@@ -8,7 +8,7 @@
 
 import UIKit
 
-class OTPVC: BaseViewController {
+class OTPVC: BaseVC {
     lazy var navigation = NavigationViewFactory.createNavigationViewWithBackButtonOnly(image: .back,
                                                                                        delegate: self)
     lazy var titleLabel = LabelFactory.createLabel(text: "Mã OTP",

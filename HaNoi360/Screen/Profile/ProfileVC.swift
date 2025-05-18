@@ -8,7 +8,7 @@
 import UIKit
 import SnapKit
 
-class ProfileVC: BaseViewController {
+class ProfileVC: BaseVC {
     lazy var navigationView = NavigationViewFactory.createNavigationViewWithBackButtonAndTitle(image: .back,
                                                                                                title: "Hồ sơ",
                                                                                                delegate: self)

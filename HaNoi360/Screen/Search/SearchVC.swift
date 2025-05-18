@@ -10,7 +10,7 @@ import RxSwift
 import RxCocoa
 import SnapKit
 
-class SearchVC: BaseViewController {
+class SearchVC: BaseVC {
     let viewModel = SeachVM()
     lazy var navigationView = NavigationViewFactory.createNavigationViewWithBackButtonAndTitle(image: .back, title: "Tìm kiếm", delegate: self)
     

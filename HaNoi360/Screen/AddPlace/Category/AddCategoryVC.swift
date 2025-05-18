@@ -12,7 +12,7 @@ protocol CategoryDelegate: AnyObject {
     func didSelected(_ data: [String])
 }
 
-class AddCategoryVC: BaseViewController {
+class AddCategoryVC: BaseVC {
     let viewModel = CategoryViewModel()
     lazy var containerView = {
         let view = UIView()

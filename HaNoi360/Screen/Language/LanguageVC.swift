@@ -8,7 +8,7 @@
 import UIKit
 import SnapKit
 
-class LanguageVC: BaseViewController {
+class LanguageVC: BaseVC {
     lazy var navigationView = NavigationViewFactory.createNavigationViewWithBackButtonAndTitle(image: .back, title: "Ngôn ngữ", delegate: self)
     
     lazy var languageTableView = {

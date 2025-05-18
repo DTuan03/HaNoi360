@@ -8,7 +8,7 @@
 import UIKit
 import SnapKit
 
-class TabBarVC: BaseViewController {
+class TabBarVC: BaseVC {
     lazy var containerView = {
         let view = UIView()
         view.backgroundColor = .clear

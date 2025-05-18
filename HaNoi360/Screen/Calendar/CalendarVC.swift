@@ -9,7 +9,7 @@ import UIKit
 import SnapKit
 import FSCalendar
 
-class CalendarVC: BaseViewController {
+class CalendarVC: BaseVC {
     let viewModel = CalendarVM()
     lazy var navigationView = NavigationViewFactory.createNavigationViewWithTitleOnly(title: "Lịch trình dự kiến")
     

@@ -11,7 +11,7 @@ import RxCocoa
 import SnapKit
 import TTRangeSlider
 
-class FilterVC: BaseViewController {
+class FilterVC: BaseVC {
     let viewModel = FilterVM()
     
     lazy var navigationView = NavigationViewFactory.createNavigationViewWithBackButtonAndTitle(image: .back, title: "Lọc", delegate: self)

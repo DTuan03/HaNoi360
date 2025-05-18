@@ -9,7 +9,7 @@ import UIKit
 import SnapKit
 import RxSwift
 
-class ConfirmEmailVC: BaseViewController {
+class ConfirmEmailVC: BaseVC {
     var nameUser: String?
     lazy var titleLabel = LabelFactory.createLabel(text: "Xác thực email được gửi cho bạn !",
                                                    font: .bold24,

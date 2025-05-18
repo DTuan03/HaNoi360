@@ -10,10 +10,10 @@ import SnapKit
 import RxSwift
 import SkeletonView
 
-class HomeVC: BaseViewController {
+class HomeVC: BaseVC {
     let width = UIScreen.main.bounds.width
     let height = UIScreen.main.bounds.height
-    let viewModel = HomeViewModel()
+    let viewModel = HomeVM()
     lazy var scrollView = ScrollViewFactory.createScrollView(backgroundColor: .backgroundColor)
     
     lazy var contentView = {

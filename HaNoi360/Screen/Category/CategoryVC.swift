@@ -11,7 +11,7 @@ import RxSwift
 import RxCocoa
 import UPCarouselFlowLayout
 
-class CategoryVC: BaseViewController {
+class CategoryVC: BaseVC {
     let viewModel = CategoryVM()
     
     lazy var backgroundImageView: UIImageView = {

@@ -9,7 +9,7 @@ import UIKit
 import RxSwift
 import RxCocoa
 
-class GetStartedVC: BaseViewController {
+class GetStartedVC: BaseVC {
     lazy var navigation = NavigationViewFactory.createNavigationViewWithSkipButton(image: .skip,
                                                                                    titleButton: "Bỏ qua",
                                                                                    delegate: self)

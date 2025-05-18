@@ -9,7 +9,7 @@ import UIKit
 import SnapKit
 import FirebaseAuth
 
-class AccountVC: BaseViewController {
+class AccountVC: BaseVC {
     lazy var navigationView = NavigationViewFactory.createNavigationViewWithTitleOnly(title: "Tài khoản")
     
     lazy var avatarIV = ImageViewFactory.createImageView(image: .test,

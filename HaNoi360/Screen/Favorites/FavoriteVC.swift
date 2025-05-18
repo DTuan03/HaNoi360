@@ -8,7 +8,7 @@
 import UIKit
 import SnapKit
 
-class FavoriteVC: BaseViewController {
+class FavoriteVC: BaseVC {
     let viewModel = FavoriteVM()
     lazy var navigationView = NavigationViewFactory.createNavigationViewWithTitleOnly(title: "Địa điểm yêu thích")
     

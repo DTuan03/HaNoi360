@@ -15,7 +15,7 @@ enum previousVCType {
     case filter
 }
 
-class ResultVC: BaseViewController {
+class ResultVC: BaseVC {
     let viewModel = ResultVM()
     
     lazy var navigationView = NavigationViewFactory.createNavigationViewWithBackButtonAndTitle(image: .back, title: "Kết quả tìm kiếm", delegate: self)

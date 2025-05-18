@@ -10,8 +10,11 @@ import SnapKit
 import RxSwift
 import RxCocoa
 
-class BaseViewController: UIViewController {
+class BaseVC: UIViewController {
     var disposeBag = DisposeBag()
+    let isLoading = BehaviorRelay<Bool>(value: false)
+    let isBgWhiteLoading = BehaviorRelay<Bool>(value: false)
+    private let loadingView = LoadingView()
     var vm = BaseVM()
     
     override func viewDidLoad() {
@@ -23,6 +26,16 @@ class BaseViewController: UIViewController {
         setupUI()
         setupEvent()
         setupData()
+        setupLoadingView()
+        bindLoading()
+    }
+    
+    private func setupLoadingView() {
+      loadingView.isHidden = true
+      view.addSubview(loadingView)
+      loadingView.snp.makeConstraints { make in
+        make.edges.equalToSuperview()
+      }
     }
     
     func setupUI() {
@@ -35,6 +48,24 @@ class BaseViewController: UIViewController {
     }
     
     func bindState() {
+    }
+    
+    private func bindLoading() {
+      isLoading
+        .distinctUntilChanged()
+        .observe(on: MainScheduler.instance)
+        .bind { [weak self] loading in
+          loading ? self?.loadingView.startAnimating() : self?.loadingView.stopAnimating()
+        }
+        .disposed(by: disposeBag)
+      
+      isBgWhiteLoading
+        .distinctUntilChanged()
+        .observe(on: MainScheduler.instance)
+        .bind { [weak self] loading in
+          self?.loadingView.backgroundColor = loading ? .white : .clear
+        }
+        .disposed(by: disposeBag)
     }
     
     func addDismissKeyboard() {

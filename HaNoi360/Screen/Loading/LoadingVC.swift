@@ -8,7 +8,7 @@
 import UIKit
 import SnapKit
 
-class LoadingVC: BaseViewController {
+class LoadingVC: BaseVC {
     lazy var containerView: UIView = {
         let v = UIView()
         v.backgroundColor = UIColor(hex: "#EEEEEE")

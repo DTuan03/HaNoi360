@@ -10,40 +10,39 @@ import Lottie
 import SnapKit
 
 class LoadingView: UIView {
-    let containerView = UIView()
     private let animationView = LottieAnimationView(name: "loading")
-
+    
     override init(frame: CGRect) {
         super.init(frame: frame)
-        setup()
+        setupUI()
     }
 
     required init?(coder: NSCoder) {
         super.init(coder: coder)
-        setup()
+        setupUI()
     }
 
-    private func setup() {
-        addSubviews(containerView)
-        containerView.backgroundColor = .clear
-        containerView.snp.makeConstraints { make in
-            make.edges.equalToSuperview()
-        }
+    private func setupUI() {
+        backgroundColor = .clear
         animationView.loopMode = .loop
-        animationView.contentMode = .scaleAspectFit
-        containerView.addSubview(animationView)
+        animationView.translatesAutoresizingMaskIntoConstraints = false
 
+        addSubview(animationView)
+
+        
         animationView.snp.makeConstraints { make in
-            make.width.height.equalTo(150)
             make.center.equalToSuperview()
+            make.width.height.equalTo(100)
         }
     }
 
-    func play() {
+    func startAnimating() {
+        isHidden = false
         animationView.play()
     }
 
-    func stop() {
+    func stopAnimating() {
         animationView.stop()
+        isHidden = true
     }
 }

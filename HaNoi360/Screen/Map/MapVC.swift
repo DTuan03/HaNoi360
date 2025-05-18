@@ -15,7 +15,7 @@ protocol MapVCDelegate: AnyObject {
     func didMaped(district: String, coordinate: CLLocationCoordinate2D)
 }
 
-class MapVC: BaseViewController {
+class MapVC: BaseVC {
     lazy var mapView: MKMapView = {
         let mv = MKMapView()
         mv.delegate = self

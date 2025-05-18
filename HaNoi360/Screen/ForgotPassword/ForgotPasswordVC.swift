@@ -8,7 +8,7 @@
 import UIKit
 import Toast_Swift
 
-class ForgotPasswordVC: BaseViewController {
+class ForgotPasswordVC: BaseVC {
     let viewModel = ForgotPasswordViewModel()
     lazy var navigation = NavigationViewFactory.createNavigationViewWithBackButtonOnly(image: .back,
                                                                                        delegate: self)

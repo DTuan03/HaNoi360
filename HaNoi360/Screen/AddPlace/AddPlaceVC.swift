@@ -15,7 +15,7 @@ enum ImagePickerSource {
     case subImage
 }
 
-class AddPlaceVC: BaseViewController {
+class AddPlaceVC: BaseVC {
     let viewModel = AddPlaceViewModel()
     
     lazy var scrollView = ScrollViewFactory.createScrollView(backgroundColor: .backgroundColor,

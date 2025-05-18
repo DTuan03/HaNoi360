@@ -11,7 +11,7 @@ import FSCalendar
 import RxSwift
 import RxCocoa
 
-class AddCalendarVC: BaseViewController {
+class AddCalendarVC: BaseVC {
     let viewModel = AddCalendarVM()
     lazy var containerView = {
         let view = UIView()
