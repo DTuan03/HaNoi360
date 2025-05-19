@@ -45,7 +45,19 @@ class FavoriteVC: BaseVC {
     override func bindState() {
         viewModel.featchPlace()
         viewModel.placeFavorite
-            .subscribe(onNext: { i in
+            .subscribe(onNext: { [weak self] value in
+                guard let self = self else { return }
+                if value?.isEmpty ?? true {
+                    self.tableView.setLottieBackground(
+                        name: "emptyFavorite",
+                        title: "Chưa có hoạt động nào ở đây",
+                        message: "Bắt đầu khám phá và thêm vào Yêu thích",
+                        topAnimation: -350,
+                        topStv: -500
+                    )
+                } else {
+                    self.tableView.clearBackground()
+                }
                 self.tableView.reloadData()
             })
             .disposed(by: disposeBag)
