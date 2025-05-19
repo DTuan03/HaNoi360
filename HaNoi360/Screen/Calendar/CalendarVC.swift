@@ -147,7 +147,19 @@ class CalendarVC: BaseVC {
             .disposed(by: disposeBag)
         
         viewModel.placeCalendar
-            .subscribe(onNext: {_ in 
+            .subscribe(onNext: { [weak self] value in
+                guard let self = self else { return }
+                if value?.isEmpty ?? true {
+                    self.calendarTableView.setLottieBackground(
+                        name: "emptyCalendar",
+                        title: "Bạn đang rảnh rỗi ?",
+                        message: "Bạn đã sẵn sàng cho chuyến phiêu lưu tiếp theo chưa ?",
+                        topAnimation: 0,
+                        topStv: -110
+                    )
+                } else {
+                    self.calendarTableView.clearBackground()
+                }
                 self.calendarTableView.reloadData()
             })
             .disposed(by: disposeBag)

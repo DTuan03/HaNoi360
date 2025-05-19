@@ -9,7 +9,7 @@ import Lottie
 import SnapKit
 
 extension UITableView {
-    func setLottieBackground(name: String, title: String, message: String) {
+    func setLottieBackground(name: String, title: String, message: String, topAnimation: Int = 120, topStv: Int = 4) {
         let animationView = LottieAnimationView(name: name)
         animationView.loopMode = .loop
         animationView.play()
@@ -22,12 +22,12 @@ extension UITableView {
         container.addSubviews([animationView, stv])
         animationView.snp.makeConstraints { make in
             make.left.right.equalToSuperview().inset(48)
-            make.top.equalToSuperview().offset(120)
+            make.top.equalToSuperview().offset(topAnimation)
         }
         
         stv.snp.makeConstraints { make in
             make.left.right.equalToSuperview().inset(20)
-            make.top.equalTo(animationView.snp.bottom).offset(4)
+            make.top.equalTo(animationView.snp.bottom).offset(topStv)
         }
 
         self.backgroundView = container
