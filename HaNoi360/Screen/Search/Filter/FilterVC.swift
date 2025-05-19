@@ -89,7 +89,7 @@ class FilterVC: BaseVC {
     
     lazy var filterBtn = ButtonFactory.createButton("Áp dụng lọc", font: .medium18, height: 48)
     
-    var selectedCategory: Set<String>?
+    var selectedCategory: Set<String> = ["Tất cả"]
     var selectedIndexPath: Set<IndexPath> = [IndexPath(row: 0, section: 0)]
     var districtName: [String] = []
     
@@ -182,7 +182,7 @@ class FilterVC: BaseVC {
             .subscribe(onNext: { [weak self] value in
                 guard let self = self else { return }
                 let isEmpty = value?.isEmpty
-                self.filterBtn.isEnabled = !(isEmpty ?? false)
+                self.filterBtn.isEnabled = !(isEmpty ?? true)
                 self.filterBtn.backgroundColor = isEmpty ?? true ? .lightGray : .primaryButtonColor
             })
             .disposed(by: disposeBag)
@@ -217,19 +217,19 @@ extension FilterVC: UICollectionViewDelegate {
             viewModel.categoriesId.accept([id])
         } else {
             selectedIndexPath.remove(IndexPath(row: 0, section: 0))
-            selectedCategory!.remove("Tất cả")
+            selectedCategory.remove("Tất cả")
             var id = viewModel.categoriesId.value
             id.remove("tatCa")
             if selectedIndexPath.contains(indexPath) {
                 selectedIndexPath.remove(indexPath)
-                selectedCategory!.remove(model.name!)
+                selectedCategory.remove(model.name!)
                 if let index = id.firstIndex(of: model.id ?? "") {
                     id.remove(at: index)
                 }
                 viewModel.categoriesId.accept(id)
             } else {
                 selectedIndexPath.insert(indexPath)
-                selectedCategory?.insert(model.name!)
+                selectedCategory.insert(model.name!)
                 id.insert(model.id!)
                 viewModel.categoriesId.accept(id)
             }

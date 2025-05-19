@@ -95,7 +95,7 @@ class SearchVC: BaseVC {
                 guard let self = self else { return }
                 let isValue = value?.isEmpty ?? true
                 if isValue {
-                    tableView.setLottieBackground(name: "empty_state")
+                    tableView.setLottieBackground(name: "emptyRecentSearch", title: "Chưa có tìm kiếm nào", message: "Bắt đầu khám phá và tìm kiếm nhiều hơn nhé")
                 } else {
                     tableView.clearBackground()
                     tableView.reloadData()

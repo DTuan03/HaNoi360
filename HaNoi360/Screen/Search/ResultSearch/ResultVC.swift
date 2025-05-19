@@ -98,7 +98,7 @@ class ResultVC: BaseVC {
                 if let v = value, v.count != 0 {
                     self.recentSearcheLabel.text = "\(v.count) Kết quả phù hợp"
                 } else {
-                    //hien thi backgroundview cua tableview khong co item
+                    setupBgTableView()
                 }
             })
             .disposed(by: disposeBag)
@@ -109,6 +109,10 @@ class ResultVC: BaseVC {
                 self.filterClv.reloadData()
             })
             .disposed(by: disposeBag)
+    }
+    
+    func setupBgTableView() {
+        tableView.setImageBackground(image: "emptySearch", title: "Không tìm thấy", message: "Vui lòng tìm kiếm khác thay thế")
     }
 }
 
