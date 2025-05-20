@@ -77,7 +77,8 @@ class CalendarVC: BaseVC {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        viewModel.date.accept(Date().toString())
+//        calendar.select(Date())
+//        viewModel.date.accept()
     }
     
     override func setupUI() {
@@ -141,8 +142,11 @@ class CalendarVC: BaseVC {
     
     override func bindState() {
         viewModel.date
-            .subscribe(onNext: { _ in
-                self.viewModel.featchPlace()
+            .subscribe(onNext: { [weak self] value in
+                guard let self = self else { return }
+                if !value.isEmpty {
+                    self.viewModel.featchPlace()
+                }
             })
             .disposed(by: disposeBag)
         
@@ -161,6 +165,13 @@ class CalendarVC: BaseVC {
                     self.calendarTableView.clearBackground()
                 }
                 self.calendarTableView.reloadData()
+            })
+            .disposed(by: disposeBag)
+        
+        viewModel.isLoading
+            .subscribe(onNext: { [weak self] value in
+                guard let self = self else { return }
+                self.isLoading.accept(value ?? true)
             })
             .disposed(by: disposeBag)
     }
@@ -196,6 +207,18 @@ extension CalendarVC: UITableViewDataSource {
 }
 
 extension CalendarVC: UITableViewDelegate {
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        let detailVC = DetailVC()
+        detailVC.viewModel.placeId.accept(viewModel.placeCalendar.value?[indexPath.row].placeId)
+        isLoading.accept(true)
+        detailVC.viewModel.isFavoritePlace {
+            detailVC.viewModel.featchPlace() {
+                self.isLoading.accept(false)
+                self.navigationController?.pushViewController(detailVC, animated: true)
+            }
+        }
+    }
+    
     func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
         
         let deleteAction = UIContextualAction(style: .destructive, title: "") { action, view, handler in

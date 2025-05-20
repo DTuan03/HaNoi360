@@ -139,7 +139,7 @@ class TabBarVC: BaseVC {
             guard let self = self else { return }
             self.switchToVC(self.favoriteVC)
             self.updateButtonColors(selected: self.favoriteBtn)
-            calendarVC.viewModel.featchPlace()
+//            calendarVC.viewModel.featchPlace()
         }.disposed(by: disposeBag)
         
         profileBtn.rx.tap.bind { [weak self] in
@@ -162,7 +162,7 @@ class TabBarVC: BaseVC {
     @objc func stvFavoriteAction() {
         switchToVC(self.favoriteVC)
         updateButtonColors(selected: self.favoriteBtn)
-        calendarVC.viewModel.featchPlace()
+//        calendarVC.viewModel.featchPlace()
     }
     
     @objc func stvProfileAction() {

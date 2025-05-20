@@ -16,7 +16,7 @@ class PopupCalendarVC: UIViewController {
         return view
     }()
     
-    let titleLabel = LabelFactory.createLabel(text: "Bạn có muốn tiếp tục thêm địa điểm vào lịch trình ?",
+    let titleLabel = LabelFactory.createLabel(text: "Thêm địa điểm vào lịch trình ?",
                                               font: .bold20,
                                               textColor: .primaryTextColor,
                                               textAlignment: .center)

@@ -27,9 +27,16 @@ class LoadingView: UIView {
         animationView.loopMode = .loop
         animationView.translatesAutoresizingMaskIntoConstraints = false
 
-        addSubview(animationView)
-
+        let view = UIView()
+        view.layer.cornerRadius = 10
+        view.layer.backgroundColor = UIColor.white.cgColor
+        addSubview(view)
         
+        view.snp.makeConstraints { make in
+            make.height.width.equalTo(50)
+            make.center.equalToSuperview()
+        }
+        view.addSubview(animationView)
         animationView.snp.makeConstraints { make in
             make.center.equalToSuperview()
             make.width.height.equalTo(100)

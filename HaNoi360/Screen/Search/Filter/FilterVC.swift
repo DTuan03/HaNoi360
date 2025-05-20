@@ -183,7 +183,7 @@ class FilterVC: BaseVC {
                 guard let self = self else { return }
                 let isEmpty = value?.isEmpty
                 self.filterBtn.isEnabled = !(isEmpty ?? true)
-                self.filterBtn.backgroundColor = isEmpty ?? true ? .lightGray : .primaryButtonColor
+                self.filterBtn.backgroundColor = isEmpty ?? true ? UIColor(hex: "#BBBBBB") : .primaryButtonColor
             })
             .disposed(by: disposeBag)
     }

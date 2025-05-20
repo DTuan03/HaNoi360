@@ -44,7 +44,7 @@ extension UIColor {
     }
     
     static let primaryButtonColor = UIColor { traitCollection in
-        return traitCollection.userInterfaceStyle == .light ? UIColor(hex: "#FF3E00") : UIColor(hex: "#FF3E00")
+        return traitCollection.userInterfaceStyle == .light ? UIColor(hex: "#F97316") : UIColor(hex: "#F97316")
     }
     
     static let textButtonColor = UIColor { traitCollection in

@@ -9,10 +9,11 @@ import RxSwift
 import RxCocoa
 
 class BaseVM {
-    let calendarService = BaseFirestoreService<AddCalendarModel>(collectionPath: "calendars")
-    let placeService = BaseFirestoreService<DetailModel>(collectionPath: "places")
-    let favoriteService = BaseFirestoreService<FavoriteModel>(collectionPath: "favorites")
-        
-    let userId = UserDefaults.standard.string(forKey: "userId")
+    var userId: String {
+        UserDefaults.standard.string(forKey: "userId") ?? "unknown"
+    }
 
+    lazy var calendarService = BaseFirestoreService<AddCalendarModel>(collectionPath: "users/\(userId)/calendars")
+    let placeService = BaseFirestoreService<DetailModel>(collectionPath: "places")
+    lazy var favoriteService = BaseFirestoreService<FavoriteModel>(collectionPath: "users/\(userId)/favorites")
 }
