@@ -68,6 +68,15 @@ class FavoriteVC: BaseVC {
                 self.isLoading.accept(value ?? true)
             })
             .disposed(by: disposeBag)
+        
+        viewModel.isSuccess
+            .subscribe(onNext: { [weak self] value in
+                guard let self = self else { return }
+                if value {
+                    self.viewModel.featchPlace()
+                }
+            })
+            .disposed(by: disposeBag)
     }
 }
 

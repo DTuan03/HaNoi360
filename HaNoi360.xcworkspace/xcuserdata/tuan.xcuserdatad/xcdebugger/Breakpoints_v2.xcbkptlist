@@ -174,40 +174,10 @@
             filePath = "HaNoi360/Screen/Favorites/FavoriteVM.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "32"
-            endingLineNumber = "32"
+            startingLineNumber = "33"
+            endingLineNumber = "33"
             landmarkName = "deleteFavorite()"
             landmarkType = "7">
-            <Locations>
-               <Location
-                  uuid = "7620617F-912E-424A-8914-F81D87D711BB - b2ab0347e5153e20"
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "HaNoi360.FavoriteVM.deleteFavorite() -&gt; ()"
-                  moduleName = "HaNoi360.debug.dylib"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/mac/Downloads/App/HaNoi360/HaNoi360/Screen/Favorites/FavoriteVM.swift"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "32"
-                  endingLineNumber = "32">
-               </Location>
-               <Location
-                  uuid = "7620617F-912E-424A-8914-F81D87D711BB - 1896d4f8bc114ec0"
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "closure #1 (Swift.Result&lt;(), Swift.Error&gt;) -&gt; () in HaNoi360.FavoriteVM.deleteFavorite() -&gt; ()"
-                  moduleName = "HaNoi360.debug.dylib"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/mac/Downloads/App/HaNoi360/HaNoi360/Screen/Favorites/FavoriteVM.swift"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "33"
-                  endingLineNumber = "33">
-               </Location>
-            </Locations>
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy

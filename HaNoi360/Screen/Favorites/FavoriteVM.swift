@@ -12,6 +12,7 @@ class FavoriteVM: BaseVM {
     var placeFavorite = BehaviorRelay<[FavoriteModel]?>(value: nil)
     var placeId = BehaviorRelay<String>(value: "")
     var isLoading = BehaviorRelay<Bool?>(value: nil)
+    var isSuccess = PublishRelay<Bool>()
     
     func featchPlace() {
         isLoading.accept(true)
@@ -31,10 +32,9 @@ class FavoriteVM: BaseVM {
         isLoading.accept(true)
         favoriteService.delete(id: placeId.value) { result in
             self.isLoading.accept(false)
-            print(self.placeId.value)
             switch result {
             case .success():
-                print("succes")
+                self.isSuccess.accept(true)
             case .failure( _):
                 print("loi")
             }
