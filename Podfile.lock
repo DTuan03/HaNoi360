@@ -634,6 +634,9 @@ PODS:
   - BoringSSL-GRPC/Implementation (0.0.24):
     - BoringSSL-GRPC/Interface (= 0.0.24)
   - BoringSSL-GRPC/Interface (0.0.24)
+  - Cloudinary (5.1.0):
+    - Cloudinary/ios (= 5.1.0)
+  - Cloudinary/ios (5.1.0)
   - Cosmos (25.0.1)
   - FirebaseAppCheckInterop (10.29.0)
   - FirebaseAuth (10.15.0):
@@ -818,6 +821,7 @@ PODS:
   - UPCarouselFlowLayout (1.1.2)
 
 DEPENDENCIES:
+  - Cloudinary
   - Cosmos
   - FirebaseAuth (= 10.15.0)
   - FirebaseCore (= 10.15.0)
@@ -839,6 +843,7 @@ SPEC REPOS:
   trunk:
     - abseil
     - BoringSSL-GRPC
+    - Cloudinary
     - Cosmos
     - FirebaseAppCheckInterop
     - FirebaseAuth
@@ -879,6 +884,7 @@ SPEC REPOS:
 SPEC CHECKSUMS:
   abseil: 926fb7a82dc6d2b8e1f2ed7f3a718bce691d1e46
   BoringSSL-GRPC: 3175b25143e648463a56daeaaa499c6cb86dad33
+  Cloudinary: bab47d625e409936fb5c61d53f17719c80c258ad
   Cosmos: 02db0a1c953107049bfd2d7af19ceef55ecb7e98
   FirebaseAppCheckInterop: 6a1757cfd4067d8e00fccd14fcc1b8fd78cfac07
   FirebaseAuth: a55ec5f7f8a5b1c2dd750235c1bb419bfb642445
@@ -916,6 +922,6 @@ SPEC CHECKSUMS:
   TTRangeSlider: 8cf72eca457c3b700c92eb0074be908c986e25ec
   UPCarouselFlowLayout: 4c7d2c43a10ebb1597bde502a53699d378341dad
 
-PODFILE CHECKSUM: db1413e330d52d335fbca2359c739e20cb6c4a9d
+PODFILE CHECKSUM: d09d78e57fe9e2e85493bd292d6df9904cf7515b
 
 COCOAPODS: 1.16.2

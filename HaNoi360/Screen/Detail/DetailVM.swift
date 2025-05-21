@@ -66,9 +66,9 @@ class DetailVM: BaseVM {
     }
     
     func addFavorite() {
-        let id = Firestore.firestore().collection("favorites").document().documentID
-        idFavorite.accept(id)
-        let favoritePlace = FavoriteModel(favoriteId: id,
+//        let id = Firestore.firestore().collection("favorites").document().documentID
+        idFavorite.accept(placeId.value!)
+        let favoritePlace = FavoriteModel(favoriteId: placeId.value,
                                           placeId: placeId.value,
                                           userId: userId,
                                           placeImage: place.value?.placeImage,
@@ -76,7 +76,7 @@ class DetailVM: BaseVM {
                                           address: place.value?.address,
                                           avgRating: place.value?.avgRating,
                                           createdAt: Date())
-        favoriteService.set(favoritePlace, withId: id) { result in
+        favoriteService.set(favoritePlace, withId: placeId.value!) { result in
             switch result {
             case .success():
                 self.isAddFavorite.accept(true)

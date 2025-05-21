@@ -11,7 +11,7 @@ import UIKit
 import CoreLocation
 import FirebaseFirestore
 
-class AddPlaceViewModel {
+class AddPlaceVM {
     var placeImage = BehaviorRelay<UIImage?>(value: nil)
     var subPlaceImage = BehaviorRelay<[UIImage]?>(value: nil)
     var name = BehaviorRelay<String?>(value: nil)
@@ -32,7 +32,6 @@ class AddPlaceViewModel {
     var isSuccess = PublishRelay<Bool>()
     var isLoading = PublishRelay<Bool>()
     
-    let uploader = ImgurUploader()
     let placeService = BaseFirestoreService<AddPlaceModel>(collectionPath: "places")
     
     let userId = UserDefaults.standard.string(forKey: "userId")
@@ -93,24 +92,28 @@ class AddPlaceViewModel {
     
     func uploadAvatar() {
         guard let image = placeImage.value else { return }
-        uploader.upload(image: image)
-            .observe(on: MainScheduler.instance)
-            .subscribe(onNext: { [weak self] link in
-                self?.urlAvatar.accept(link)
-                self?.isAvatarUploaded.accept(true)
-            })
-            .disposed(by: disposeBag)
+        CloudinaryService.shared.uploadImage(image: image) { result in
+            switch result {
+            case .success(let url):
+                self.urlAvatar.accept(url)
+                self.isAvatarUploaded.accept(true)
+            case .failure(let error):
+                print("Lỗi upload: \(error.localizedDescription)")
+            }
+        }
     }
     
     func uploadSubImages() {
         guard let images = subPlaceImage.value else { return }
-        uploader.upload(images: images)
-            .observe(on: MainScheduler.instance)
-            .subscribe(onNext: { [weak self] links in
-                self?.urlSubImage.accept(links)
-                self?.isSubImageUploaded.accept(true)
-            })
-            .disposed(by: disposeBag)
+        CloudinaryService.shared.uploadImages(images: images) { result in
+            switch result {
+            case .success(let url):
+                self.urlSubImage.accept(url)
+                self.isSubImageUploaded.accept(true)
+            case .failure(let error):
+                print("Lỗi upload: \(error.localizedDescription)")
+            }
+        }
     }
     
     func extractDistrictName(from input: String) {

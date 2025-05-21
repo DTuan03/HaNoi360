@@ -61,6 +61,13 @@ class FavoriteVC: BaseVC {
                 self.tableView.reloadData()
             })
             .disposed(by: disposeBag)
+        
+        viewModel.isLoading
+            .subscribe(onNext: { [weak self] value in
+                guard let self = self else { return }
+                self.isLoading.accept(value ?? true)
+            })
+            .disposed(by: disposeBag)
     }
 }
 
@@ -92,6 +99,10 @@ extension FavoriteVC: UITableViewDelegate {
             let popupVC = PopupVC()
             popupVC.modalTransitionStyle = .crossDissolve
             popupVC.modalPresentationStyle = .overCurrentContext
+            self.viewModel.placeId.accept(self.viewModel.placeFavorite.value?[indexPath.section].placeId ?? "")
+            popupVC.onOk = {
+                self.viewModel.deleteFavorite()
+            }
             self.present(popupVC, animated: true)
             handler(true)
         }
