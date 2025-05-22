@@ -403,6 +403,10 @@ class DetailVC: BaseVC {
                     self.viewModel.featchReview()
                     self.sendReviewBtn.isEnabled = false
                     self.sendReviewBtn.backgroundColor = .lightGray
+                    
+                    DispatchQueue.global(qos: .userInitiated).async {
+                        self.viewModel.checkContentReview()
+                    }
                 }
             })
             .disposed(by: disposeBag)
@@ -415,6 +419,15 @@ class DetailVC: BaseVC {
                 self.tableView.snp.updateConstraints { make in
                     make.height.equalTo(self.tableView.contentSize.height)
                 }
+            })
+            .disposed(by: disposeBag)
+        
+        viewModel.isGross
+            .subscribe(onNext: { [weak self] isGross in
+                guard let self = self else { return }
+                if isGross {
+                    print("Qua tho tuc roi")
+                } else { print("Khong")}
             })
             .disposed(by: disposeBag)
     }

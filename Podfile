@@ -24,7 +24,7 @@ pod "UPCarouselFlowLayout"
 pod 'TTRangeSlider'
 pod 'lottie-ios'
 pod 'Cloudinary'
-
+pod 'pickle'
 post_install do |installer|
   installer.pods_project.targets.each do |target|
 	target.build_configurations.each do |config|

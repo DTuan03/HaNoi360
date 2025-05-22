@@ -30,6 +30,8 @@ class DetailVM: BaseVM {
     var rating = BehaviorRelay<Int>(value: 1)
     var isReview = BehaviorRelay<Bool>(value: false)
     var review = BehaviorRelay<[ReviewModel]?>(value: nil)
+    
+    var isGross = BehaviorRelay<Bool>(value: false)
 
     func featchPlace(completion: @escaping () -> Void) {
         guard let id = placeId.value else {
@@ -157,6 +159,12 @@ class DetailVM: BaseVM {
                 } ?? []
                 self.review.accept(reviews)
             }
+        }
+    }
+    
+    func checkContentReview() {
+        LoadModel.shared.predict(text: contentReview.value) { value in
+            self.isGross.accept(value)
         }
     }
 }
