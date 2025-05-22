@@ -27,7 +27,7 @@ class AddCalendarVM: BaseVM {
     var choosedDatePlaceCurrent = BehaviorRelay<[String]?>(value: nil)
                     
     func featchPlaceCalendar() {
-        calendarService.fetchWhereEqualTo(field: "userId", value: userId ?? "") { result in
+        calendarService.fetchWhereEqualTo(field: "userId", value: userId) { result in
             switch result {
             case .success(let calendarPlace):
                 self.calendarPlace.accept(calendarPlace)
@@ -57,7 +57,7 @@ class AddCalendarVM: BaseVM {
                 } else {
                     self.isAddPlace.accept(false)
                 }
-            case .failure(let error):
+            case .failure(_):
                 self.isAddPlace.accept(false)
             }
         }
@@ -65,16 +65,16 @@ class AddCalendarVM: BaseVM {
 
     func addPlaceCalendar() {
         let id = Firestore.firestore().collection("calendars").document().documentID
-        let place = AddCalendarModel(scheduleId: id,
+        let place = AddCalendarModel(scheduleId: placeId.value ?? "",
                                      placeId: placeId.value ?? "",
                                      placeImage: place.value?.placeImage ?? "",
                                      name: place.value?.name ?? "",
                                      address: place.value?.address ?? "",
                                      avgRating: place.value?.avgRating ?? 0,
-                                     userId: userId ?? "",
+                                     userId: userId,
                                      date: date.value ?? Date().toString(),
                                      createAt: Date())
-        calendarService.set(place, withId: id) { result in
+        calendarService.set(place, withId: placeId.value ?? "") { result in
             switch result {
             case .success():
                 self.isSuccess.accept(true)

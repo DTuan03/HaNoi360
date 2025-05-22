@@ -7,6 +7,7 @@
 
 import UIKit
 import SnapKit
+import Kingfisher
 
 class ReviewCell: UITableViewCell {
     lazy var avatarIV = ImageViewFactory.createImageView(image: .test, contentMode: .scaleAspectFill, radius: 25)
@@ -19,7 +20,7 @@ class ReviewCell: UITableViewCell {
     
     lazy var starReview = CosmosViewFactory.createCosmosView(updateOnTouch: false)
 
-    lazy var contentReviewLabel = LabelFactory.createLabel(text: "We went to Rara Lake from our college as a tour. Initially, I was in doubt whether I should visit there or not as it's very far from Kathmandu. I eventually decided to visit Rara lake and believe me, it was the best experience of my lifetime. It took 3 days for us to reach there.", font: .regular14)
+    lazy var contentReviewLabel = LabelFactory.createLabel(text: "", font: .regular14)
     
     lazy var sv = [sv1, starReview, contentReviewLabel].vStack(8)
     
@@ -74,5 +75,16 @@ class ReviewCell: UITableViewCell {
             make.top.equalTo(reportIconIV.snp.bottom)
             make.right.equalTo(reportIconIV.snp.left).inset(4)
         }
+    }
+    
+    func configData(model: ReviewModel) {
+        if let avatarUser = model.avatarUser {
+            avatarIV.kf.setImage(with: URL(string: avatarUser))
+        } else {
+            avatarIV.image = .avatarUser
+        }
+        nameLabel.text = model.authorName
+        starReview.rating = Double(model.rating ?? Int(1.0))
+        contentReviewLabel.text = model.content
     }
 }

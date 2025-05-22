@@ -338,6 +338,7 @@ extension HomeVC: UICollectionViewDelegate {
             detailVC.viewModel.isFavoritePlace {
                 detailVC.viewModel.featchPlace() {
                     self.isLoading.accept(false)
+                    detailVC.viewModel.featchReview()
                     self.navigationController?.pushViewController(detailVC, animated: true)
                 }
             }

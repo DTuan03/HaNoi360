@@ -156,6 +156,8 @@ class DetailVC: BaseVC {
     lazy var sendReviewBtn = {
         let btn = ButtonFactory.createButton("Gửi", rounded: false, height: 38)
         btn.layer.cornerRadius = 16
+        btn.isEnabled = false
+        btn.backgroundColor = .lightGray
         return btn
     }()
     
@@ -166,6 +168,9 @@ class DetailVC: BaseVC {
         tableView.showsVerticalScrollIndicator = false
         tableView.register(ReviewCell.self, forCellReuseIdentifier: "ReviewCell")
         tableView.dataSource = self
+        tableView.isScrollEnabled = false
+        tableView.bounces = false
+
         return tableView
     }()
     
@@ -220,14 +225,15 @@ class DetailVC: BaseVC {
         
         mainScrollView.addSubview(contentView)
         
+        contentView.addSubviews([imageScrollView, pageControl, sv3, aboutLabel, detailAboutLabel, mapLabel, mapView, writeReviewLabel, avatarUser, reviewTextView, starReview, rangeReviewLabel, sendReviewBtn, reviewLabel, tableView, moreLabel])
+        
+        
         contentView.snp.makeConstraints { make in
             make.top.equalToSuperview().offset(-60)
-            make.left.right.bottom.equalToSuperview()
+            make.left.right.equalToSuperview()
             make.width.equalTo(mainScrollView.snp.width)
-            make.height.equalTo(1800)
+            make.bottom.equalToSuperview()
         }
-        
-        contentView.addSubviews([imageScrollView, pageControl, sv3, aboutLabel, detailAboutLabel, mapLabel, mapView, writeReviewLabel, avatarUser, reviewTextView, starReview, rangeReviewLabel, sendReviewBtn, reviewLabel, tableView, moreLabel])
         
         imageScrollView.snp.makeConstraints { make in
             make.top.equalToSuperview()
@@ -371,10 +377,57 @@ class DetailVC: BaseVC {
             .subscribe(onNext: { [weak self] value in
                 guard let self = self else { return }
                 self.isLoading.accept(value)
-                self.isBgWhiteLoading.accept(value)
+            })
+            .disposed(by: disposeBag)
+        
+        viewModel.contentReview
+            .subscribe(onNext: { [weak self] value in
+                guard let self = self else { return }
+                if !value.isEmpty {
+                    self.sendReviewBtn.isEnabled = true
+                    self.sendReviewBtn.backgroundColor = .primaryButtonColor
+                } else {
+                    self.sendReviewBtn.isEnabled = false
+                    self.sendReviewBtn.backgroundColor = .lightGray
+                }
+            })
+            .disposed(by: disposeBag)
+        
+        viewModel.isReview
+            .subscribe(onNext: { [weak self] isReview in
+                guard let self = self else { return }
+                if isReview {
+                    Toast.showToast(message: "Đánh giá thành công", image: "toast_success")
+                    self.reviewTextView.text = ""
+                    self.starReview.rating = 1
+                    self.viewModel.featchReview()
+                    self.sendReviewBtn.isEnabled = false
+                    self.sendReviewBtn.backgroundColor = .lightGray
+                }
+            })
+            .disposed(by: disposeBag)
+        
+        viewModel.review
+            .subscribe(onNext: { [weak self] review in
+                guard let self = self else { return }
+                self.tableView.reloadData()
+                self.tableView.layoutIfNeeded()
+                self.tableView.snp.updateConstraints { make in
+                    make.height.equalTo(self.tableView.contentSize.height)
+                }
             })
             .disposed(by: disposeBag)
     }
+    
+    override func viewDidLayoutSubviews() {
+        super.viewDidLayoutSubviews()
+        
+        tableView.layoutIfNeeded()
+        tableView.snp.updateConstraints {
+            $0.height.equalTo(tableView.contentSize.height)
+        }
+    }
+
     
     func setupMapView(latitude: CLLocationDegrees, longitude: CLLocationDegrees) {
         let location = CLLocationCoordinate2D(latitude: latitude, longitude: longitude)
@@ -400,6 +453,17 @@ class DetailVC: BaseVC {
         
         let mapViewTap = UITapGestureRecognizer(target: self, action: #selector(mapViewAction))
         mapView.addGestureRecognizer(mapViewTap)
+        
+        starReview.didFinishTouchingCosmos = { rating in
+            self.viewModel.rating.accept(Int(rating))
+        }
+        
+        sendReviewBtn.rx.tap
+            .subscribe(onNext: { [weak self] in
+                guard let self = self else { return }
+                self.viewModel.addReview()
+            })
+            .disposed(by: disposeBag)
     }
     
     @objc func backIVAction() {
@@ -487,18 +551,21 @@ class DetailVC: BaseVC {
 
 extension DetailVC: UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 3
+        if viewModel.review.value?.count ?? 0 < 4 {
+            return viewModel.review.value?.count ?? 0
+        } else {
+            return 3
+        }
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        guard let cell = tableView.dequeueReusableCell(withIdentifier: "ReviewCell", for: indexPath) as? ReviewCell else {
+        guard let cell = tableView.dequeueReusableCell(withIdentifier: "ReviewCell", for: indexPath) as? ReviewCell, let model = viewModel.review.value?[indexPath.row] else {
             return UITableViewCell()
         }
         cell.selectionStyle = .none
+        cell.configData(model: model)
         return cell
     }
-    
-    
 }
 
 extension DetailVC: UIScrollViewDelegate {
@@ -521,6 +588,7 @@ extension DetailVC: UITextViewDelegate {
         let currentText = textView.text ?? ""
         guard let stringRange = Range(range, in: currentText) else { return false }
         let updatedText = currentText.replacingCharacters(in: stringRange, with: text)
+        self.viewModel.contentReview.accept(updatedText)
         return updatedText.count <= 250
     }
     

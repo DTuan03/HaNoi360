@@ -25,6 +25,11 @@ class DetailVM: BaseVM {
     var countReview = BehaviorRelay<Int>(value: 0)
     
     var isLoading = BehaviorRelay<Bool>(value: true)
+    
+    var contentReview = BehaviorRelay<String>(value: "")
+    var rating = BehaviorRelay<Int>(value: 1)
+    var isReview = BehaviorRelay<Bool>(value: false)
+    var review = BehaviorRelay<[ReviewModel]?>(value: nil)
 
     func featchPlace(completion: @escaping () -> Void) {
         guard let id = placeId.value else {
@@ -107,6 +112,50 @@ class DetailVM: BaseVM {
                 case .failure( _):
                     self.isDeleteFavorite.accept(false)
                 }
+            }
+        }
+    }
+    
+    func addReview() {
+        isLoading.accept(true)
+        let id = Firestore.firestore().collection("reviews").document().documentID
+        let review = ReviewModel(reviewId: id,
+                                 placeId: placeId.value,
+                                 authorId: userId,
+                                 authorName: nameUser,
+                                 avatarUser: avatarUser,
+                                 content: contentReview.value,
+                                 rating: rating.value)
+        reviewService.set(review, withId: id) { [weak self] result in
+            self?.isLoading.accept(false)
+            switch result {
+            case .success():
+                self?.isReview.accept(true)
+            case .failure(_):
+                print("Them faild")
+            }
+        }
+    }
+    
+    func featchReview() {
+        guard let placeId = placeId.value else {
+            return
+        }
+        
+        let query = Firestore.firestore()
+            .collection("reviews")
+            .whereField("placeId", isEqualTo: placeId)
+            .order(by: "createAt", descending: true)
+            .limit(to: 3)
+        
+        query.getDocuments { result, error  in
+            if let error = error {
+                print("Lỗi khi fetch reviews: \(error.localizedDescription)")
+            } else {
+                let reviews = result?.documents.compactMap {
+                    try? $0.data(as: ReviewModel.self)
+                } ?? []
+                self.review.accept(reviews)
             }
         }
     }

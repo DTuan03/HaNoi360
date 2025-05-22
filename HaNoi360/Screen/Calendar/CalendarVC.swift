@@ -77,8 +77,7 @@ class CalendarVC: BaseVC {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-//        calendar.select(Date())
-//        viewModel.date.accept()
+        viewModel.date.accept(calendar.selectedDate?.toString() ?? Date().toString())
     }
     
     override func setupUI() {
@@ -174,6 +173,15 @@ class CalendarVC: BaseVC {
                 self.isLoading.accept(value ?? true)
             })
             .disposed(by: disposeBag)
+        
+        viewModel.isSuccess
+            .subscribe(onNext: { [weak self] value in
+                guard let self = self else { return }
+                if value {
+                    self.viewModel.featchPlace()
+                }
+            })
+            .disposed(by: disposeBag)
     }
 }
 
@@ -222,12 +230,20 @@ extension CalendarVC: UITableViewDelegate {
     func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
         
         let deleteAction = UIContextualAction(style: .destructive, title: "") { action, view, handler in
-            print("Hiển thị popup xác nhận xoá cho hàng \(indexPath.section)")
+            let popupVC = PopupVC()
+            popupVC.titleLabel.text = "Xoá khỏi lịch trình ?"
+            popupVC.modalTransitionStyle = .crossDissolve
+            popupVC.modalPresentationStyle = .overCurrentContext
+            self.viewModel.placeId.accept(self.viewModel.placeCalendar.value?[indexPath.section].placeId ?? "")
+            popupVC.onOk = {
+                self.viewModel.deleteCalendar()
+            }
+            self.present(popupVC, animated: true)
             handler(true)
         }
         let deleteImage = UIImage(named: "trash") // ảnh có icon + background bo tròn
         deleteAction.image = deleteImage
-        deleteAction.backgroundColor = .backgroundTableViewCellColor // hoặc tùy chỉnh
+        deleteAction.backgroundColor = .backgroundTableViewCellColor
         
         return UISwipeActionsConfiguration(actions: [deleteAction])
     }

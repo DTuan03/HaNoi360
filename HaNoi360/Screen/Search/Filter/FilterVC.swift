@@ -154,7 +154,7 @@ class FilterVC: BaseVC {
             .subscribe(onNext: {
                 let vc = ResultVC()
                 vc.previousVCName = .filter
-                vc.viewModel.categoryFilter.accept(Array(self.selectedCategory ?? ["Tất cả"]) + self.districtName)
+                vc.viewModel.categoryFilter.accept(Array(self.selectedCategory) + self.districtName)
                 self.viewModel.filter { result in
                     switch result {
                     case .success(let places):

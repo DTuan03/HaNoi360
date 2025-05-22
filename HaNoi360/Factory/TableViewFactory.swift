@@ -13,7 +13,7 @@ class TableViewFactory {
         tableView.tableFooterView = UIView()
         tableView.alwaysBounceVertical = false
         tableView.rowHeight = UITableView.automaticDimension
-        tableView.estimatedRowHeight = 10
+        tableView.estimatedRowHeight = 150
         tableView.separatorInset = .zero
         tableView.separatorColor = .gray
 #if compiler(>=5.5)
