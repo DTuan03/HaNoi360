@@ -427,6 +427,9 @@ class DetailVC: BaseVC {
                 guard let self = self else { return }
                 if isGross {
                     print("Qua tho tuc roi")
+                    self.viewModel.updateFlagReview { 
+                        self.viewModel.featchReview()
+                    }
                 } else { print("Khong")}
             })
             .disposed(by: disposeBag)

@@ -32,7 +32,8 @@ class DetailVM: BaseVM {
     var review = BehaviorRelay<[ReviewModel]?>(value: nil)
     
     var isGross = BehaviorRelay<Bool>(value: false)
-
+    var currentReview = BehaviorRelay<ReviewModel?>(value: nil)
+    
     func featchPlace(completion: @escaping () -> Void) {
         guard let id = placeId.value else {
             return
@@ -128,6 +129,7 @@ class DetailVM: BaseVM {
                                  avatarUser: avatarUser,
                                  content: contentReview.value,
                                  rating: rating.value)
+        self.currentReview.accept(review)
         reviewService.set(review, withId: id) { [weak self] result in
             self?.isLoading.accept(false)
             switch result {
@@ -147,6 +149,7 @@ class DetailVM: BaseVM {
         let query = Firestore.firestore()
             .collection("reviews")
             .whereField("placeId", isEqualTo: placeId)
+            .whereField("isFlagged", isEqualTo: false)
             .order(by: "createAt", descending: true)
             .limit(to: 3)
         
@@ -166,5 +169,22 @@ class DetailVM: BaseVM {
         LoadModel.shared.predict(text: contentReview.value) { value in
             self.isGross.accept(value)
         }
+    }
+    
+    func updateFlagReview(completion: @escaping () -> Void) {
+        if var review = currentReview.value, var reviewId = review.reviewId {
+            review.isFlagged = true
+            reviewService.set(review, withId: reviewId) { result in
+                switch result {
+                case .success():
+                    completion()
+                    print("UPDATE OK")
+                case .failure(_):
+                    completion()
+                    print("Update loi")
+                }
+            }
+        }
+       
     }
 }
