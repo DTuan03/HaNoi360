@@ -138,4 +138,36 @@ extension UIFont {
     static var bold36: UIFont {
         return UIFont(name: "Roboto-Bold", size: 36) ?? UIFont.systemFont(ofSize: 36, weight: .bold)
     }
+    
+    static var extraBold12: UIFont {
+        return UIFont(name: "Roboto-ExtraBold", size: 12) ?? UIFont.systemFont(ofSize: 12, weight: .bold)
+    }
+    
+    static var extraBold14: UIFont {
+        return UIFont(name: "Roboto-ExtraBold", size: 14) ?? UIFont.systemFont(ofSize: 14, weight: .bold)
+    }
+    
+    static var extraBold16: UIFont {
+        return UIFont(name: "Roboto-ExtraBold", size: 16) ?? UIFont.systemFont(ofSize: 16, weight: .bold)
+    }
+    
+    static var extraBold18: UIFont {
+        return UIFont(name: "Roboto-ExtraBold", size: 18) ?? UIFont.systemFont(ofSize: 18, weight: .bold)
+    }
+    
+    static var extraBold20: UIFont {
+        return UIFont(name: "Roboto-ExtraBold", size: 20) ?? UIFont.systemFont(ofSize: 20, weight: .bold)
+    }
+    
+    static var extraBold22: UIFont {
+        return UIFont(name: "Roboto-ExtraBold", size: 22) ?? UIFont.systemFont(ofSize: 22, weight: .bold)
+    }
+    
+    static var extraBoldItalic14: UIFont {
+        return UIFont(name: "Roboto-ExtraBoldItalic", size: 14) ?? UIFont.systemFont(ofSize: 14, weight: .bold)
+    }
+    
+    static var extraBoldItalic16: UIFont {
+        return UIFont(name: "Roboto-ExtraBoldItalic", size: 16) ?? UIFont.systemFont(ofSize: 16, weight: .bold)
+    }
 }

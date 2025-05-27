@@ -4,20 +4,20 @@
 <dict>
 	<key>NSPhotoLibraryUsageDescription</key>
 	<string>Ứng dụng cần truy cập thư viện ảnh để chọn ảnh.</string>
-    <key>CFBundleURLTypes</key>
-    <array>
-        <dict>
-            <key>CFBundleURLSchemes</key>
-            <array>
-                <string>com.googleusercontent.apps.com.googleusercontent.apps.135821025271-etubg4uup7hboh34u25q1tn8ft93g11s</string>
-            </array>
-        </dict>
-    </array>
-    <key>LSApplicationQueriesSchemes</key>
-    <array>
-        <string>google</string>
-        <string>googlechrome</string>
-    </array>
+	<key>CFBundleURLTypes</key>
+	<array>
+		<dict>
+			<key>CFBundleURLSchemes</key>
+			<array>
+				<string>com.googleusercontent.apps.com.googleusercontent.apps.135821025271-etubg4uup7hboh34u25q1tn8ft93g11s</string>
+			</array>
+		</dict>
+	</array>
+	<key>LSApplicationQueriesSchemes</key>
+	<array>
+		<string>google</string>
+		<string>googlechrome</string>
+	</array>
 	<key>UIAppFonts</key>
 	<array>
 		<string>Roboto-Black.ttf</string>
@@ -28,9 +28,10 @@
 		<string>Roboto-Medium.ttf</string>
 		<string>Roboto-Regular.ttf</string>
 		<string>Roboto-Thin.ttf</string>
+		<string>Roboto-ExtraBoldItalic.ttf</string>
 	</array>
-    <key>NSLocationWhenInUseUsageDescription</key>
-    <string>Ứng dụng cần truy cập vị trí để hiển thị đường đi.</string>
+	<key>NSLocationWhenInUseUsageDescription</key>
+	<string>Ứng dụng cần truy cập vị trí để hiển thị đường đi.</string>
 	<key>UIApplicationSceneManifest</key>
 	<dict>
 		<key>UIApplicationSupportsMultipleScenes</key>

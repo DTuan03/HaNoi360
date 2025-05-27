@@ -8,12 +8,28 @@
 import UIKit
 
 extension UITextField {
-    func imageLeftView(image: UIImage, placeholder: String = "", tinColor: UIColor = .black) {
-        let paddingView = UIView(frame: CGRect(x: 0, y: 0, width: 72, height: 56))
+    func imageLeftView(
+        image: UIImage,
+        placeholder: String = "",
+        tinColor: UIColor = .black,
+        padding: UIEdgeInsets = UIEdgeInsets(top: 16, left: 24, bottom: 16, right: 24),
+        imageSize: CGSize = CGSize(width: 24, height: 24)
+    ) {
+        let width = padding.left + imageSize.width + padding.right
+        let height = padding.top + imageSize.height + padding.bottom
+        
+        let paddingView = UIView(frame: CGRect(x: 0, y: 0, width: width, height: height))
+        
         let imageView = UIImageView(image: image)
         imageView.tintColor = tinColor
-        imageView.frame = CGRect(x: 24, y: 16, width: 24, height: 24)
-        imageView.contentMode = .scaleAspectFill
+        imageView.contentMode = .scaleAspectFit
+        imageView.frame = CGRect(
+            x: padding.left,
+            y: padding.top,
+            width: imageSize.width,
+            height: imageSize.height
+        )
+        
         paddingView.addSubview(imageView)
         
         self.leftView = paddingView

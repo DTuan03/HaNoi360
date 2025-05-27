@@ -318,7 +318,7 @@ class AddPlaceVC: BaseVC {
     }
     
     @objc func avatarViewAction() {
-        currentImagePickerSource = .avatar
+//        currentImagePickerSource = .avatar
         let picker = UIImagePickerController()
         picker.delegate = self
         picker.sourceType = .photoLibrary
@@ -328,7 +328,7 @@ class AddPlaceVC: BaseVC {
     @objc func subImageViewAction() {
         if selectedImages.count < 5 {
             subImageView.isUserInteractionEnabled = true
-            currentImagePickerSource = .subImage
+//            currentImagePickerSource = .subImage
             let picker = UIImagePickerController()
             picker.delegate = self
             picker.sourceType = .photoLibrary
@@ -340,10 +340,14 @@ class AddPlaceVC: BaseVC {
 }
 
 extension AddPlaceVC: CategoryDelegate {
-    func didSelected(_ data: [String]) {
-        tagBtn.setTitle("   Đã chọn", for: .normal)
-        viewModel.category.accept(data)
+    func didSelected(categoryId: [String], categoryNames: [String]) {
+        print("Khong dung")
     }
+    
+//    func didSelected(_ data: [String]) {
+//        tagBtn.setTitle("   Đã chọn", for: .normal)
+//        viewModel.category.accept(data)
+//    }
 }
 
 extension AddPlaceVC: MapVCDelegate {

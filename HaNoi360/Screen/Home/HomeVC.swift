@@ -232,7 +232,7 @@ class HomeVC: BaseVC {
     override func setupEvent() {
         addPlaceBtn.rx.tap
             .subscribe(onNext: {
-                self.navigationController?.pushViewController(AddPlaceVC(), animated: true)
+                self.navigationController?.pushViewController(NewCreatePostVC(), animated: true)
             })
             .disposed(by: disposeBag)
         
@@ -332,8 +332,9 @@ extension HomeVC: UICollectionViewDelegate {
             nameDistrictCV.reloadItems(at: [oldIndex, selectedItemNameDistrictCV])
             viewModel.getPlaces(idDistrict: viewModel.districts[indexPath.row].id)
         case placeCV:
-            let detailVC = DetailVC()
+            let detailVC = NewDetailVC()
             detailVC.viewModel.placeId.accept(viewModel.itemsPlace.value[indexPath.row].placeId)
+            detailVC.viewModel.placeId.accept("nIeM3YsEU26OV6hN9IyF")
             isLoading.accept(true)
             detailVC.viewModel.isFavoritePlace {
                 detailVC.viewModel.featchPlace() {

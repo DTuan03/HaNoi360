@@ -22,4 +22,6 @@ class BaseVM {
     let placeService = BaseFirestoreService<DetailModel>(collectionPath: "places")
     lazy var favoriteService = BaseFirestoreService<FavoriteModel>(collectionPath: "users/\(userId)/favorites")
     let reviewService = BaseFirestoreService<ReviewModel>(collectionPath: "reviews")
+    let blogService = BaseFirestoreService<BlogPost>(collectionPath: "blogs")
+
 }

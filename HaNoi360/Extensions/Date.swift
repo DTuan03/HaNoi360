@@ -11,6 +11,8 @@ extension Date {
     func toString(format: String = "dd/MM/yyyy") -> String {
         let formatter = DateFormatter()
         formatter.dateFormat = format
+        formatter.locale = Locale(identifier: "vi_VN")
+        formatter.timeZone = TimeZone(identifier: "Asia/Ho_Chi_Minh")
         return formatter.string(from: self)
     }
 }

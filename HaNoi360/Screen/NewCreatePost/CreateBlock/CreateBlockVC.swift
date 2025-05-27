@@ -1,19 +1,41 @@
 //
-//  CategoryVC.swift
+//  CreateBlockVC.swift
 //  HaNoi360
 //
-//  Created by Tuấn on 13/4/25.
+//  Created by Tuấn on 25/5/25.
 //
 
 import UIKit
 import SnapKit
+import RxCocoa
+import RxSwift
 
-protocol CategoryDelegate: AnyObject {
-    func didSelected(_ data: [String])
+protocol CreateBlockDelegate: AnyObject {
+    func didSelected(_ type: CreateBlockType)
 }
 
-class AddCategoryVC: BaseVC {
-    let viewModel = CategoryViewModel()
+struct CreateBlockModel {
+    let type: CreateBlockType
+    let name: String
+}
+
+class CreateBlockVM {
+    let createBlocks: [CreateBlockModel] = [
+        CreateBlockModel(type: .heading(""), name: "Tiêu đề"),
+        CreateBlockModel(type: .text(""), name: "Đoạn văn"),
+        CreateBlockModel(type: .image(nil), name: "Ảnh")
+    ]
+    
+    let itemBlock = BehaviorRelay<[CreateBlockModel]>(value: [])
+    
+    init() {
+        itemBlock.accept(createBlocks)
+    }
+    
+}
+
+class CreateBlockVC: BaseVC {
+    let viewModel = CreateBlockVM()
     lazy var containerView = {
         let view = UIView()
         view.backgroundColor = .white
@@ -33,15 +55,16 @@ class AddCategoryVC: BaseVC {
     
     lazy var tableView = {
         let tv = TableViewFactory.createTableView()
-        tv.register(CategoryAddPlaceCell.self, forCellReuseIdentifier: "CategoryAddPlaceCell")
+        tv.register(CreateBlockCell.self, forCellReuseIdentifier: "CreateBlockCell")
         tv.dataSource = self
         return tv
     }()
     
-    lazy var categories: [String] = []
+    var blockType: CreateBlockType?
+    var selectedIndexPath: IndexPath?
     
-    weak var delegate: CategoryDelegate?
-  
+    weak var delegate: CreateBlockDelegate?
+    
     override func setupUI() {
         view.backgroundColor = UIColor(hex: "#000000", alpha: 0.62)
         view.addSubview(containerView)
@@ -49,7 +72,7 @@ class AddCategoryVC: BaseVC {
         containerView.snp.makeConstraints { make in
             make.bottom.equalToSuperview()
             make.left.right.equalToSuperview()
-            make.height.equalToSuperview().multipliedBy(0.5)
+            make.height.equalToSuperview().multipliedBy(0.35)
         }
         
         containerView.addSubviews([pullDownView, tableView, addBtn])
@@ -71,7 +94,7 @@ class AddCategoryVC: BaseVC {
             make.left.right.equalToSuperview().inset(20)
             make.bottom.equalToSuperview().inset(24)
         }
-    
+        
     }
     
     override func setupEvent() {
@@ -81,11 +104,11 @@ class AddCategoryVC: BaseVC {
         
         addBtn.rx.tap
             .subscribe(onNext: {
-                if self.categories.isEmpty {
-                    print("show popUp")
-                } else {
-                    self.delegate?.didSelected(self.categories)
+                if let blockType = self.blockType {
+                    self.delegate?.didSelected(blockType)
                     self.dismiss(animated: true)
+                } else {
+                    print("show popUp")
                 }
             })
             .disposed(by: disposeBag)
@@ -94,40 +117,41 @@ class AddCategoryVC: BaseVC {
     @objc func handleSwipeDown() {
         dismiss(animated: true, completion: nil)
     }
-
+    
 }
 
-extension AddCategoryVC: UITableViewDataSource {
+extension CreateBlockVC: UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return viewModel.itemCategoies.value.count
+        return viewModel.itemBlock.value.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        guard let cell = tableView.dequeueReusableCell(withIdentifier: "CategoryAddPlaceCell", for: indexPath) as? CategoryAddPlaceCell else {
+        guard let cell = tableView.dequeueReusableCell(withIdentifier: "CreateBlockCell", for: indexPath) as? CreateBlockCell else {
             return UITableViewCell()
         }
         cell.selectionStyle = .none
-        let model = viewModel.itemCategoies.value[indexPath.row]
-        cell.configData(model: model)
+        let model = viewModel.itemBlock.value[indexPath.row]
+        let isSelected = (indexPath == selectedIndexPath)
+        cell.configData(model: model, isSelected: isSelected)
         cell.delegate = self
         cell.indexPath = indexPath
         return cell
     }
 }
 
-extension AddCategoryVC: CategoryAddPlaceCellDelegate {
-    func didTapChooseIV(indexPath: IndexPath, isSelectedIndex: Bool) {
-        let model = viewModel.itemCategoies.value[indexPath.row]
-        if isSelectedIndex {
-            if let index = categories.firstIndex(of: model.id!) {
-                categories.remove(at: index)
-            }
+extension CreateBlockVC: CreateBlockCellDelegate {
+    func didTapChooseIV(indexPath: IndexPath?) {
+        if selectedIndexPath == indexPath {
+            blockType = nil
+            selectedIndexPath = nil
         } else {
-            categories.append(model.id!)
+            if let indexPath = indexPath {
+                let model = viewModel.itemBlock.value[indexPath.row]
+                blockType = model.type
+                selectedIndexPath = indexPath
+            }
         }
-    }
-    
-    func didTapChooseIV(indexPath: IndexPath) {
-        
+        tableView.reloadData()
+        print(blockType as Any)
     }
 }

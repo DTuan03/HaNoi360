@@ -10,7 +10,7 @@ import UIKit
 class TextViewFactory {
     static func createTextView(
         text: String? = nil,
-        font: UIFont = .systemFont(ofSize: 16),
+        font: UIFont = .regular16,
         textColor: UIColor = .black,
         textAlignment: NSTextAlignment = .left,
         isEditable: Bool = true,

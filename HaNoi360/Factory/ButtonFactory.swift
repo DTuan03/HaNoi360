@@ -29,7 +29,7 @@ class ButtonFactory {
         return button
     }
     
-    static func createImageButton(withImage image: UIImage?, title: String? = nil, tinColor: UIColor? = .black, radius: CGFloat? = nil) -> UIButton {
+    static func createImageButton(withImage image: UIImage?, title: String? = nil, tinColor: UIColor? = .black, font: UIFont = .medium16, radius: CGFloat? = nil) -> UIButton {
         let button = UIButton()
         guard let image = image else { return button }
         button.setImage(image, for: .normal)
@@ -37,7 +37,7 @@ class ButtonFactory {
         if let titleButton = title {
             button.setTitle(NSLocalizedString(titleButton, comment: ""), for: .normal)
             button.setTitleColor(.primaryTextColor, for: .normal)
-            button.titleLabel?.font = .medium16
+            button.titleLabel?.font = font
         }
         
         if let radius = radius {
