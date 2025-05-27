@@ -43,9 +43,9 @@ class HomeVM {
     ]
 
     var itemsNameDistrict = BehaviorRelay<[District]>(value: [])
-    var itemsPlace = BehaviorRelay<[PlaceModel]>(value: [])
+    var itemsPlace = BehaviorRelay<[BlogModel]>(value: [])
 
-    let placeService = BaseFirestoreService<PlaceModel>(collectionPath: "places")
+    let blogService = BaseFirestoreService<BlogModel>(collectionPath: "blogs")
     
     let categories: [CategoryModel] = [
         CategoryModel(id: "amThuc", name: "Ẩm thực", img: "amThuc"),
@@ -57,7 +57,7 @@ class HomeVM {
     ]
     var itemsCategory = BehaviorRelay<[CategoryModel]>(value: [])
     
-    var itemsTrendingPlace = BehaviorRelay<[PlaceModel]>(value: [])
+    var itemsTrendingPlace = BehaviorRelay<[BlogModel]>(value: [])
     
     init() {
         itemsNameDistrict.accept(districts)
@@ -67,7 +67,7 @@ class HomeVM {
     }
     
     func getPlaces(idDistrict: String) {
-        placeService.fetchWhereEqualTo(field: "districId", value: idDistrict) { result in
+        blogService.fetchWhereEqualTo(field: "districId", value: idDistrict) { result in
             switch result {
             case .success(let places):
                 self.itemsPlace.accept(places)
@@ -78,7 +78,7 @@ class HomeVM {
     }
     
     func getTrendingPlace() {
-        placeService.fetchTopRatedPlaces() { result in
+        blogService.fetchTopRatedPlaces() { result in
             switch result {
             case .success( let places):
                 self.itemsTrendingPlace.accept(places)

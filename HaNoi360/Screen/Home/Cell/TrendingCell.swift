@@ -67,9 +67,9 @@ class TrendingCell: UICollectionViewCell {
         }
     }
     
-    func configData(model: PlaceModel) {
+    func configData(model: BlogModel) {
         image.kf.setImage(with: URL(string: model.placeImage))
-        nameLabel.text = model.name
+        nameLabel.text = model.title
         avgReviewLabel.text = String(model.avgRating)
     }
 }

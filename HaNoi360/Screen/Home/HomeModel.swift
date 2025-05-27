@@ -10,10 +10,10 @@ struct District {
     let name: String
 }
 
-struct PlaceModel: Codable {
+struct BlogModel: Codable {
     let placeId: String
     let placeImage: String
-    let name: String
-    let address: String
+    let title: String
+    let authorName: String
     let avgRating: Double
 }
