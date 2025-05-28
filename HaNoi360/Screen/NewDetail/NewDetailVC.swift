@@ -351,10 +351,17 @@ class NewDetailVC: BaseVC {
                 }
             })
             .disposed(by: disposeBag)
-        
+    
     }
     
-
+    override func setupEvent() {
+        let backIvTap = UITapGestureRecognizer(target: self, action: #selector(backIvAction))
+        backIv.addGestureRecognizer(backIvTap)
+    }
+    
+    @objc func backIvAction() {
+        self.navigationController?.popViewController(animated: true)
+    }
 }
 
 extension NewDetailVC: UICollectionViewDataSource {

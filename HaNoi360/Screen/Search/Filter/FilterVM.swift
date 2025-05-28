@@ -30,7 +30,7 @@ class FilterVM: BaseVM {
         itemsCategory.accept(categories)
     }
     
-    func filter(completion: @escaping (Result<[DetailModel], Error>) -> Void) {
+    func filter(completion: @escaping (Result<[BlogPost], Error>) -> Void) {
         let districts = districtId.value!
 
         guard !districts.isEmpty else {
@@ -39,7 +39,7 @@ class FilterVM: BaseVM {
         }
 
         let query = Firestore.firestore()
-            .collection("places")
+            .collection("blogs")
             .whereField("districId", in: districts)
 
         query.getDocuments { result, error in
@@ -48,7 +48,7 @@ class FilterVM: BaseVM {
                 completion(.failure(error))
             } else {
                 let places = result?.documents.compactMap {
-                    try? $0.data(as: DetailModel.self)
+                    try? $0.data(as: BlogPost.self)
                 } ?? []
                 let filteredPlaces = self.filterPlacesLocally(places)
                 completion(.success(filteredPlaces))
@@ -56,7 +56,7 @@ class FilterVM: BaseVM {
         }
     }
     
-    func filterPlacesLocally(_ places: [DetailModel]) -> [DetailModel] {
+    func filterPlacesLocally(_ places: [BlogPost]) -> [BlogPost] {
         // Bỏ "tatCa" nếu có
         let selectedCategoryIds = categoriesId.value.subtracting(["tatCa"])
         

@@ -9,12 +9,16 @@ import UIKit
 import SnapKit
 
 class UIViewFactory {
-    static func createLineView() -> UIView {
+    static func createLineView(height: CGFloat = 1, bgColor: UIColor = UIColor(hex: "#F9FAFB")) -> UIView {
         let screenWidth = UIScreen.main.bounds.width
         
         let lineView = UIView()
         lineView.frame.size.width = screenWidth
-        lineView.backgroundColor = UIColor(hex: "#F9FAFB")
+        lineView.backgroundColor = bgColor
+        
+        lineView.snp.makeConstraints { make in
+            make.height.equalTo(height)
+        }
         
         return lineView
     }

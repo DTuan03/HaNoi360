@@ -807,6 +807,11 @@ PODS:
   - nanopb/decode (2.30909.1)
   - nanopb/encode (2.30909.1)
   - PromisesObjC (2.4.0)
+  - Realm (20.0.2):
+    - Realm/Headers (= 20.0.2)
+  - Realm/Headers (20.0.2)
+  - RealmSwift (20.0.2):
+    - Realm (= 20.0.2)
   - RecaptchaInterop (100.0.0)
   - RxCocoa (6.9.0):
     - RxRelay (= 6.9.0)
@@ -814,6 +819,7 @@ PODS:
   - RxRelay (6.9.0):
     - RxSwift (= 6.9.0)
   - RxSwift (6.9.0)
+  - Segmentio (4.1)
   - SkeletonView (1.30.4)
   - SnapKit (5.7.1)
   - Toast-Swift (5.1.1)
@@ -831,8 +837,10 @@ DEPENDENCIES:
   - IQKeyboardManagerSwift
   - Kingfisher
   - lottie-ios
+  - RealmSwift
   - RxCocoa
   - RxSwift
+  - Segmentio
   - SkeletonView
   - SnapKit
   - Toast-Swift
@@ -871,10 +879,13 @@ SPEC REPOS:
     - lottie-ios
     - nanopb
     - PromisesObjC
+    - Realm
+    - RealmSwift
     - RecaptchaInterop
     - RxCocoa
     - RxRelay
     - RxSwift
+    - Segmentio
     - SkeletonView
     - SnapKit
     - Toast-Swift
@@ -912,16 +923,19 @@ SPEC CHECKSUMS:
   lottie-ios: 248b380fa1b97d18e792c37d90da7ab2aa0d6562
   nanopb: d4d75c12cd1316f4a64e3c6963f879ecd4b5e0d5
   PromisesObjC: f5707f49cb48b9636751c5b2e7d227e43fba9f47
+  Realm: 395416e3b150a37ca12fee6477a2ec8c11f8a048
+  RealmSwift: 199fd4d7e86491d1147c662c6a36aa55136a54d0
   RecaptchaInterop: 7d1a4a01a6b2cb1610a47ef3f85f0c411434cb21
   RxCocoa: ac16414696ae706516be3e1ab00fcce5bdc9be8a
   RxRelay: 6b0c930e5cef57d5fe2032571e5e65b78e3cbdb1
   RxSwift: 31649ace6aceeb422e16ff71c60804f9c3281ed9
+  Segmentio: ab29def64e1bff6e6e9b97671788a99bed3f1d9f
   SkeletonView: 5a050f6411e697abd4cda0a8d767013399dccd69
   SnapKit: d612e99e678a2d3b95bf60b0705ed0a35c03484a
   Toast-Swift: 7a03a532afe3a560d4044bc7c237e2864d295173
   TTRangeSlider: 8cf72eca457c3b700c92eb0074be908c986e25ec
   UPCarouselFlowLayout: 4c7d2c43a10ebb1597bde502a53699d378341dad
 
-PODFILE CHECKSUM: d09d78e57fe9e2e85493bd292d6df9904cf7515b
+PODFILE CHECKSUM: 73a3a007d281a673c15da88ae14db36a2798a3ff
 
 COCOAPODS: 1.16.2

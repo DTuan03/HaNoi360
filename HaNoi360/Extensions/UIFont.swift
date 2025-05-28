@@ -47,6 +47,10 @@ extension UIFont {
         return UIFont(name: "Roboto-Regular", size: 14) ?? UIFont.systemFont(ofSize: 14, weight: .regular)
     }
     
+    static var regular15: UIFont {
+        return UIFont(name: "Roboto-Regular", size: 15) ?? UIFont.systemFont(ofSize: 15, weight: .regular)
+    }
+    
     static var regular16: UIFont {
         return UIFont(name: "Roboto-Regular", size: 16) ?? UIFont.systemFont(ofSize: 16, weight: .regular)
     }
@@ -161,6 +165,10 @@ extension UIFont {
     
     static var extraBold22: UIFont {
         return UIFont(name: "Roboto-ExtraBold", size: 22) ?? UIFont.systemFont(ofSize: 22, weight: .bold)
+    }
+    
+    static var extraBoldItalic13: UIFont {
+        return UIFont(name: "Roboto-ExtraBoldItalic", size: 13) ?? UIFont.systemFont(ofSize: 13, weight: .bold)
     }
     
     static var extraBoldItalic14: UIFont {

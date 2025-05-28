@@ -27,6 +27,21 @@ class KeyWord {
             prefixes.insert(noDiacriticsPrefix)
         }
         
+        let wordsWithDiacritics = lowercased.components(separatedBy: .whitespaces)
+        let wordsWithoutDiacritics = noAccent.components(separatedBy: .whitespaces)
+        
+        for word in wordsWithDiacritics {
+            if !word.isEmpty {
+                prefixes.insert(word)
+            }
+        }
+        
+        for word in wordsWithoutDiacritics {
+            if !word.isEmpty {
+                prefixes.insert(word)
+            }
+        }
+        
         return Array(prefixes).sorted()
     }
 }

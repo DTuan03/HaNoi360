@@ -2,7 +2,7 @@
 //  SearchCell.swift
 //  HaNoi360
 //
-//  Created by Tuấn on 3/5/25.
+//  Created by Tuấn on 29/5/25.
 //
 
 import UIKit
@@ -12,31 +12,25 @@ import Kingfisher
 class SearchCell: UITableViewCell {
     lazy var containerView = {
         let view = UIView()
-        view.backgroundColor = .tableViewCellColor
         view.layer.cornerRadius = 12
         view.layer.masksToBounds = true
         return view
     }()
+    
+    lazy var timeIv = ImageViewFactory.createImageView(image: UIImage(systemName: "clock"), tintColor: .black)
+            
+    lazy var textSearchLb = LabelFactory.createLabel(text: "Ho Tay", font: .regular15, textColor: .primaryTextColor, numberOfLines: 1)
         
-    lazy var placeIV = ImageViewFactory.createImageView(image: .test, radius: 8)
+    lazy var closeIv = ImageViewFactory.createImageView(image: UIImage(systemName: "xmark"), tintColor: .black)
     
-    lazy var namePlaceLabel = LabelFactory.createLabel(text: "Ho Tay", font: .medium14, textColor: .primaryTextColor, numberOfLines: 1)
-    
-    lazy var addressLabel = LabelFactory.createLabel(text: "Ho Tay, Ha Noi", font: .light12, textColor: .secondaryTextColor, numberOfLines: 1)
-    
-    lazy var starIconIV = ImageViewFactory.createImageView(image: .star)
-        
-    lazy var avgStarLabel = LabelFactory.createLabel(text: "4.0", font: .regular14)
-    
-    lazy var starAndAvgStarSV = [starIconIV, avgStarLabel].hStack(6, alignment: .center)
-    
-    lazy var stackView = [addressLabel, starAndAvgStarSV].vStack(4)
+    var onDelete: (() -> Void)?
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         self.backgroundColor = .clear
-        self.layer.cornerRadius = 8
+//        self.layer.cornerRadius = 8
         setupUI()
+        setupEvent()
     }
     
     required init?(coder: NSCoder) {
@@ -51,30 +45,36 @@ class SearchCell: UITableViewCell {
             make.bottom.equalToSuperview()
         }
         
-        containerView.addSubviews([placeIV, namePlaceLabel, stackView])
-        placeIV.snp.makeConstraints { make in
+        containerView.addSubviews([timeIv, textSearchLb, closeIv])
+        timeIv.snp.makeConstraints { make in
+            make.height.width.equalTo(20)
+            make.left.equalToSuperview()
             make.top.bottom.equalToSuperview().inset(8)
-            make.left.equalToSuperview().offset(16)
-            make.width.height.equalTo(80)
         }
         
-        namePlaceLabel.snp.makeConstraints { make in
-            make.top.equalToSuperview().offset(16)
-            make.left.equalTo(placeIV.snp.right).offset(24)
-            make.right.equalToSuperview().inset(48)
+        textSearchLb.snp.makeConstraints { make in
+            make.left.equalTo(timeIv.snp.right).offset(16)
+            make.centerY.equalToSuperview()
+            make.right.equalToSuperview().inset(20)
         }
         
-        stackView.snp.makeConstraints { make in
-            make.top.equalTo(namePlaceLabel.snp.bottom).offset(8)
-            make.left.equalTo(placeIV.snp.right).offset(24)
-            make.right.equalToSuperview().inset(48)
+        closeIv.snp.makeConstraints { make in
+            make.centerY.equalToSuperview()
+            make.right.equalToSuperview()
+            make.height.width.equalTo(20)
         }
     }
     
-    func configData(model: DetailModel) {
-        placeIV.kf.setImage(with: URL(string: model.placeImage ?? ""))
-        namePlaceLabel.text = model.name
-        addressLabel.text = model.address
-        avgStarLabel.text = String(format: "%.1f", model.avgRating ?? 0.0)
+    func setupEvent() {
+        let tap = UITapGestureRecognizer(target: self, action: #selector(closeIvAction))
+        closeIv.addGestureRecognizer(tap)
+    }
+    
+    @objc func closeIvAction() {
+        onDelete?()
+    }
+    
+    func configData(model: SearchModel) {
+        textSearchLb.text = model.textSearch
     }
 }

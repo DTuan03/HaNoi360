@@ -11,5 +11,5 @@ import RxCocoa
 class ResultVM: BaseVM {
     var keyWord = BehaviorRelay<String?>(value: nil)
     var categoryFilter = BehaviorRelay<[String]>(value: [])
-    var resultSearch = BehaviorRelay<[DetailModel]?>(value: nil)
+    var resultSearch = BehaviorRelay<[BlogPost]?>(value: nil)
 }

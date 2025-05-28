@@ -6,12 +6,21 @@
 //
 
 import Foundation
+import RealmSwift
 
-struct SearchModel {
-    let idPlace: String
-    let imagePlace: String
-    let namePlace: String
-    let addressPlace: String
-    let ratingPlace: Double
-    let createAt: Date
+class SearchModel: Object {
+    @objc dynamic var searchId: String?
+    @objc dynamic var userId: String?
+    @objc dynamic var textSearch: String?
+    
+    override static func primaryKey() -> String? {
+        return "searchId"
+    }
+    
+    convenience init(searchId: String, textSearch: String) {
+        self.init()
+        self.searchId = searchId
+        self.userId = UserDefaults.standard.string(forKey: "userId") ?? ""
+        self.textSearch = textSearch
+    }
 }

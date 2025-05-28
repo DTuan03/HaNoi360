@@ -59,7 +59,7 @@ class BaseFirestoreService<T: Codable> {
         }
     }
     
-    //Lay theo 1 dieu kien
+    //Lay theo 1 dieu kien, voi du lie luu la string
     func fetchWhereEqualTo(field: String, value: Any, completion: @escaping (Result<[T], Error>) -> Void) {
         collection.whereField(field, isEqualTo: value)
             .getDocuments { snapshot, error in
@@ -73,6 +73,22 @@ class BaseFirestoreService<T: Codable> {
                 }
             }
     }
+    
+    //Lay theo 1 dieu kien, voi du lie luu la mang
+    func fetchWhereArrayContains(field: String, value: Any, completion: @escaping (Result<[T], Error>) -> Void) {
+        collection.whereField(field, arrayContains: value)
+            .getDocuments { snapshot, error in
+                if let error = error {
+                    completion(.failure(error))
+                } else if let snapshot = snapshot {
+                    let items = snapshot.documents.compactMap { doc in
+                        try? doc.data(as: T.self)
+                    }
+                    completion(.success(items))
+                }
+            }
+    }
+
     
     //Lay theo nhieu dieu kien
     func fetchDocumentsByFields(fields: [String: Any], completion: @escaping (Result<[T], Error>) -> Void) {

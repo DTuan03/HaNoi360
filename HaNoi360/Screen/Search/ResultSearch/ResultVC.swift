@@ -44,7 +44,7 @@ class ResultVC: BaseVC {
         let tableView = TableViewFactory.createTableView()
         tableView.separatorStyle = .none
         tableView.showsVerticalScrollIndicator = false
-        tableView.register(SearchCell.self, forCellReuseIdentifier: "SearchCell")
+        tableView.register(ResultCell.self, forCellReuseIdentifier: "ResultCell")
         tableView.dataSource = self
         tableView.delegate = self
         return tableView
@@ -133,7 +133,7 @@ extension ResultVC: UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        guard let cell = tableView.dequeueReusableCell(withIdentifier: "SearchCell", for: indexPath) as? SearchCell, let model = viewModel.resultSearch.value?[indexPath.section] else {
+        guard let cell = tableView.dequeueReusableCell(withIdentifier: "ResultCell", for: indexPath) as? ResultCell, let model = viewModel.resultSearch.value?[indexPath.section] else {
             return UITableViewCell()
         }
         cell.selectionStyle = .none
