@@ -33,18 +33,18 @@ class DetailTextCell: UITableViewCell, UITextViewDelegate {
         tv.isScrollEnabled = false
         tv.isUserInteractionEnabled = false
         tv.snp.makeConstraints { make in
-            make.top.left.right.equalToSuperview()
+            make.top.left.right.bottom.equalToSuperview()
         }
         
-        paddingView.snp.makeConstraints { make in
-            make.top.equalTo(tv.snp.bottom)
-            make.right.left.equalToSuperview()
-            make.bottom.equalToSuperview()
-            make.height.equalTo(8)
-        }
+//        paddingView.snp.makeConstraints { make in
+//            make.top.equalTo(tv.snp.bottom)
+//            make.right.left.equalToSuperview()
+//            make.bottom.equalToSuperview()
+//            make.height.equalTo(8)
+//        }
     }
     
     func configure(with text: String) {
-        tv.text = "   " + text
+        tv.text = text
     }
 }

@@ -170,6 +170,15 @@ class BaseFirestoreService<T: Codable> {
                 }
             }
     }
-
+    //Cap nhập 1 document trong 1 collection
+    func updateFields(_ fields: [String: Any], forId id: String, completion: @escaping (Result<Void, Error>) -> Void) {
+        collection.document(id).updateData(fields) { error in
+            if let error = error {
+                completion(.failure(error))
+            } else {
+                completion(.success(()))
+            }
+        }
+    }
 
 }

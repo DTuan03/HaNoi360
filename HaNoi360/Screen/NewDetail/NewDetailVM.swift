@@ -78,7 +78,7 @@ class NewDetailVM: BaseVM {
                     self.isFavorite.accept(true)
                     self.placeFavorite.accept(places.first)
                 }
-            case .failure(let error):
+            case .failure(_):
                 self.isFavorite.accept(false)
             }
             completion()
@@ -153,7 +153,7 @@ class NewDetailVM: BaseVM {
         }
     }
     
-    func featchReview() {
+    func featchReview(completion: @escaping () -> Void) {
         guard let placeId = placeId.value else {
             return
         }
@@ -163,7 +163,7 @@ class NewDetailVM: BaseVM {
             .whereField("placeId", isEqualTo: placeId)
             .whereField("isFlagged", isEqualTo: false)
             .order(by: "createAt", descending: true)
-            .limit(to: 3)
+            .limit(to: 4)
         
         query.getDocuments { result, error  in
             if let error = error {
@@ -174,6 +174,7 @@ class NewDetailVM: BaseVM {
                 } ?? []
                 self.review.accept(reviews)
             }
+            completion()
         }
     }
     
@@ -184,7 +185,7 @@ class NewDetailVM: BaseVM {
     }
     
     func updateFlagReview(completion: @escaping () -> Void) {
-        if var review = currentReview.value, var reviewId = review.reviewId {
+        if var review = currentReview.value, let reviewId = review.reviewId {
             review.isFlagged = true
             reviewService.set(review, withId: reviewId) { result in
                 switch result {

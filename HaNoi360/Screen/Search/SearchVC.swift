@@ -138,7 +138,6 @@ extension SearchVC: NavigationViewDelegate {
     }
 }
 
-
 extension SearchVC: UITableViewDataSource {
     func numberOfSections(in tableView: UITableView) -> Int {
         return viewModel.recentSearch.value?.count ?? 0

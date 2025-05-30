@@ -24,14 +24,18 @@ class CategoryVM: BaseVM {
     var initialIndex = BehaviorRelay<Int>(value: 0)
     var categoryTitle = BehaviorRelay<String>(value: "Ẩm thực")
     
-    var placesForCategory = BehaviorRelay<[DetailModel]?>(value: nil)
+    var placesForCategory = BehaviorRelay<[BlogPost]?>(value: nil)
     
+    var isLoading = PublishRelay<Bool>()
+
     override init() {
         itemsCategory.accept(categories)
     }
     
     func featchPlace() {
-        placeService.fetchByCategory(categoryId.value ?? "") { result in
+        isLoading.accept(true)
+        blogService.fetchByCategory(categoryId.value ?? "") { result in
+            self.isLoading.accept(false)
             switch result {
             case .success(let places):
                 self.placesForCategory.accept(places)

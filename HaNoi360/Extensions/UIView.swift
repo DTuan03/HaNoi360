@@ -244,3 +244,12 @@ extension String {
         return self.size(withAttributes: fontAttributes)
     }
 }
+
+extension UIView {
+    func captureAsImage() -> UIImage? {
+        let renderer = UIGraphicsImageRenderer(bounds: bounds)
+        return renderer.image { rendererContext in
+            layer.render(in: rendererContext.cgContext)
+        }
+    }
+}

@@ -11,7 +11,14 @@ import UIKit
 import Segmentio
 import SnapKit
 
+enum MyProfileType {
+    case guest
+    case owner
+}
+
 class MyProfileVC: BaseVC {
+    lazy var myProfileType: MyProfileType = .owner
+    
     lazy var nameHeaderLb = LabelFactory.createLabel(text: "Đặng Anh Tuấn", font: .bold18, textColor: UIColor(hex: "#000000", alpha: 1))
     lazy var backHeaderIv = ImageViewFactory.createImageView(image: UIImage(systemName: "chevron.backward"), tintColor: UIColor(hex: "#000000", alpha: 1))
 
@@ -200,6 +207,7 @@ class MyProfileVC: BaseVC {
     lazy var stv = [topView, lineView, segmentioView, actionButtons, bottomView].vStack(2)
     
     override func setupUI() {
+        showUI()
         view.addSubviews([scrollView, headerView])
         
         headerView.snp.makeConstraints { make in
@@ -232,6 +240,17 @@ class MyProfileVC: BaseVC {
         }
     }
     
+    func showUI() {
+        switch myProfileType {
+        case .guest:
+            actionButtons.isHidden = true
+            editProfileBtn.isHidden = true
+        case .owner:
+            actionButtons.isHidden = false
+            editProfileBtn.isHidden = false
+        }
+    }
+    
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         DispatchQueue.main.async {
@@ -242,12 +261,28 @@ class MyProfileVC: BaseVC {
             }
         }
     }
+    
     override func setupEvent() {
         segmentioView.valueDidChange = { segmentio, index in
             print("Selected index: \(index)")
             // Xử lý khi chuyển tab
         }
+        
+        let backIvTap = UITapGestureRecognizer(target: self, action: #selector(backIvAction))
+        backIv.addGestureRecognizer(backIvTap)
+        
+        let backHeaderIvTap = UITapGestureRecognizer(target: self, action: #selector(backHeaderIvAction))
+        backHeaderIv.addGestureRecognizer(backHeaderIvTap)
     }
+    
+    @objc func backIvAction() {
+        self.navigationController?.popViewController(animated: true)
+    }
+    
+    @objc func backHeaderIvAction() {
+        self.navigationController?.popViewController(animated: true)
+    }
+    
     var isSegmentPinned = false
     
     var segmentOriginalY: CGFloat = 0

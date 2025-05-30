@@ -25,7 +25,7 @@ class CalendarCell: UITableViewCell {
     
     lazy var firstSV = [iconIV, calendarLabel].hStack(4)
     
-    lazy var namePlaceLabel = LabelFactory.createLabel(text: "Ho Tay", font: .medium14, textColor: .primaryTextColor)
+    lazy var namePlaceLabel = LabelFactory.createLabel(text: "Ho Tay", font: .medium14, textColor: .primaryTextColor, numberOfLines: 1)
     
     lazy var addressLabel = LabelFactory.createLabel(text: "Ho Tay, Ha Noi", font: .light12, textColor: .secondaryTextColor)
     
@@ -65,10 +65,11 @@ class CalendarCell: UITableViewCell {
         stackView.snp.makeConstraints { make in
             make.top.equalTo(firstSV.snp.bottom).offset(8)
             make.left.equalTo(placeIV.snp.right).offset(24)
+            make.right.equalToSuperview().inset(4)
         }
     }
     
-    func configDate(model: AddCalendarModel) {
+    func configDate(model: NewCreateScheduleModel) {
         placeIV.kf.setImage(with: URL(string: model.placeImage))
         calendarLabel.text = model.createAt.toString()
         namePlaceLabel.text = model.name

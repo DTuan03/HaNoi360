@@ -9,7 +9,7 @@ import RxSwift
 import RxCocoa
 
 class CalendarVM: BaseVM {
-    var placeCalendar = BehaviorRelay<[AddCalendarModel]?>(value: nil)
+    var placeCalendar = BehaviorRelay<[NewCreateScheduleModel]?>(value: nil)
     var placeId = BehaviorRelay<String>(value: "")
     var date = BehaviorRelay<String>(value: Date().toString())
     var isLoading = BehaviorRelay<Bool?>(value: nil)

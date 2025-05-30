@@ -337,9 +337,10 @@ extension HomeVC: UICollectionViewDelegate {
             isLoading.accept(true)
             detailVC.viewModel.isFavoritePlace {
                 detailVC.viewModel.featchPlace() {
-                    self.isLoading.accept(false)
-                    detailVC.viewModel.featchReview()
-                    self.navigationController?.pushViewController(detailVC, animated: true)
+                    detailVC.viewModel.featchReview() {
+                        self.isLoading.accept(false)
+                        self.navigationController?.pushViewController(detailVC, animated: true)
+                    }
                 }
             }
         case categoryCV:
@@ -351,13 +352,15 @@ extension HomeVC: UICollectionViewDelegate {
 //            vc.viewModel.featchPlace()
             self.navigationController?.pushViewController(vc, animated: true)
         default:
-            let detailVC = DetailVC()
+            let detailVC = NewDetailVC()
             detailVC.viewModel.placeId.accept(viewModel.itemsTrendingPlace.value[indexPath.row].placeId)
             isLoading.accept(true)
             detailVC.viewModel.isFavoritePlace {
                 detailVC.viewModel.featchPlace() {
-                    self.isLoading.accept(false)
-                    self.navigationController?.pushViewController(detailVC, animated: true)
+                    detailVC.viewModel.featchReview() {
+                        self.isLoading.accept(false)
+                        self.navigationController?.pushViewController(detailVC, animated: true)
+                    }
                 }
             }
         }

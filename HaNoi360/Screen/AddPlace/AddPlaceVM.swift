@@ -166,6 +166,7 @@ class AddPlaceVM {
             districId: idAddress,
             avgRating: 0,
             totalReviews: 0,
+            totalFavorites: 0,
             keyword: KeyWord.shared.generateAllSearchKeywords(from: name)
         )
         

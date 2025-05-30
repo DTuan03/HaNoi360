@@ -42,6 +42,7 @@ class CategoryPlaceCell: UITableViewCell {
     }
     
     func setupUI() {
+        favoriteIconIV.isHidden = true
         contentView.addSubview(containerView)
         
         containerView.snp.makeConstraints { make in
@@ -76,9 +77,9 @@ class CategoryPlaceCell: UITableViewCell {
         }
     }
     
-    func configData(model: DetailModel) {
+    func configData(model: BlogPost) {
         placeIV.kf.setImage(with: URL(string: model.placeImage ?? ""))
-        namePlaceLabel.text = model.name
+        namePlaceLabel.text = model.title
         addressLabel.text = model.address
         avgStarLabel.text = String(model.avgRating ?? 0)
     }

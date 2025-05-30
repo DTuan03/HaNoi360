@@ -85,13 +85,6 @@ class ResultVC: BaseVC {
     }
     
     override func bindState() {
-        viewModel.keyWord
-            .subscribe(onNext: { [weak self] value in
-                guard let self = self else { return }
-                print(value ?? "Khong co")
-            })
-            .disposed(by: disposeBag)
-        
         viewModel.resultSearch
             .subscribe(onNext: { [weak self] value in
                 guard let self = self else { return }
@@ -152,6 +145,20 @@ extension ResultVC: UITableViewDelegate {
         spacer.backgroundColor = .clear
         return spacer
     }
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        let detailVC = NewDetailVC()
+        detailVC.viewModel.placeId.accept(viewModel.resultSearch.value?[indexPath.row].placeId)
+        isLoading.accept(true)
+        detailVC.viewModel.isFavoritePlace {
+            detailVC.viewModel.featchPlace() {
+                detailVC.viewModel.featchReview() {
+                    self.isLoading.accept(false)
+                    self.navigationController?.pushViewController(detailVC, animated: true)
+                }
+            }
+        }
+    }
 }
 
 extension ResultVC: UICollectionViewDataSource {
@@ -177,7 +184,7 @@ extension ResultVC: UICollectionViewDataSource {
             make.top.bottom.equalToSuperview().inset(8)
             make.left.right.equalToSuperview().inset(8)
         }
-        
+        closeIv.isHidden = true
         cell.contentView.addSubview(view)
         view.snp.makeConstraints { make in
             make.top.bottom.equalToSuperview().inset(4)

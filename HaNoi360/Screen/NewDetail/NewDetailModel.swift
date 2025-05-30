@@ -31,6 +31,7 @@ struct BlogPost: Codable {
     let districId: String?
     let avgRating: Double?
     let totalReviews: Int?
+    let totalFavorites: Int?
     let contentBlocks: [ContentBlock]
     let createAt: Date?
 }

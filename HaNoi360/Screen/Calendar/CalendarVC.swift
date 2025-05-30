@@ -216,13 +216,15 @@ extension CalendarVC: UITableViewDataSource {
 
 extension CalendarVC: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        let detailVC = DetailVC()
+        let detailVC = NewDetailVC()
         detailVC.viewModel.placeId.accept(viewModel.placeCalendar.value?[indexPath.row].placeId)
         isLoading.accept(true)
         detailVC.viewModel.isFavoritePlace {
             detailVC.viewModel.featchPlace() {
-                self.isLoading.accept(false)
-                self.navigationController?.pushViewController(detailVC, animated: true)
+                detailVC.viewModel.featchReview() {
+                    self.isLoading.accept(false)
+                    self.navigationController?.pushViewController(detailVC, animated: true)
+                }
             }
         }
     }

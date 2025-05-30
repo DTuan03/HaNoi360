@@ -70,6 +70,8 @@ class CategoryVC: BaseVC {
         return tf
     }()
     
+    lazy var overlaySearchTFView = UIViewFactory.overlayView()
+    
     lazy var filterBtn = {
         let btn = UIButton()
         btn.setImage(UIImage(named: "category.ic.filter"), for: .normal)
@@ -152,6 +154,7 @@ class CategoryVC: BaseVC {
         tb.separatorStyle = .none
         tb.register(CategoryPlaceCell.self, forCellReuseIdentifier: "CategoryPlaceCell")
         tb.dataSource = self
+        tb.delegate = self
         tb.isScrollEnabled = false
         return tb
     }()
@@ -172,7 +175,7 @@ class CategoryVC: BaseVC {
     }
     
     override func setupUI() {
-        view.addSubviews([scrollView, headerView, subHeaderView])
+        view.addSubviews([scrollView, headerView, subHeaderView, overlaySearchTFView])
         subHeaderView.snp.makeConstraints { make in
             make.top.equalTo(view.safeAreaLayoutGuide)
             make.left.right.equalToSuperview().inset(16)
@@ -183,6 +186,10 @@ class CategoryVC: BaseVC {
             make.top.equalToSuperview()
             make.left.right.equalToSuperview()
             make.height.equalTo(110)
+        }
+        
+        overlaySearchTFView.snp.makeConstraints { make in
+            make.edges.equalTo(searchTF.snp.edges)
         }
         
         scrollView.snp.makeConstraints { make in
@@ -276,6 +283,21 @@ class CategoryVC: BaseVC {
                 self.navigationController?.popViewController(animated: true)
             })
             .disposed(by: disposeBag)
+        
+        let overlaySearchTFViewTap = UITapGestureRecognizer(target: self, action: #selector(overlaySearchTFViewAction))
+        overlaySearchTFView.addGestureRecognizer(overlaySearchTFViewTap)
+        
+        filterBtn.rx.tap
+            .subscribe(onNext: { [weak self] in
+                guard let self = self else { return }
+                self.navigationController?.pushViewController(FilterVC(), animated: true)
+            })
+            .disposed(by: disposeBag)
+    }
+    
+    @objc func overlaySearchTFViewAction() {
+        let vc = SearchVC()
+        self.navigationController?.pushViewController(vc, animated: true)
     }
 }
 
@@ -353,5 +375,21 @@ extension CategoryVC: UITableViewDataSource {
         cell.configData(model: model)
         cell.selectionStyle = .none
         return cell
+    }
+}
+
+extension CategoryVC: UITableViewDelegate {
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        let detailVC = NewDetailVC()
+        detailVC.viewModel.placeId.accept(viewModel.placesForCategory.value?[indexPath.row].placeId)
+        isLoading.accept(true)
+        detailVC.viewModel.isFavoritePlace {
+            detailVC.viewModel.featchPlace() {
+                detailVC.viewModel.featchReview() {
+                    self.isLoading.accept(false)
+                    self.navigationController?.pushViewController(detailVC, animated: true)
+                }
+            }
+        }
     }
 }

@@ -18,7 +18,7 @@ class BaseVM {
     }
     var avatarUser = UserDefaults.standard.string(forKey: "avatarUser")
 
-    lazy var calendarService = BaseFirestoreService<AddCalendarModel>(collectionPath: "users/\(userId)/calendars")
+    lazy var calendarService = BaseFirestoreService<NewCreateScheduleModel>(collectionPath: "users/\(userId)/calendars")
     let placeService = BaseFirestoreService<DetailModel>(collectionPath: "places")
     lazy var favoriteService = BaseFirestoreService<FavoriteModel>(collectionPath: "users/\(userId)/favorites")
     let reviewService = BaseFirestoreService<ReviewModel>(collectionPath: "reviews")

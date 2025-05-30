@@ -9,7 +9,6 @@ import RxSwift
 import RxCocoa
 
 class ResultVM: BaseVM {
-    var keyWord = BehaviorRelay<String?>(value: nil)
     var categoryFilter = BehaviorRelay<[String]>(value: [])
     var resultSearch = BehaviorRelay<[BlogPost]?>(value: nil)
 }

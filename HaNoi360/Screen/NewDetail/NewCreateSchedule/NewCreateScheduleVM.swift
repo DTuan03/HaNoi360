@@ -1,20 +1,21 @@
 //
-//  AddCalendarVM.swift
+//  NewCreateScheduleVM.swift
 //  HaNoi360
 //
-//  Created by Tuấn on 21/4/25.
+//  Created by Tuấn on 29/5/25.
 //
+
 import RxSwift
 import RxCocoa
 import FirebaseFirestore
 
-class AddCalendarVM: BaseVM {
+class NewCreateScheduleVM: BaseVM {
     var calendarPlace = BehaviorRelay<[NewCreateScheduleModel]?>(value: nil)
     
     var plannedPlaces = BehaviorRelay<NewCreateScheduleModel?>(value: nil)
     
     var placeId = BehaviorRelay<String?>(value: nil)
-    var place = BehaviorRelay<DetailModel?>(value: nil)
+    var place = BehaviorRelay<BlogPost?>(value: nil)
     
     var date = BehaviorRelay<String?>(value: nil)
     
@@ -62,19 +63,19 @@ class AddCalendarVM: BaseVM {
             }
         }
     }
-
+    
     func addPlaceCalendar() {
         let id = Firestore.firestore().collection("calendars").document().documentID
         let place = NewCreateScheduleModel(scheduleId: placeId.value ?? "",
-                                     placeId: placeId.value ?? "",
-                                     placeImage: place.value?.placeImage ?? "",
-                                     name: place.value?.name ?? "",
-                                     address: place.value?.address ?? "",
-                                     avgRating: place.value?.avgRating ?? 0,
-                                     userId: userId,
-                                     date: date.value ?? Date().toString(),
-                                     createAt: Date())
-        calendarService.set(place, withId: placeId.value ?? "") { result in
+                                           placeId: placeId.value ?? "",
+                                           placeImage: place.value?.placeImage ?? "",
+                                           name: place.value?.title ?? "",
+                                           address: place.value?.address ?? "",
+                                           avgRating: place.value?.avgRating ?? 0,
+                                           userId: userId,
+                                           date: date.value ?? Date().toString(),
+                                           createAt: Date())
+        calendarService.set(place, withId: id /*placeId.value ?? ""*/) { result in
             switch result {
             case .success():
                 self.isSuccess.accept(true)
