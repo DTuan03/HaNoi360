@@ -44,7 +44,9 @@ class CalendarVC: BaseVC {
         calendar.appearance.headerMinimumDissolvedAlpha = 0.0 // Ẩn mờ khi vuốt tháng
         
         calendar.select(Date())
-        
+        calendar.dataSource = self
+        calendar.delegate = self
+
         return calendar
     }()
     
@@ -77,6 +79,7 @@ class CalendarVC: BaseVC {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
+        viewModel.featchPlaceEvent()
         viewModel.date.accept(calendar.selectedDate?.toString() ?? Date().toString())
     }
     
@@ -182,15 +185,12 @@ class CalendarVC: BaseVC {
                 }
             })
             .disposed(by: disposeBag)
-    }
-}
-
-extension CalendarVC: FSCalendarDelegate {
-    func calendar(_ calendar: FSCalendar, didSelect date: Date, at monthPosition: FSCalendarMonthPosition) {
-        selectedDate = CalendarHelper.shared.format(date: date)
-        selectedDateLabel.text = selectedDate
-        viewModel.date.accept(date.toString())
-        viewModel.featchPlace()
+        
+        viewModel.eventDates
+            .subscribe(onNext: {_ in
+                self.calendar.reloadData()
+            })
+            .disposed(by: disposeBag)
     }
 }
 
@@ -258,5 +258,29 @@ extension CalendarVC: UITableViewDelegate {
         let spacer = UIView()
         spacer.backgroundColor = .clear
         return spacer
+    }
+}
+
+extension CalendarVC: FSCalendarDelegate {
+    func calendar(_ calendar: FSCalendar, didSelect date: Date, at monthPosition: FSCalendarMonthPosition) {
+        selectedDate = CalendarHelper.shared.format(date: date)
+        selectedDateLabel.text = selectedDate
+        viewModel.date.accept(date.toString())
+        viewModel.featchPlace()
+    }
+}
+
+extension CalendarVC: FSCalendarDelegateAppearance {
+    func calendar(_ calendar: FSCalendar, appearance: FSCalendarAppearance, eventDefaultColorsFor date: Date) -> [UIColor]? {
+        if viewModel.eventDates.value.contains(where: { Calendar.current.isDate($0, inSameDayAs: date) }) {
+            return [.primaryColor] // màu của dấu chấm
+        }
+        return nil
+    }
+}
+
+extension CalendarVC: FSCalendarDataSource {
+    func calendar(_ calendar: FSCalendar, numberOfEventsFor date: Date) -> Int {
+        return viewModel.eventDates.value.contains { Calendar.current.isDate($0, inSameDayAs: date) } ? 1 : 0
     }
 }

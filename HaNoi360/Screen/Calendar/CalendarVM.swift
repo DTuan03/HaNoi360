@@ -10,6 +10,7 @@ import RxCocoa
 
 class CalendarVM: BaseVM {
     var placeCalendar = BehaviorRelay<[NewCreateScheduleModel]?>(value: nil)
+    var eventDates = BehaviorRelay<[Date]>(value: [])
     var placeId = BehaviorRelay<String>(value: "")
     var date = BehaviorRelay<String>(value: Date().toString())
     var isLoading = BehaviorRelay<Bool?>(value: nil)
@@ -28,6 +29,18 @@ class CalendarVM: BaseVM {
                 self.placeCalendar.accept(places)
             case .failure(_):
                 print("error")
+            }
+        }
+    }
+    
+    func featchPlaceEvent() {
+        calendarService.fetchWhereEqualTo(field: "userId", value: userId) { result in
+            switch result {
+            case .success(let calendarPlace):
+                let dates: [Date] = calendarPlace.map { $0.date.toDate() ?? Date() }
+                self.eventDates.accept(dates)
+            case .failure(let error):
+                print("Loi: \(error)")
             }
         }
     }

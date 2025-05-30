@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import Kingfisher
 
 class MyProfileCell: UITableViewCell {
     
@@ -60,7 +61,12 @@ class MyProfileCell: UITableViewCell {
         }
     }
     
-    func configData() {
-        
+    func configData(model: BlogPost) {
+        avatarIv.kf.setImage(with: URL(string: model.authorAvatar ?? ""))
+        avatarPlaceIv.kf.setImage(with: URL(string: model.placeImage ?? ""))
+        titleLb.text = model.title
+        if let firstDescription = model.contentBlocks.first(where: { $0.type.rawValue == "text"}) {
+            descriptionLb.text = firstDescription.value
+        }
     }
 }

@@ -200,6 +200,35 @@ class NewDetailVM: BaseVM {
         }
     }
     
+    func updateUserAppealStatusForReview(completion: @escaping () -> Void) {
+        if var review = currentReview.value, let reviewId = review.reviewId {
+            review.hasUserAppealed = true
+            reviewService.set(review, withId: reviewId) { result in
+                switch result {
+                case .success():
+                    completion()
+                    print("UPDATE OK")
+                case .failure(_):
+                    completion()
+                    print("Update loi")
+                }
+            }
+        }
+    }
+    
+    func updateUserReportStatusForReview(reviewId: String, completion: @escaping () -> Void) {
+            reviewService.updateFields(["report": true], forId: reviewId) { result in
+                switch result {
+                case .success():
+                    completion()
+                    print("UPDATE OK")
+                case .failure(_):
+                    completion()
+                    print("Update loi")
+                }
+            }
+    }
+    
     func mapCategory() {
         let categoryId = place.value?.category
         

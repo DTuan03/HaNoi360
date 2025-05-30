@@ -318,9 +318,9 @@ class NewDetailVC: BaseVC {
         }
         
         moreLabel.snp.makeConstraints { make in
-            make.top.equalTo(reviewTableView.snp.bottom).offset(8)
+            make.top.equalTo(reviewTableView.snp.bottom).offset(-10)
             make.centerX.equalToSuperview()
-            make.bottom.equalToSuperview()
+            make.bottom.equalToSuperview().inset(48)
         }
     }
     
@@ -405,7 +405,20 @@ class NewDetailVC: BaseVC {
                 if isGross {
                     print("Qua tho tuc roi")
                     self.viewModel.updateFlagReview {
-                        self.viewModel.featchReview { }
+                        self.viewModel.featchReview {
+                            let popupVC = PopupCalendarVC()
+                            popupVC.titleLabel.text = "Nhận xét của bạn đã vi phạm tiêu chuẩn cộng đồng"
+                            popupVC.messageLabel.text = "Nếu bạn cho rằng nhận xét của mình không vi phạm, vui lòng gửi báo cáo để chúng tôi xem xét."
+                            popupVC.okBtn.setTitle("Báo cáo", for: .normal)
+                            popupVC.onOk = {
+                                self.viewModel.updateUserAppealStatusForReview {
+                                    Toast.showToast(message: "Gửi báo cáo thành công", image: "toast_success")
+                                }
+                            }
+                            popupVC.modalTransitionStyle = .crossDissolve
+                            popupVC.modalPresentationStyle = .overCurrentContext
+                            self.present(popupVC, animated: true)
+                        }
                     }
                 } else {
                     self.countReview = (self.viewModel.place.value?.totalReviews ?? 0) - 1
@@ -532,8 +545,10 @@ class NewDetailVC: BaseVC {
         } else {
             vc.myProfileType = .guest
         }
-        
-        navigationController?.pushViewController(vc, animated: true)
+//        vc.viewModel.authorId.accept(viewModel.place.value?.authorId ?? "")
+        vc.viewModel.getPlaces(authorId: viewModel.place.value?.authorId ?? "") {
+            self.navigationController?.pushViewController(vc, animated: true)
+        }
     }
     
     @objc func commentSvAction() {
@@ -646,6 +661,7 @@ extension NewDetailVC: UITableViewDataSource {
             }
             cell.selectionStyle = .none
             cell.configData(model: model)
+            cell.delegate = self
             return cell
         default:
             return UITableViewCell()
@@ -654,7 +670,7 @@ extension NewDetailVC: UITableViewDataSource {
     }
 }
 
-extension NewDetailVC: UITextViewDelegate {
+extension NewDetailVC: UITextViewDelegate, UIScrollViewDelegate {
     func textView(_ textView: UITextView, shouldChangeTextIn range: NSRange, replacementText text: String) -> Bool {
         let currentText = textView.text ?? ""
         guard let stringRange = Range(range, in: currentText) else { return false }
@@ -668,11 +684,18 @@ extension NewDetailVC: UITextViewDelegate {
     }
 }
 
-extension NewDetailVC: UIScrollViewDelegate {
-    func scrollViewDidScroll(_ scrollView: UIScrollView) {
-        if scrollView == scrollView {
-            
+extension NewDetailVC: ReviewCellDelegate {
+    func didReport(cell: UITableViewCell) {
+        guard let indexPath = reviewTableView.indexPath(for: cell),
+              let reviewId = viewModel.review.value?[indexPath.row].reviewId else {
+            return
+        }
+        
+        viewModel.updateUserReportStatusForReview(reviewId: reviewId) {
+            Toast.showToast(message: "Gửi báo cáo thành công", image: "toast_success")
+            if let reviewCell = cell as? ReviewCell {
+                reviewCell.reportBtn.isHidden = true
+            }
         }
     }
 }
-

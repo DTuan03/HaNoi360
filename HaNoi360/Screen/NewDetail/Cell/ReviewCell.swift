@@ -8,8 +8,15 @@
 import UIKit
 import SnapKit
 import Kingfisher
+import RxSwift
+import RxCocoa
+
+protocol ReviewCellDelegate: AnyObject {
+    func didReport(cell: UITableViewCell)
+}
 
 class ReviewCell: UITableViewCell {
+    let disbosbag = DisposeBag()
     lazy var avatarIV = ImageViewFactory.createImageView(image: .test, contentMode: .scaleAspectFill, radius: 25)
     
     lazy var nameLabel = LabelFactory.createLabel(text: "Thinh Minh Lan", font: .medium16)
@@ -33,21 +40,12 @@ class ReviewCell: UITableViewCell {
         return btn
     }()
     
+    weak var delegate: ReviewCellDelegate?
+    
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         setupUI()
-        let reportIconIVTap = UITapGestureRecognizer(target: self, action: #selector(reportIconIVAction))
-        reportIconIV.addGestureRecognizer(reportIconIVTap)
-        let reportBtnTap = UITapGestureRecognizer(target: self, action: #selector(reportBtnAction))
-        self.addGestureRecognizer(reportBtnTap)
-    }
-    
-    @objc func reportIconIVAction() {
-        reportBtn.isHidden = false
-    }
-    
-    @objc func reportBtnAction() {
-        reportBtn.isHidden = true
+        setupEvent()
     }
     
     required init?(coder: NSCoder) {
@@ -75,6 +73,30 @@ class ReviewCell: UITableViewCell {
             make.top.equalTo(reportIconIV.snp.bottom)
             make.right.equalTo(reportIconIV.snp.left).inset(4)
         }
+    }
+    
+    func setupEvent() {
+        let reportIconIVTap = UITapGestureRecognizer(target: self, action: #selector(reportIconIVAction))
+        reportIconIV.addGestureRecognizer(reportIconIVTap)
+        
+        let reportBtnTap = UITapGestureRecognizer(target: self, action: #selector(reportBtnAction))
+        self.addGestureRecognizer(reportBtnTap)
+        reportBtn.isUserInteractionEnabled = true
+        
+        reportBtn.rx.tap
+            .subscribe(onNext: { [weak self] _ in
+                guard let self = self else { return }
+                self.delegate?.didReport(cell: self)
+            })
+            .disposed(by: disbosbag)
+    }
+    
+    @objc func reportIconIVAction() {
+        reportBtn.isHidden = false
+    }
+    
+    @objc func reportBtnAction() {
+        reportBtn.isHidden = true
     }
     
     func configData(model: ReviewModel) {

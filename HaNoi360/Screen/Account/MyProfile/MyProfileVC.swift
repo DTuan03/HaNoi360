@@ -17,6 +17,7 @@ enum MyProfileType {
 }
 
 class MyProfileVC: BaseVC {
+    let viewModel = MyProfileVM()
     lazy var myProfileType: MyProfileType = .owner
     
     lazy var nameHeaderLb = LabelFactory.createLabel(text: "Đặng Anh Tuấn", font: .bold18, textColor: UIColor(hex: "#000000", alpha: 1))
@@ -40,7 +41,7 @@ class MyProfileVC: BaseVC {
     }()
     
     lazy var scrollView = {
-        let sv = ScrollViewFactory.createScrollView(backgroundColor: .backgroundColor, showsVerticalScrollIndicator: true, bounces: false)
+        let sv = ScrollViewFactory.createScrollView(backgroundColor: .backgroundColor, bounces: false)
         sv.delegate = self
         return sv
     }()
@@ -57,20 +58,23 @@ class MyProfileVC: BaseVC {
     
     lazy var avatarIv = ImageViewFactory.createImageView(image: .test, contentMode: .scaleAspectFill, radius: 40)
     
-    lazy var numberBlogsLb = LabelStackBuilder()
+    lazy var blogLbBuilder = LabelStackBuilder()
         .setFirstLabel(text: "34", textColor: .black, font: .extraBoldItalic13)
         .setSecondLabel(text: "Bài viết", font: .extraBoldItalic13)
-        .build(spacing: 4, alignment: .center)
-    
-    lazy var followersLb = LabelStackBuilder()
+
+    lazy var numberBlogsLb = blogLbBuilder.build(spacing: 4, alignment: .center)
+
+    lazy var followersLbBuilder = LabelStackBuilder()
         .setFirstLabel(text: "240", textColor: .black, font: .extraBoldItalic13)
         .setSecondLabel(text: "người theo dõi", font: .extraBoldItalic13)
-        .build(spacing: 4, alignment: .center)
+
+    lazy var followersLb = followersLbBuilder.build(spacing: 4, alignment: .center)
     
-    lazy var followingLb = LabelStackBuilder()
+    lazy var followingLbBuilder = LabelStackBuilder()
         .setFirstLabel(text: "456", textColor: .black, font: .extraBoldItalic13)
         .setSecondLabel(text: "đang theo dõi", font: .extraBoldItalic13)
-        .build(spacing: 4, alignment: .center)
+
+    lazy var followingLb = followingLbBuilder.build(spacing: 4, alignment: .center)
     
     lazy var descriptionLb = LabelFactory.createLabel(text: "Yêu du lịch, thích trải nghiệm", font: .regular16)
     
@@ -196,7 +200,7 @@ class MyProfileVC: BaseVC {
             make.top.equalToSuperview().offset(6)
             make.left.right.equalToSuperview()
             make.bottom.equalToSuperview()
-            make.height.equalTo(1)
+            make.height.equalTo(350 * viewModel.itemsPlace.value.count)
         }
         
         return view
@@ -244,22 +248,21 @@ class MyProfileVC: BaseVC {
         switch myProfileType {
         case .guest:
             actionButtons.isHidden = true
-            editProfileBtn.isHidden = true
+            editProfileBtn.setTitle("Theo dõi", for: .normal)
         case .owner:
             actionButtons.isHidden = false
-            editProfileBtn.isHidden = false
+            editProfileBtn.setTitle("Chỉnh sửa trang cá nhân", for: .normal)
         }
     }
     
-    override func viewDidAppear(_ animated: Bool) {
-        super.viewDidAppear(animated)
-        DispatchQueue.main.async {
-            self.contentTbv.reloadData()
-            self.contentTbv.layoutIfNeeded()
-            self.contentTbv.snp.updateConstraints { make in
-                make.height.equalTo(self.contentTbv.contentSize.height)
-            }
-        }
+    override func bindState() {
+        viewModel.itemsPlace
+            .subscribe(onNext: { [weak self] value in
+                guard let self = self else { return }
+                self.blogLbBuilder.first.text = "\(value.count)"
+                self.contentTbv.reloadData()
+            })
+            .disposed(by: disposeBag)
     }
     
     override func setupEvent() {
@@ -273,6 +276,12 @@ class MyProfileVC: BaseVC {
         
         let backHeaderIvTap = UITapGestureRecognizer(target: self, action: #selector(backHeaderIvAction))
         backHeaderIv.addGestureRecognizer(backHeaderIvTap)
+        
+        actionButtons.writePostButton.rx.tap
+            .subscribe(onNext: {
+                self.navigationController?.pushViewController(NewCreatePostVC(), animated: true)
+            })
+            .disposed(by: disposeBag)
     }
     
     @objc func backIvAction() {
@@ -300,7 +309,7 @@ class MyProfileVC: BaseVC {
 extension MyProfileVC: UIScrollViewDelegate, UITableViewDelegate {
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
         let offsetY = scrollView.contentOffset.y
-        let maxOffset: CGFloat = 100
+        let maxOffset: CGFloat = 110
         let normalized = min(max(offsetY / maxOffset, 0), 1)
         self.headerView.backgroundColor = UIColor(hex: "#FFFFFF", alpha: normalized)
         self.nameHeaderLb.textColor = UIColor(hex: "#000000", alpha: normalized)
@@ -358,13 +367,15 @@ extension MyProfileVC: UIScrollViewDelegate, UITableViewDelegate {
 
 extension MyProfileVC: UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 10
+        return viewModel.itemsPlace.value.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         guard let cell = tableView.dequeueReusableCell(withIdentifier: "MyProfileCell", for: indexPath) as? MyProfileCell else {
             return UITableViewCell()
         }
+        let model = viewModel.itemsPlace.value[indexPath.row]
+        cell.configData(model: model)
         cell.selectionStyle = .none
         return cell
     }
@@ -393,6 +404,14 @@ class LabelStackBuilder {
                alignment: UIStackView.Alignment = .fill,
                distribution: UIStackView.Distribution = .fill) -> UIStackView {
         return [firstLabel, secondLabel].vStack(spacing, alignment: alignment, distribution: distribution)
+    }
+    
+    var first: UILabel {
+        return firstLabel
+    }
+    
+    var second: UILabel {
+        return secondLabel
     }
 }
 
@@ -469,4 +488,3 @@ class ImageLabelBuilder: UIView {
         }
     }
 }
-

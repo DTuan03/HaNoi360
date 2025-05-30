@@ -70,6 +70,7 @@ class ForgotPasswordVC: BaseVC {
             .disposed(by: disposeBag)
         
         viewModel.isSendMail
+            .skip(1)
             .subscribe(onNext: { isSendMail in
                 if isSendMail {
                     Toast.showToast(message: "Đã gửi mail xác nhận!", image: "toast_success")
