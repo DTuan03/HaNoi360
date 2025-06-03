@@ -49,7 +49,7 @@ class NewCreatePostVM {
     var avatarIV = BehaviorRelay<UIImage?>(value: nil)
     var avatarUrl = BehaviorRelay<String?>(value: nil)
     var title = BehaviorRelay<String?>(value: nil)
-    var category = BehaviorRelay<[String]?>(value: nil)
+    var categoryId = BehaviorRelay<[String]?>(value: nil)
     var coordinate = BehaviorRelay<CLLocationCoordinate2D?>(value: nil)
     var idAddress = BehaviorRelay<String?>(value: nil)
     var contentBlocks = BehaviorRelay<[CreateBlock]>(value: [])
@@ -165,7 +165,7 @@ class NewCreatePostVM {
             let title = title.value,
             let placeImage = avatarUrl.value,
             let address = districts.first(where: { $0.id == idAddress.value})?.name,
-            let categories = category.value,
+            let categories = categoryId.value,
             let coordinate = coordinate.value,
             let authorId = userId,
             let authorName = userName,

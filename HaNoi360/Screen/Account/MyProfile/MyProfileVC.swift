@@ -10,6 +10,7 @@ import RxCocoa
 import UIKit
 import Segmentio
 import SnapKit
+import Kingfisher
 
 enum MyProfileType {
     case guest
@@ -22,7 +23,7 @@ class MyProfileVC: BaseVC {
     
     lazy var nameHeaderLb = LabelFactory.createLabel(text: "Đặng Anh Tuấn", font: .bold18, textColor: UIColor(hex: "#000000", alpha: 1))
     lazy var backHeaderIv = ImageViewFactory.createImageView(image: UIImage(systemName: "chevron.backward"), tintColor: UIColor(hex: "#000000", alpha: 1))
-
+    
     lazy var headerView: UIView = {
         let view = UIView()
         view.backgroundColor = UIColor(hex: "#FFFFFF", alpha: 1)
@@ -61,19 +62,19 @@ class MyProfileVC: BaseVC {
     lazy var blogLbBuilder = LabelStackBuilder()
         .setFirstLabel(text: "34", textColor: .black, font: .extraBoldItalic13)
         .setSecondLabel(text: "Bài viết", font: .extraBoldItalic13)
-
+    
     lazy var numberBlogsLb = blogLbBuilder.build(spacing: 4, alignment: .center)
-
+    
     lazy var followersLbBuilder = LabelStackBuilder()
         .setFirstLabel(text: "240", textColor: .black, font: .extraBoldItalic13)
         .setSecondLabel(text: "người theo dõi", font: .extraBoldItalic13)
-
+    
     lazy var followersLb = followersLbBuilder.build(spacing: 4, alignment: .center)
     
     lazy var followingLbBuilder = LabelStackBuilder()
         .setFirstLabel(text: "456", textColor: .black, font: .extraBoldItalic13)
         .setSecondLabel(text: "đang theo dõi", font: .extraBoldItalic13)
-
+    
     lazy var followingLb = followingLbBuilder.build(spacing: 4, alignment: .center)
     
     lazy var descriptionLb = LabelFactory.createLabel(text: "Yêu du lịch, thích trải nghiệm", font: .regular16)
@@ -190,13 +191,13 @@ class MyProfileVC: BaseVC {
         view.backgroundColor = .white
         
         view.addSubviews([contentTbv])
-//        actionButtons.snp.makeConstraints { make in
-//            make.left.right.top.equalToSuperview()
-//            make.height.equalTo(35)
-//        }
+        //        actionButtons.snp.makeConstraints { make in
+        //            make.left.right.top.equalToSuperview()
+        //            make.height.equalTo(35)
+        //        }
         
         contentTbv.snp.makeConstraints { make in
-//            make.top.equalTo(actionButtons.snp.bottom).offset(6)
+            //            make.top.equalTo(actionButtons.snp.bottom).offset(6)
             make.top.equalToSuperview().offset(6)
             make.left.right.equalToSuperview()
             make.bottom.equalToSuperview()
@@ -206,9 +207,41 @@ class MyProfileVC: BaseVC {
         return view
     }()
     
+    lazy var checkInClv: UICollectionView = {
+        let layout = UICollectionViewFlowLayout()
+        layout.scrollDirection = .vertical
+//        layout.minimumInteritemSpacing = 32
+        layout.sectionInset = UIEdgeInsets(top: 0, left: 23, bottom: 0, right: 23)
+        
+        let cv = UICollectionView(frame: .zero, collectionViewLayout: layout)
+        cv.showsHorizontalScrollIndicator = false
+        cv.register(CheckInImageCell.self, forCellWithReuseIdentifier: "CheckInImageCell")
+        cv.dataSource = self
+        cv.delegate = self
+        cv.isScrollEnabled = false
+        cv.register(CheckInHeaderView.self,
+                             forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader,
+                             withReuseIdentifier: "CheckInHeaderView")
+        return cv
+    }()
+    
+    lazy var checkInBottomView: UIView = {
+        let view = UIView()
+        view.backgroundColor = .white
+        view.addSubviews([checkInClv])
+        checkInClv.snp.makeConstraints { make in
+            make.top.equalToSuperview().offset(6)
+            make.left.right.equalToSuperview()
+            make.bottom.equalToSuperview()
+            make.height.greaterThanOrEqualTo(700)
+        }
+        
+        return view
+    }()
+    
     lazy var lineViewBottom = UIViewFactory.overlayView()
     
-    lazy var stv = [topView, lineView, segmentioView, actionButtons, bottomView].vStack(2)
+    lazy var stv = [topView, lineView, segmentioView, actionButtons, bottomView, checkInBottomView].vStack(2)
     
     override func setupUI() {
         showUI()
@@ -242,6 +275,10 @@ class MyProfileVC: BaseVC {
             make.left.right.equalToSuperview()
             make.bottom.equalToSuperview()
         }
+        
+        self.segmentioView.selectedSegmentioIndex = 0
+        self.bottomView.isHidden = false
+        self.checkInBottomView.isHidden = true
     }
     
     func showUI() {
@@ -263,12 +300,61 @@ class MyProfileVC: BaseVC {
                 self.contentTbv.reloadData()
             })
             .disposed(by: disposeBag)
+        
+        viewModel.image
+            .skip(1)
+            .subscribe(onNext: { [weak self] image in
+                self?.viewModel.uploadImage()
+            })
+            .disposed(by: disposeBag)
+        
+        viewModel.isUploaded
+            .skip(1)
+            .subscribe(onNext: { [weak self] _ in
+                self?.viewModel.addImageCheckIn()
+            })
+            .disposed(by: disposeBag)
+        
+        viewModel.isLoading
+            .subscribe(onNext: { [weak self] value in
+                guard let self = self else { return }
+                self.isLoading.accept(value)
+            })
+            .disposed(by: disposeBag)
+        
+        viewModel.checkIn
+            .skip(1)
+            .subscribe(onNext: { [weak self] value in
+                guard let self = self else { return }
+                self.checkInClv.reloadData()
+                self.segmentioView.selectedSegmentioIndex = 2
+                self.bottomView.isHidden = true
+                self.checkInBottomView.isHidden = false
+                self.checkInClv.snp.remakeConstraints { make in
+                    make.top.equalToSuperview().offset(6)
+                    make.left.right.equalToSuperview()
+                    make.bottom.equalToSuperview()
+                    make.height.equalTo((Int(UIScreen.main.bounds.width) / 3 + 50) * (value?.count ?? 0))
+                }
+            })
+            .disposed(by: disposeBag)
     }
     
     override func setupEvent() {
         segmentioView.valueDidChange = { segmentio, index in
             print("Selected index: \(index)")
-            // Xử lý khi chuyển tab
+            switch index {
+            case 0:
+                self.bottomView.isHidden = false
+                self.checkInBottomView.isHidden = true
+            case 2:
+                self.bottomView.isHidden = true
+                self.checkInBottomView.isHidden = false
+                self.viewModel.fetchAllCheckIn{}
+            default:
+                self.bottomView.isHidden = false
+                self.checkInBottomView.isHidden = true
+            }
         }
         
         let backIvTap = UITapGestureRecognizer(target: self, action: #selector(backIvAction))
@@ -282,6 +368,12 @@ class MyProfileVC: BaseVC {
                 self.navigationController?.pushViewController(NewCreatePostVC(), animated: true)
             })
             .disposed(by: disposeBag)
+        
+        actionButtons.checkinButton.rx.tap
+            .subscribe(onNext: {
+                self.openCamera()
+            })
+            .disposed(by: disposeBag)
     }
     
     @objc func backIvAction() {
@@ -290,6 +382,22 @@ class MyProfileVC: BaseVC {
     
     @objc func backHeaderIvAction() {
         self.navigationController?.popViewController(animated: true)
+    }
+    
+    func openCamera() {
+        if UIImagePickerController.isSourceTypeAvailable(.camera) {
+            let imagePicker = UIImagePickerController()
+            imagePicker.delegate = self
+            imagePicker.sourceType = .camera
+            imagePicker.allowsEditing = false // Hoặc true nếu muốn chỉnh sửa
+            present(imagePicker, animated: true, completion: nil)
+        } else {
+            let alert = UIAlertController(title: "Thông báo",
+                                          message: "Camera không khả dụng",
+                                          preferredStyle: .alert)
+            alert.addAction(UIAlertAction(title: "OK", style: .default))
+            present(alert, animated: true)
+        }
     }
     
     var isSegmentPinned = false
@@ -348,7 +456,7 @@ extension MyProfileVC: UIScrollViewDelegate, UITableViewDelegate {
         actionButtons.removeFromSuperview()
         stv.insertArrangedSubview(segmentioView, at: 2)
         stv.insertArrangedSubview(actionButtons, at: 3)
-
+        
         segmentioView.snp.remakeConstraints { make in
             make.height.equalTo(40)
         }
@@ -361,8 +469,6 @@ extension MyProfileVC: UIScrollViewDelegate, UITableViewDelegate {
             self.contentView.layoutIfNeeded()
         }
     }
-    
-    
 }
 
 extension MyProfileVC: UITableViewDataSource {
@@ -378,6 +484,127 @@ extension MyProfileVC: UITableViewDataSource {
         cell.configData(model: model)
         cell.selectionStyle = .none
         return cell
+    }
+}
+
+extension MyProfileVC: UIImagePickerControllerDelegate, UINavigationControllerDelegate {
+    func imagePickerController(_ picker: UIImagePickerController,
+                               didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
+        if let image = info[.originalImage] as? UIImage {
+            print("Ảnh chụp được: \(image)")
+            viewModel.image.accept(image)
+        }
+        picker.dismiss(animated: true, completion: nil)
+    }
+    
+    func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
+        picker.dismiss(animated: true, completion: nil)
+    }
+}
+
+extension MyProfileVC: UICollectionViewDataSource {
+    func numberOfSections(in collectionView: UICollectionView) -> Int {
+        return viewModel.checkIn.value?.count ?? 0
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        return viewModel.checkIn.value?[section].url.count ?? 0
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "CheckInImageCell", for: indexPath) as? CheckInImageCell else {
+            return UICollectionViewCell()
+        }
+        
+        let url = viewModel.checkIn.value?[indexPath.section].url[indexPath.row]
+        cell.setImage(urlString: url)
+        
+        return cell
+    }
+
+    
+    func collectionView(_ collectionView: UICollectionView,
+                        viewForSupplementaryElementOfKind kind: String,
+                        at indexPath: IndexPath) -> UICollectionReusableView {
+        if kind == UICollectionView.elementKindSectionHeader {
+            let header = collectionView.dequeueReusableSupplementaryView(
+                ofKind: kind,
+                withReuseIdentifier: "CheckInHeaderView",
+                for: indexPath) as! CheckInHeaderView
+            
+            let date = viewModel.checkIn.value?[indexPath.section].createAt ?? ""
+            header.titleLabel.text = date
+            return header
+        }
+        return UICollectionReusableView()
+    }
+    
+}
+
+extension MyProfileVC: UICollectionViewDelegateFlowLayout {
+    func collectionView(_ collectionView: UICollectionView,
+                        layout collectionViewLayout: UICollectionViewLayout,
+                        referenceSizeForHeaderInSection section: Int) -> CGSize {
+        return CGSize(width: collectionView.frame.width, height: 30)
+    }
+    
+    func collectionView(_ collectionView: UICollectionView,
+                        layout collectionViewLayout: UICollectionViewLayout,
+                        sizeForItemAt indexPath: IndexPath) -> CGSize {
+        let widthScreen = UIScreen.main.bounds.width / 3 - 40
+        return CGSize(width: widthScreen , height: widthScreen + 60)
+    }
+}
+
+
+class CheckInHeaderView: UICollectionReusableView {
+    let titleLabel = UILabel()
+
+    override init(frame: CGRect) {
+        super.init(frame: frame)
+        backgroundColor = .white
+        titleLabel.font = .boldSystemFont(ofSize: 16)
+        titleLabel.textColor = .black
+        addSubview(titleLabel)
+        titleLabel.snp.makeConstraints { make in
+            make.left.equalToSuperview().offset(16)
+            make.centerY.equalToSuperview()
+        }
+    }
+
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+}
+
+class CheckInImageCell: UICollectionViewCell {
+    let imageView: UIImageView = {
+        let iv = UIImageView()
+        iv.contentMode = .scaleAspectFill
+        iv.clipsToBounds = true
+        iv.layer.cornerRadius = 8
+        iv.backgroundColor = .lightGray
+        return iv
+    }()
+    
+    override init(frame: CGRect) {
+        super.init(frame: frame)
+        contentView.addSubview(imageView)
+        imageView.snp.makeConstraints { make in
+            make.edges.equalToSuperview().inset(8)
+        }
+    }
+    
+    func setImage(urlString: String?) {
+        if let urlStr = urlString, let url = URL(string: urlStr) {
+            imageView.kf.setImage(with: url, options: [.transition(.fade(0.3))])
+        } else {
+            imageView.image = UIImage(named: "placeholder") // Ảnh mặc định
+        }
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
     }
 }
 

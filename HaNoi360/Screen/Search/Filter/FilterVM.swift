@@ -26,11 +26,16 @@ class FilterVM: BaseVM {
     var minReview = BehaviorRelay<Double?>(value: nil)
     var maxReview = BehaviorRelay<Double?>(value: nil)
     var districtId = BehaviorRelay<[String]?>(value: nil)
+    
+    var isLoading = PublishRelay<Bool>()
+    
     override init() {
         itemsCategory.accept(categories)
     }
     
     func filter(completion: @escaping (Result<[BlogPost], Error>) -> Void) {
+        isLoading.accept(true)
+        
         let districts = districtId.value!
 
         guard !districts.isEmpty else {
@@ -51,6 +56,7 @@ class FilterVM: BaseVM {
                     try? $0.data(as: BlogPost.self)
                 } ?? []
                 let filteredPlaces = self.filterPlacesLocally(places)
+                self.isLoading.accept(false)
                 completion(.success(filteredPlaces))
             }
         }

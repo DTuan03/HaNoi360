@@ -167,12 +167,23 @@ class FilterVC: BaseVC {
                 }
             })
             .disposed(by: disposeBag)
+        
+        viewModel.isLoading
+            .subscribe(onNext: { [weak self] value in
+                guard let self = self else { return }
+                self.isLoading.accept(value)
+            })
+            .disposed(by: disposeBag)
     }
     
     @objc func overlayViewAction() {
         let vc = FilterDistrictVC()
         vc.modalTransitionStyle = .coverVertical
         vc.modalPresentationStyle = .overCurrentContext
+        if let districtId = viewModel.districtId.value {
+            vc.districtsId = districtId
+            vc.districtsName = districtName
+        }
         vc.delegate = self
         self.present(vc, animated: true)
     }

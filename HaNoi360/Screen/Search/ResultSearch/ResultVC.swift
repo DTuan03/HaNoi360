@@ -207,7 +207,7 @@ extension ResultVC: UICollectionViewDelegateFlowLayout {
         let maxWidth: CGFloat = collectionView.frame.width
         let labelSize = label.sizeThatFits(CGSize(width: maxWidth, height: .greatestFiniteMagnitude))
         
-        let sizeForItem = CGSize(width: labelSize.width + 30, height: 36)
+        let sizeForItem = CGSize(width: labelSize.width + 15, height: 36)
         return sizeForItem
     }
 }

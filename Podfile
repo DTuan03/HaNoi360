@@ -26,6 +26,7 @@ pod 'lottie-ios'
 pod 'Cloudinary'
 pod 'Segmentio'
 pod 'RealmSwift'
+pod 'CHTCollectionViewWaterfallLayout'
 
 post_install do |installer|
   installer.pods_project.targets.each do |target|

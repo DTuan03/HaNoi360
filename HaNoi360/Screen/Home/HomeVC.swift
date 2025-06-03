@@ -124,6 +124,7 @@ class HomeVC: BaseVC {
         btn.layer.cornerRadius = 30
         btn.layer.borderWidth = 1
         btn.layer.borderColor = UIColor(hex: "#F3F4F6").cgColor
+        btn.isHidden = true
         return btn
     }()
     var selectedItemNameDistrictCV: IndexPath = IndexPath(row: 0, section: 0)

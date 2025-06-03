@@ -111,26 +111,25 @@ extension AddCategoryVC: UITableViewDataSource {
         let model = viewModel.itemCategoies.value[indexPath.row]
         cell.configData(model: model)
         cell.delegate = self
-        cell.indexPath = indexPath
+        cell.idCategory = model.id
+        let isSelected = categoryId.contains(cell.idCategory)
+        cell.setSelectedState(isSelected)
         return cell
     }
 }
 
 extension AddCategoryVC: CategoryAddPlaceCellDelegate {
-    func didTapChooseIV(indexPath: IndexPath, isSelectedIndex: Bool) {
+    func didTapChooseIV(in cell: CategoryAddPlaceCell) {
+        guard let indexPath = tableView.indexPath(for: cell) else { return }
         let model = viewModel.itemCategoies.value[indexPath.row]
-        if isSelectedIndex {
-            if let index = categoryId.firstIndex(of: model.id!) {
-                categoryId.remove(at: index)
-                categoryNames.remove(at: index)
-            }
+        if let item = categoryId.firstIndex(of: model.id ?? "") {
+            categoryId.remove(at: item)
+            categoryNames.remove(at: item)
         } else {
-            categoryId.append(model.id!)
-            categoryNames.append(model.name!)
+            categoryId.append(model.id ?? "")
+            categoryNames.append(model.name ?? "")
         }
-    }
-    
-    func didTapChooseIV(indexPath: IndexPath) {
         
+        tableView.reloadRows(at: [indexPath], with: .none)
     }
 }

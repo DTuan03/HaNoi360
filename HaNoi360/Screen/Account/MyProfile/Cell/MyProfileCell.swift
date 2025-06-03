@@ -16,7 +16,7 @@ class MyProfileCell: UITableViewCell {
 
     lazy var timeLb = LabelFactory.createLabel(text: "4h", font: .regular16, textColor: UIColor(hex: "#808080"))
     
-    lazy var infoSv = [avatarIv, [nameLb, timeLb].vStack(2)].hStack(4, alignment: .center)
+    lazy var infoSv = [avatarIv, [nameLb, timeLb].vStack(2)].hStack(6, alignment: .center)
     
     lazy var titleLb = LabelFactory.createLabel(text: "Kinh Nghiệm Du Lịch TP HCM Tự Túc Mới Nhất", font: .bold16)
     
@@ -26,7 +26,7 @@ class MyProfileCell: UITableViewCell {
     
     lazy var lineView = UIViewFactory.createLineView(height: 3, bgColor: UIColor(hex: "#F1F1F1"))
     
-    lazy var stv = [infoSv, titleLb, descriptionLb, avatarPlaceIv].vStack(4)
+    lazy var stv = [infoSv, titleLb, descriptionLb, avatarPlaceIv].vStack(6)
 
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
@@ -65,6 +65,7 @@ class MyProfileCell: UITableViewCell {
         avatarIv.kf.setImage(with: URL(string: model.authorAvatar ?? ""))
         avatarPlaceIv.kf.setImage(with: URL(string: model.placeImage ?? ""))
         titleLb.text = model.title
+        timeLb.text = model.createAt?.displayRelativeTime()
         if let firstDescription = model.contentBlocks.first(where: { $0.type.rawValue == "text"}) {
             descriptionLb.text = firstDescription.value
         }

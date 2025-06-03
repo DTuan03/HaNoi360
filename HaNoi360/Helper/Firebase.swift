@@ -44,6 +44,17 @@ class BaseFirestoreService<T: Codable> {
             completion(.failure(error))
         }
     }
+    
+    // them hoac cap nhap nhung khong ghi de tat ca
+    func updateFields(for id: String, data: [String: Any], completion: @escaping (Result<Void, Error>) -> Void) {
+        collection.document(id).setData(data, merge: true) { error in
+            if let error = error {
+                completion(.failure(error))
+            } else {
+                completion(.success(()))
+            }
+        }
+    }
 
     // Lấy toàn bộ
     func fetchAll(completion: @escaping (Result<[T], Error>) -> Void) {

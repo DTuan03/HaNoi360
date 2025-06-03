@@ -9,7 +9,7 @@ import UIKit
 import SnapKit
 
 protocol CategoryAddPlaceCellDelegate: AnyObject {
-    func didTapChooseIV(indexPath: IndexPath, isSelectedIndex: Bool)
+    func didTapChooseIV(in cell: CategoryAddPlaceCell)
 }
 
 class CategoryAddPlaceCell: UITableViewCell {
@@ -18,11 +18,9 @@ class CategoryAddPlaceCell: UITableViewCell {
     lazy var chooseIv = ImageViewFactory.createImageView(image: UIImage(systemName: "square"), tintColor: .primaryColor, contentMode: .scaleAspectFill)
     
     weak var delegate: CategoryAddPlaceCellDelegate?
-    var indexPath: IndexPath!
+    var idCategory: String!
     
-    var selectedIndex: [IndexPath] = []
-    
-    var isSelectedIndex: Bool = false
+    var selectedId: [String] = []
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
@@ -32,16 +30,16 @@ class CategoryAddPlaceCell: UITableViewCell {
     }
     
     @objc func chooseIvAction() {
-        if selectedIndex.contains(indexPath) {
-            delegate?.didTapChooseIV(indexPath: indexPath, isSelectedIndex: true)
+        if selectedId.contains(idCategory) {
+            delegate?.didTapChooseIV(in: self)
             chooseIv.image = UIImage(systemName: "square")
-            if let index = selectedIndex.firstIndex(of: indexPath) {
-                selectedIndex.remove(at: index)
+            if let index = selectedId.firstIndex(of: idCategory) {
+                selectedId.remove(at: index)
             }
         } else {
-            delegate?.didTapChooseIV(indexPath: indexPath, isSelectedIndex: false)
+            delegate?.didTapChooseIV(in: self)
             chooseIv.image = UIImage(systemName: "checkmark.square.fill")
-            selectedIndex.append(indexPath)
+            selectedId.append(idCategory)
         }
     }
     
@@ -65,5 +63,15 @@ class CategoryAddPlaceCell: UITableViewCell {
     
     func configData(model: CategoryModel) {
         nameLabel.text = model.name
+    }
+    
+    func setSelectedState(_ selected: Bool) {
+        UIView.animate(withDuration: 0.2) {
+            if selected {
+                self.chooseIv.image = UIImage(systemName: "checkmark.square.fill")
+            } else {
+                self.chooseIv.image = UIImage(systemName: "square")
+            }
+        }
     }
 }

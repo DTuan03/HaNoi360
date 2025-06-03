@@ -185,6 +185,10 @@ class NewCreatePostVC: BaseVC {
                 let vc = AddCategoryVC()
                 vc.modalTransitionStyle = .coverVertical
                 vc.modalPresentationStyle = .overCurrentContext
+                if let categoryId = self.viewModel.categoryId.value {
+                    vc.categoryId = categoryId
+                    vc.categoryNames = self.categoryName
+                }
                 vc.delegate = self
                 self.present(vc, animated: true)
             })
@@ -202,7 +206,7 @@ class NewCreatePostVC: BaseVC {
             .combineLatest(
                 viewModel.avatarIV.asObservable(),
                 viewModel.title.asObservable(),
-                viewModel.category.asObservable(),
+                viewModel.categoryId.asObservable(),
                 viewModel.coordinate.asObservable(),
                 viewModel.idAddress.asObservable(),
                 viewModel.contentBlocks.asObservable()
@@ -285,7 +289,7 @@ class NewCreatePostVC: BaseVC {
         avatarIV.image = UIImage(named: "placeholderImage")
         viewModel.avatarIV.accept(nil)
         
-        viewModel.category.accept([])
+        viewModel.categoryId.accept([])
         tagBtn.setTitle("Thêm thẻ", for: .normal)
         
         viewModel.coordinate.accept(nil)
@@ -407,8 +411,8 @@ extension NewCreatePostVC: UIImagePickerControllerDelegate, UINavigationControll
 
 extension NewCreatePostVC: CategoryDelegate {
     func didSelected(categoryId: [String], categoryNames: [String]) {
-        viewModel.category.accept(categoryId)
-        
+        viewModel.categoryId.accept(categoryId)
+        self.categoryName = categoryNames
         let joinedName = categoryNames.joined(separator: ", ")
         self.tagBtn.setTitle(joinedName, for: .normal)
     }

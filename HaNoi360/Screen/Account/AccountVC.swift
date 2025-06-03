@@ -8,21 +8,23 @@
 import UIKit
 import SnapKit
 import FirebaseAuth
+import Kingfisher
 
 class AccountVC: BaseVC {
+    let viewModel = ProfileVM()
     lazy var navigationView = NavigationViewFactory.createNavigationViewWithTitleOnly(title: "Tài khoản")
     
-    lazy var avatarIV = ImageViewFactory.createImageView(image: .test,
+    lazy var avatarIV = ImageViewFactory.createImageView(image: .avatarUser,
                                                          contentMode: .scaleAspectFill,
                                                          radius: 60)
     
     lazy var editIconIV = ImageViewFactory.createImageView(image: .edit)
     
-    lazy var nameLabel = LabelFactory.createLabel(text: "Minh Lan",
+    lazy var nameLabel = LabelFactory.createLabel(text: viewModel.user.value?.name,
                                                   font: .medium20,
                                                   textAlignment: .center)
     
-    lazy var emailLabel = LabelFactory.createLabel(text: "lantm@gmail.com",
+    lazy var emailLabel = LabelFactory.createLabel(text: viewModel.user.value?.email,
                                                    font: .regular14,
                                                    textColor: .secondaryTextColor,
                                                    textAlignment: .center)
@@ -42,6 +44,10 @@ class AccountVC: BaseVC {
         return tableView
     }()
     
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        viewModel.featchUser()
+    }
     
     override func setupUI() {
         view.addSubviews([navigationView, avatarIV, editIconIV, stackView, tableView])
@@ -72,6 +78,44 @@ class AccountVC: BaseVC {
             make.height.equalTo(290)
         }
     }
+    
+    override func bindState() {
+        viewModel.user
+            .subscribe(onNext: { [weak self] profile in
+                guard let self = self, let profile = profile else { return }
+                self.nameLabel.text = profile.name
+                self.emailLabel.text = profile.email
+                self.avatarIV.kf.setImage(with: URL(string: profile.avatarUrl ?? "https://upload.wikimedia.org/wikipedia/commons/7/7c/Profile_avatar_placeholder_large.png"))
+            })
+            .disposed(by: disposeBag)
+        
+        viewModel.avatarUrl
+            .subscribe(onNext: { [weak self] value in
+                guard let self = self, let value = value else { return }
+                self.viewModel.updateProfile(field: "avatarUrl", value: value) {}
+            })
+            .disposed(by: disposeBag)
+        
+        viewModel.avatarIv
+            .subscribe(onNext: { [weak self] value in
+                guard let self = self else { return }
+                self.viewModel.uploadAvatar()
+            })
+            .disposed(by: disposeBag)
+    }
+    
+    override func setupEvent() {
+        let editIconIVTap = UITapGestureRecognizer(target: self, action: #selector(editIconIVAction))
+        editIconIV.addGestureRecognizer(editIconIVTap)
+    }
+    
+    @objc func editIconIVAction() {
+        let picker = UIImagePickerController()
+        picker.delegate = self
+        picker.sourceType = .photoLibrary
+        present(picker, animated: true)
+    }
+
 }
 
 extension AccountVC: UITableViewDataSource {
@@ -113,6 +157,16 @@ extension AccountVC: UITableViewDelegate {
             }
         default:
             return
+        }
+    }
+}
+
+extension AccountVC: UIImagePickerControllerDelegate, UINavigationControllerDelegate {
+    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
+        if let image = info[.originalImage] as? UIImage {
+            avatarIV.image = image
+            viewModel.avatarIv.accept(image)
+            picker.dismiss(animated: true)
         }
     }
 }

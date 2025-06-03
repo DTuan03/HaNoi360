@@ -263,7 +263,7 @@ class NewDetailVC: BaseVC {
         
         infoPost.snp.makeConstraints { make in
             make.top.equalTo(categoryClv.snp.bottom).offset(16)
-            make.left.right.equalToSuperview().inset(20)
+            make.left.right.equalToSuperview().inset(10)
         }
         
         contentTbv.snp.makeConstraints { make in
