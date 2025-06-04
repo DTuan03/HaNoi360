@@ -45,7 +45,7 @@ class AuthRepository {
         }
     }
     
-    func signIn(email: String, password: String, completion: @escaping (Result<(String, String, String), Error>) -> Void) {
+    func signIn(email: String, password: String, completion: @escaping (Result<(String, String, String, String), Error>) -> Void) {
         Auth.auth().signIn(withEmail: email, password: password) { result, error in
             if let error = error {
                 completion(.failure(error))
@@ -64,7 +64,8 @@ class AuthRepository {
                 let userId = data?["userId"] as? String ?? ""
                 let userName = data?["name"] as? String ?? ""
                 let role = data?["role"] as? String ?? ""
-                completion(.success((userId, userName, role)))
+                let avatarUrl = data?["avatarUrl"] as? String ?? ""
+                completion(.success((userId, userName, role, avatarUrl)))
             }
         }
     }

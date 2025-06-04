@@ -18,10 +18,12 @@ enum MyProfileType {
 }
 
 class MyProfileVC: BaseVC {
+    let widthScreen = UIScreen.main.bounds.width
+
     let viewModel = MyProfileVM()
     lazy var myProfileType: MyProfileType = .owner
     
-    lazy var nameHeaderLb = LabelFactory.createLabel(text: "Đặng Anh Tuấn", font: .bold18, textColor: UIColor(hex: "#000000", alpha: 1))
+    lazy var nameHeaderLb = LabelFactory.createLabel(text: viewModel.user.value?.name, font: .bold18, textColor: UIColor(hex: "#000000", alpha: 1))
     lazy var backHeaderIv = ImageViewFactory.createImageView(image: UIImage(systemName: "chevron.backward"), tintColor: UIColor(hex: "#000000", alpha: 1))
     
     lazy var headerView: UIView = {
@@ -55,7 +57,7 @@ class MyProfileVC: BaseVC {
     
     lazy var backIv = ImageViewFactory.createImageView(image: UIImage(systemName: "chevron.backward"), tintColor: .black)
     
-    lazy var nameLb = LabelFactory.createLabel(text: "Đặng Anh Tuấn", font: .bold18, textColor: .black)
+    lazy var nameLb = LabelFactory.createLabel(text: viewModel.user.value?.name, font: .bold18, textColor: .black)
     
     lazy var avatarIv = ImageViewFactory.createImageView(image: .test, contentMode: .scaleAspectFill, radius: 40)
     
@@ -201,7 +203,7 @@ class MyProfileVC: BaseVC {
             make.top.equalToSuperview().offset(6)
             make.left.right.equalToSuperview()
             make.bottom.equalToSuperview()
-            make.height.equalTo(350 * viewModel.itemsPlace.value.count)
+            make.height.equalTo(350 * viewModel.blogsPost.value.count)
         }
         
         return view
@@ -229,11 +231,45 @@ class MyProfileVC: BaseVC {
         let view = UIView()
         view.backgroundColor = .white
         view.addSubviews([checkInClv])
+        
         checkInClv.snp.makeConstraints { make in
             make.top.equalToSuperview().offset(6)
             make.left.right.equalToSuperview()
             make.bottom.equalToSuperview()
             make.height.greaterThanOrEqualTo(700)
+            make.height.equalTo(350 * (viewModel.checkIn.value?.count ?? 0))
+        }
+        
+        return view
+    }()
+    
+    lazy var albumClv: UICollectionView = {
+        let layout = UICollectionViewFlowLayout()
+        layout.scrollDirection = .vertical
+//        layout.minimumInteritemSpacing = 32
+        layout.sectionInset = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
+        
+        let cv = UICollectionView(frame: .zero, collectionViewLayout: layout)
+        cv.showsHorizontalScrollIndicator = false
+        cv.register(AlbumImageCell.self, forCellWithReuseIdentifier: "AlbumImageCell")
+        cv.dataSource = self
+        cv.delegate = self
+        cv.isScrollEnabled = false
+
+        return cv
+    }()
+    
+    lazy var albumBottomView: UIView = {
+        let view = UIView()
+        view.backgroundColor = .white
+        view.addSubviews([albumClv])
+        
+        albumClv.snp.makeConstraints { make in
+            make.top.equalToSuperview().offset(6)
+            make.left.right.equalToSuperview()
+            make.bottom.equalToSuperview()
+            make.height.greaterThanOrEqualTo(700)
+            make.height.equalTo(1)
         }
         
         return view
@@ -241,7 +277,12 @@ class MyProfileVC: BaseVC {
     
     lazy var lineViewBottom = UIViewFactory.overlayView()
     
-    lazy var stv = [topView, lineView, segmentioView, actionButtons, bottomView, checkInBottomView].vStack(2)
+    lazy var stv = [topView, lineView, segmentioView, actionButtons, bottomView, albumBottomView, checkInBottomView].vStack(2)
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        viewModel.fetchInfoUser()
+    }
     
     override func setupUI() {
         showUI()
@@ -279,6 +320,7 @@ class MyProfileVC: BaseVC {
         self.segmentioView.selectedSegmentioIndex = 0
         self.bottomView.isHidden = false
         self.checkInBottomView.isHidden = true
+        self.albumBottomView.isHidden = true
     }
     
     func showUI() {
@@ -293,11 +335,12 @@ class MyProfileVC: BaseVC {
     }
     
     override func bindState() {
-        viewModel.itemsPlace
+        viewModel.blogsPost
             .subscribe(onNext: { [weak self] value in
                 guard let self = self else { return }
                 self.blogLbBuilder.first.text = "\(value.count)"
                 self.contentTbv.reloadData()
+                self.viewModel.filterImageAlbum()
             })
             .disposed(by: disposeBag)
         
@@ -330,11 +373,40 @@ class MyProfileVC: BaseVC {
                 self.segmentioView.selectedSegmentioIndex = 2
                 self.bottomView.isHidden = true
                 self.checkInBottomView.isHidden = false
+                self.albumBottomView.isHidden = true
                 self.checkInClv.snp.remakeConstraints { make in
                     make.top.equalToSuperview().offset(6)
                     make.left.right.equalToSuperview()
                     make.bottom.equalToSuperview()
-                    make.height.equalTo((Int(UIScreen.main.bounds.width) / 3 + 50) * (value?.count ?? 0))
+                    make.height.equalTo((Int(self.widthScreen / 3 + 50) * (value?.count ?? 0)))
+                }
+            })
+            .disposed(by: disposeBag)
+        
+        viewModel.user
+            .subscribe(onNext: { [weak self] value in
+                guard let self = self else { return }
+                self.nameHeaderLb.text = value?.name
+                self.nameLb.text = value?.name
+                self.descriptionLb.text = value?.interest
+                self.avatarIv.kf.setImage(with: URL(string: value?.avatarUrl ?? ""))
+            })
+            .disposed(by: disposeBag)
+        
+        viewModel.allUrlImage
+            .subscribe(onNext: { [weak self] value in
+                guard let self = self else { return }
+                self.albumClv.reloadData()
+                self.segmentioView.selectedSegmentioIndex = 1
+                self.bottomView.isHidden = true
+                self.checkInBottomView.isHidden = true
+                self.albumBottomView.isHidden = false
+                let count = value.count
+                self.albumClv.snp.remakeConstraints { make in
+                    make.top.equalToSuperview().offset(6)
+                    make.left.right.equalToSuperview()
+                    make.bottom.equalToSuperview()
+                    make.height.equalTo((Int(self.widthScreen / 3 + 10) * (count / 3)))
                 }
             })
             .disposed(by: disposeBag)
@@ -347,8 +419,14 @@ class MyProfileVC: BaseVC {
             case 0:
                 self.bottomView.isHidden = false
                 self.checkInBottomView.isHidden = true
+                self.albumBottomView.isHidden = true
+            case 1:
+                self.bottomView.isHidden = true
+                self.checkInBottomView.isHidden = true
+                self.albumBottomView.isHidden = false
             case 2:
                 self.bottomView.isHidden = true
+                self.albumBottomView.isHidden = true
                 self.checkInBottomView.isHidden = false
                 self.viewModel.fetchAllCheckIn{}
             default:
@@ -372,6 +450,18 @@ class MyProfileVC: BaseVC {
         actionButtons.checkinButton.rx.tap
             .subscribe(onNext: {
                 self.openCamera()
+            })
+            .disposed(by: disposeBag)
+        
+        editProfileBtn.rx.tap
+            .subscribe(onNext: {
+                switch self.myProfileType {
+                case .guest:
+                    print("Theo doi")
+                case .owner:
+                    let vc = ProfileVC()
+                    self.navigationController?.pushViewController(vc, animated: true)
+                }
             })
             .disposed(by: disposeBag)
     }
@@ -473,14 +563,14 @@ extension MyProfileVC: UIScrollViewDelegate, UITableViewDelegate {
 
 extension MyProfileVC: UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return viewModel.itemsPlace.value.count
+        return viewModel.blogsPost.value.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         guard let cell = tableView.dequeueReusableCell(withIdentifier: "MyProfileCell", for: indexPath) as? MyProfileCell else {
             return UITableViewCell()
         }
-        let model = viewModel.itemsPlace.value[indexPath.row]
+        let model = viewModel.blogsPost.value[indexPath.row]
         cell.configData(model: model)
         cell.selectionStyle = .none
         return cell
@@ -504,37 +594,70 @@ extension MyProfileVC: UIImagePickerControllerDelegate, UINavigationControllerDe
 
 extension MyProfileVC: UICollectionViewDataSource {
     func numberOfSections(in collectionView: UICollectionView) -> Int {
-        return viewModel.checkIn.value?.count ?? 0
+        switch collectionView {
+            case checkInClv:
+                return viewModel.checkIn.value?.count ?? 0
+            case albumClv:
+                return 1
+            default:
+                return 0
+        }
     }
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return viewModel.checkIn.value?[section].url.count ?? 0
+        switch collectionView {
+            case checkInClv:
+                return viewModel.checkIn.value?[section].url.count ?? 0
+            case albumClv:
+                return viewModel.allUrlImage.value.count
+            default:
+                return 0
+        }
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "CheckInImageCell", for: indexPath) as? CheckInImageCell else {
-            return UICollectionViewCell()
+        switch collectionView {
+            case checkInClv:
+                guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "CheckInImageCell", for: indexPath) as? CheckInImageCell else {
+                    return UICollectionViewCell()
+                }
+                
+                let url = viewModel.checkIn.value?[indexPath.section].url[indexPath.row]
+                cell.setImage(urlString: url)
+                return cell
+            case albumClv:
+            guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "AlbumImageCell", for: indexPath) as? AlbumImageCell else {
+                return UICollectionViewCell()
+            }
+            
+            let url = viewModel.allUrlImage.value[indexPath.row]
+            cell.setImage(urlString: url)
+            return cell
+            default:
+                return UICollectionViewCell()
         }
-        
-        let url = viewModel.checkIn.value?[indexPath.section].url[indexPath.row]
-        cell.setImage(urlString: url)
-        
-        return cell
     }
 
     
     func collectionView(_ collectionView: UICollectionView,
                         viewForSupplementaryElementOfKind kind: String,
                         at indexPath: IndexPath) -> UICollectionReusableView {
-        if kind == UICollectionView.elementKindSectionHeader {
-            let header = collectionView.dequeueReusableSupplementaryView(
-                ofKind: kind,
-                withReuseIdentifier: "CheckInHeaderView",
-                for: indexPath) as! CheckInHeaderView
-            
-            let date = viewModel.checkIn.value?[indexPath.section].createAt ?? ""
-            header.titleLabel.text = date
-            return header
+        switch collectionView {
+            case checkInClv:
+                if kind == UICollectionView.elementKindSectionHeader {
+                    let header = collectionView.dequeueReusableSupplementaryView(
+                        ofKind: kind,
+                        withReuseIdentifier: "CheckInHeaderView",
+                        for: indexPath) as! CheckInHeaderView
+                    
+                    let date = viewModel.checkIn.value?[indexPath.section].createAt ?? ""
+                    header.titleLabel.text = date
+                    return header
+                }
+            case albumClv:
+                print("f")
+            default:
+                return UICollectionReusableView()
         }
         return UICollectionReusableView()
     }
@@ -545,66 +668,27 @@ extension MyProfileVC: UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView,
                         layout collectionViewLayout: UICollectionViewLayout,
                         referenceSizeForHeaderInSection section: Int) -> CGSize {
-        return CGSize(width: collectionView.frame.width, height: 30)
+        switch collectionView {
+            case checkInClv:
+                return CGSize(width: collectionView.frame.width, height: 30)
+            case albumClv:
+                return CGSize(width: 0, height: 0)
+            default:
+                return CGSize(width: 0, height: 0)
+        }
     }
     
     func collectionView(_ collectionView: UICollectionView,
                         layout collectionViewLayout: UICollectionViewLayout,
                         sizeForItemAt indexPath: IndexPath) -> CGSize {
-        let widthScreen = UIScreen.main.bounds.width / 3 - 40
-        return CGSize(width: widthScreen , height: widthScreen + 60)
-    }
-}
-
-
-class CheckInHeaderView: UICollectionReusableView {
-    let titleLabel = UILabel()
-
-    override init(frame: CGRect) {
-        super.init(frame: frame)
-        backgroundColor = .white
-        titleLabel.font = .boldSystemFont(ofSize: 16)
-        titleLabel.textColor = .black
-        addSubview(titleLabel)
-        titleLabel.snp.makeConstraints { make in
-            make.left.equalToSuperview().offset(16)
-            make.centerY.equalToSuperview()
+        switch collectionView {
+            case checkInClv:
+                return CGSize(width: widthScreen / 3 - 40  , height: widthScreen / 3 + 20)
+            case albumClv:
+                return CGSize(width: widthScreen / 3 - 10, height: widthScreen / 3 - 10)
+            default:
+                return CGSize(width: 0, height: 0)
         }
-    }
-
-    required init?(coder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
-    }
-}
-
-class CheckInImageCell: UICollectionViewCell {
-    let imageView: UIImageView = {
-        let iv = UIImageView()
-        iv.contentMode = .scaleAspectFill
-        iv.clipsToBounds = true
-        iv.layer.cornerRadius = 8
-        iv.backgroundColor = .lightGray
-        return iv
-    }()
-    
-    override init(frame: CGRect) {
-        super.init(frame: frame)
-        contentView.addSubview(imageView)
-        imageView.snp.makeConstraints { make in
-            make.edges.equalToSuperview().inset(8)
-        }
-    }
-    
-    func setImage(urlString: String?) {
-        if let urlStr = urlString, let url = URL(string: urlStr) {
-            imageView.kf.setImage(with: url, options: [.transition(.fade(0.3))])
-        } else {
-            imageView.image = UIImage(named: "placeholder") // Ảnh mặc định
-        }
-    }
-    
-    required init?(coder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
     }
 }
 

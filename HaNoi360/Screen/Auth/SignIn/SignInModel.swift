@@ -8,4 +8,5 @@
 struct SignInModel {
     let userId: String
     let role: String?
+    let avatarUrl: String?
 }

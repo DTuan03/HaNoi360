@@ -246,11 +246,24 @@ class HomeVC: BaseVC {
         
         let overlayViewTap = UITapGestureRecognizer(target: self, action: #selector(overlayViewAction))
         overlayView.addGestureRecognizer(overlayViewTap)
+        
+        let allLabelTap = UITapGestureRecognizer(target: self, action: #selector(allLabelAction))
+        allLabel.addGestureRecognizer(allLabelTap)
+        
     }
     
     @objc func overlayViewAction() {
         let vc = SearchVC()
         self.navigationController?.pushViewController(vc, animated: true)
+    }
+    
+    @objc func allLabelAction() {
+        let vc = AllTrendingVC()
+        isLoading.accept(true)
+        vc.viewModel.getTrendingPlace {
+            self.isLoading.accept(false)
+            self.navigationController?.pushViewController(vc, animated: true)
+        }
     }
                        
     override func bindState() {

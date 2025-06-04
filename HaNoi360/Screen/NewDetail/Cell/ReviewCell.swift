@@ -100,7 +100,7 @@ class ReviewCell: UITableViewCell {
     }
     
     func configData(model: ReviewModel) {
-        if let avatarUser = model.avatarUser {
+        if let avatarUser = model.authorAvatar {
             avatarIV.kf.setImage(with: URL(string: avatarUser))
         } else {
             avatarIV.image = .avatarUser

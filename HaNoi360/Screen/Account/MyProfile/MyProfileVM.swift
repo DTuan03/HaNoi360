@@ -11,18 +11,20 @@ import FirebaseFirestore
 
 
 class MyProfileVM: BaseVM {
-    var itemsPlace = BehaviorRelay<[BlogPost]>(value: [])
+    var blogsPost = BehaviorRelay<[BlogPost]>(value: [])
     var image = BehaviorRelay<UIImage?>(value: nil)
     var url = BehaviorRelay<String?>(value: nil)
     var isUploaded = BehaviorRelay<Bool>(value: false)
     var isLoading = PublishRelay<Bool>()
     var checkIn = BehaviorRelay<[CheckInModel]?>(value: nil)
+    var user = BehaviorRelay<ProfileModel?>(value: nil)
+    var allUrlImage = BehaviorRelay<[String]>(value: [])
 
     func getPlaces(authorId: String, completion: @escaping () -> Void)  {
         blogService.fetchWhereEqualTo(field: "authorId", value: authorId) { result in
             switch result {
             case .success(let places):
-                self.itemsPlace.accept(places)
+                self.blogsPost.accept(places)
             case .failure(let error):
                 print("Loi")
             }
@@ -98,6 +100,28 @@ class MyProfileVM: BaseVM {
             self.checkIn.accept(checkIns)
             completion()
         }
+    }
+    
+    func fetchInfoUser() {
+        userService.fetchWhereEqualTo(field: "userId", value: userId) { result in
+            switch result {
+            case .success(let profile):
+                self.user.accept(profile[0])
+            case .failure(_):
+                print("loi")
+            }
+        }
+    }
+    
+    func filterImageAlbum() {
+        let blogPosts = blogsPost.value
+        
+        let allImageUrls = blogPosts.flatMap { blogPost in
+            blogPost.contentBlocks
+                .filter { $0.type == .image && $0.value != nil }
+                .compactMap { $0.value }
+        }
+        self.allUrlImage.accept(allImageUrls)
     }
 
 }

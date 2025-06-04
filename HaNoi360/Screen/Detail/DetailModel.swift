@@ -28,7 +28,7 @@ struct ReviewModel: Codable {
     let placeId: String?
     let authorId: String?
     let authorName: String?
-    let avatarUser: String?
+    let authorAvatar: String?
     let content: String?
     let rating: Int?
     var report: Bool = false

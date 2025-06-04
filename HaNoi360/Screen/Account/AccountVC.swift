@@ -138,7 +138,11 @@ extension AccountVC: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         switch indexPath.row {
         case 0:
-            navigationController?.pushViewController(ProfileVC(), animated: true)
+            let vc = MyProfileVC()
+            vc.myProfileType = .owner
+            vc.viewModel.getPlaces(authorId: viewModel.userId) {
+                self.navigationController?.pushViewController(vc, animated: true)
+            }
         case 1:
             let forgotPasswordVC = ForgotPasswordVC()
             forgotPasswordVC.titleForgotPasswordVC = "Đổi mật khẩu"

@@ -126,7 +126,7 @@ class DetailVM: BaseVM {
                                  placeId: placeId.value,
                                  authorId: userId,
                                  authorName: nameUser,
-                                 avatarUser: avatarUser,
+                                 authorAvatar: avatarUser,
                                  content: contentReview.value,
                                  rating: rating.value)
         self.currentReview.accept(review)
