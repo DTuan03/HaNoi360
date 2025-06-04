@@ -322,6 +322,8 @@ class NewDetailVC: BaseVC {
             make.centerX.equalToSuperview()
             make.bottom.equalToSuperview().inset(48)
         }
+        
+        self.avatarUser.kf.setImage(with: URL(string: UserDefaults.standard.string(forKey: "avatarUrl") ?? "https://upload.wikimedia.org/wikipedia/commons/7/7c/Profile_avatar_placeholder_large.png"))
     }
     
     override func bindState() {
