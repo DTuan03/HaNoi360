@@ -9,6 +9,9 @@ import SnapKit
 import RxSwift
 import RxCocoa
 import Toast_Swift
+import FirebaseAuth
+import GoogleSignIn
+import FirebaseCore
 
 class SignUpVC: BaseVC {
     let viewModel = SignUpViewModel()
@@ -30,11 +33,24 @@ class SignUpVC: BaseVC {
         return tf
     }()
     
+    lazy var errorName = LabelFactory.createLabel(text: "❗Tên không được để trống",
+                                                  font: .light12,
+                                                  textColor: .red)
+    
+    lazy var nameStv = [nameTextField, errorName].vStack(4)
+    
     lazy var emailTextField = {
         let tf = TextFieldFactory.createTextField(placeholder: "Email")
         tf.imageLeftView(image: .mail)
+        tf.keyboardType = .emailAddress
         return tf
     }()
+    
+    lazy var errorEmail = LabelFactory.createLabel(text: "❗Kiểm tra định dạng email",
+                                                   font: .light12,
+                                                   textColor: .red)
+    
+    lazy var emailStv = [emailTextField, errorEmail].vStack(4)
     
     lazy var passwordTF = {
         let tf = TextFieldFactory.createTextField(placeholder: "Mật khẩu")
@@ -44,18 +60,12 @@ class SignUpVC: BaseVC {
         return tf
     }()
     
-    lazy var errorName = LabelFactory.createLabel(text: "❗Tên không được để trống",
+    lazy var errorPass = LabelFactory.createLabel(text: "❗Nhập mật khẩu mạnh hơn, gồm 8 ký tự hoa, số, đặc biệt",
                                                   font: .light12,
                                                   textColor: .red)
-
-    lazy var errorEmail = LabelFactory.createLabel(text: "❗Kiểm tra định dạng email",
-                                                    font: .light12,
-                                                   textColor: .red)
-
-    lazy var errorPass = LabelFactory.createLabel(text: "❗Nhập mật khẩu mạnh hơn, gồm 8 ký tự hoa, số, đặc biệt",
-                                                    font: .light12,
-                                                   textColor: .red)
- 
+    
+    lazy var passStv = [passwordTF, errorPass].vStack(4)
+    
     lazy var signUpBtn = ButtonFactory.createButton("Đăng ký",
                                                     font: .bold16,
                                                     textColor: .textButtonColor)
@@ -66,7 +76,7 @@ class SignUpVC: BaseVC {
                                                     highLighText: "Đăng nhập",
                                                     highLightFont: .bold18)
     
-    lazy var stackView = [nameTextField, emailTextField, passwordTF, signUpBtn].vStack(22)
+    lazy var stackView = [nameStv, emailStv, passStv, signUpBtn].vStack(22)
     
     lazy var orSignInLabel = LabelFactory.createLabel(text: "Hoặc sử dụng Đăng ký ngay lập tức.",
                                                       font: .medium16,
@@ -99,9 +109,9 @@ class SignUpVC: BaseVC {
         aI.color = .white
         return aI
     }()
-
+    
     override func setupUI() {
-        view.addSubviews([navigation ,titleLabel, descriptionLabel, stackView, orSignInLabel, signUpOtherSv, signInLabel, errorName, errorEmail, errorPass])
+        view.addSubviews([navigation ,titleLabel, descriptionLabel, stackView, orSignInLabel, signUpOtherSv, signInLabel])
         
         navigation.snp.makeConstraints { make in
             make.top.left.right.equalTo(view.safeAreaLayoutGuide)
@@ -130,6 +140,7 @@ class SignUpVC: BaseVC {
             make.height.equalTo(58)
         }
         
+        
         passwordTF.snp.makeConstraints { make in
             make.height.equalTo(58)
         }
@@ -149,24 +160,24 @@ class SignUpVC: BaseVC {
             make.centerX.equalToSuperview()
         }
         
-        errorName.snp.makeConstraints { make in
-            make.top.equalTo(nameTextField.snp.bottom).offset(2)
-            make.left.equalTo(nameTextField.snp.left).offset(5)
-        }
-        
-        errorEmail.snp.makeConstraints { make in
-            make.top.equalTo(emailTextField.snp.bottom).offset(2)
-            make.left.equalTo(emailTextField.snp.left).offset(5)
-        }
-        
-        errorPass.snp.makeConstraints { make in
-            make.top.equalTo(passwordTF.snp.bottom).offset(2)
-            make.left.equalTo(passwordTF.snp.left).offset(5)
-        }
+        //        errorName.snp.makeConstraints { make in
+        //            make.top.equalTo(nameTextField.snp.bottom).offset(2)
+        //            make.left.equalTo(nameTextField.snp.left).offset(5)
+        //        }
+        //
+        //        errorEmail.snp.makeConstraints { make in
+        //            make.top.equalTo(emailTextField.snp.bottom).offset(2)
+        //            make.left.equalTo(emailTextField.snp.left).offset(5)
+        //        }
+        //
+        //        errorPass.snp.makeConstraints { make in
+        //            make.top.equalTo(passwordTF.snp.bottom).offset(2)
+        //            make.left.equalTo(passwordTF.snp.left).offset(5)
+        //        }
         errorName.isHidden = true
         errorEmail.isHidden = true
         errorPass.isHidden = true
-
+        
         signUpBtn.addSubview(activityIndicator)
         
         activityIndicator.snp.makeConstraints { make in
@@ -236,7 +247,7 @@ class SignUpVC: BaseVC {
                 self.viewModel.signUp()
             })
             .disposed(by: disposeBag)
-                
+        
         viewModel.isLoading
             .bind(to: activityIndicator.rx.isAnimating)
             .disposed(by: disposeBag)
@@ -262,10 +273,55 @@ class SignUpVC: BaseVC {
         
         let tap = UITapGestureRecognizer(target: self, action: #selector(signInLabelAction))
         signInLabel.addGestureRecognizer(tap)
+        
+        googleBtn.rx.tap
+            .subscribe(onNext: {
+                self.signInWithGoogle()
+            })
+            .disposed(by: disposeBag)
     }
     
     @objc func signInLabelAction() {
         navigationController?.pushViewController(SignInVC(), animated: true)
+    }
+    
+    func signInWithGoogle() {
+        guard let clientID = FirebaseApp.app()?.options.clientID else { return }
+        
+        let config = GIDConfiguration(clientID: clientID)
+        GIDSignIn.sharedInstance.configuration = config
+        
+        GIDSignIn.sharedInstance.signIn(withPresenting: self) { [weak self] signInResult, error in
+            if let error = error {
+                print("Lỗi:", error.localizedDescription)
+                return
+            }
+            
+            guard let user = signInResult?.user,
+                  let idToken = user.idToken?.tokenString else {
+                print("Thiếu idToken hoặc accessToken")
+                return
+            }
+            let accessToken = user.accessToken.tokenString
+            
+            let credential = GoogleAuthProvider.credential(withIDToken: idToken, accessToken: accessToken)
+            Auth.auth().signIn(with: credential) { result, error in
+                if let error = error {
+                    print("Firebase đăng nhập thất bại:", error.localizedDescription)
+                    return
+                }
+                
+                self?.isLoading.accept(true)
+                // Thành công → Lưu vào Firestore qua AuthRepository
+                if let firebaseUser = result?.user {
+                    AuthRepository.shared.saveUser(firebaseUser) {
+                        self?.navigationController?.pushViewController(TabBarVC(), animated: true)
+                        let defaults = UserDefaults.standard
+                        defaults.set(true, forKey: "isLoggedIn")
+                    }
+                }
+            }
+        }
     }
 }
 

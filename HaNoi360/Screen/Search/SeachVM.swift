@@ -27,7 +27,8 @@ class SeachVM: BaseVM {
     
     func getRecentSearch() {
         let predicate = NSPredicate(format: "userId == %@", self.userId)
-        let recentSearch = RealmHelper.get(SearchModel.self, filter: predicate)
+        let sortItem = SortItem(byKeyPath: "createAt", ascending: false)
+        let recentSearch = RealmHelper.get(SearchModel.self, filter: predicate, sort: sortItem)
         self.recentSearch.accept(recentSearch)
     }
     

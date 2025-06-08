@@ -26,7 +26,7 @@ class LanguageCell: UITableViewCell {
     func setupUI() {
         contentView.addSubviews([titleLabel])
         titleLabel.snp.makeConstraints { make in
-            make.left.equalToSuperview().offset(8)
+            make.left.equalToSuperview()
             make.centerY.equalToSuperview()
         }
         

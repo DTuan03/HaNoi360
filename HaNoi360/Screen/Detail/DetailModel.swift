@@ -33,7 +33,6 @@ struct ReviewModel: Codable {
     let rating: Int?
     var report: Bool = false
     var isFlagged: Bool = false
-    var checkedByModel: Bool = false
     var hasUserAppealed: Bool = false
     var createAt: Date = Date()
 }

@@ -27,6 +27,7 @@ class SignInVC: BaseVC {
     lazy var emailTextField = {
         let tf = TextFieldFactory.createTextField(placeholder: "Email")
         tf.imageLeftView(image: .mail)
+        tf.keyboardType = .emailAddress
         return tf
     }()
     

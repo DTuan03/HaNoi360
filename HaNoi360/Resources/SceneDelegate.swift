@@ -16,6 +16,10 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         guard let windowScene = (scene as? UIWindowScene) else { return }
         window = UIWindow(windowScene: windowScene)
         
+        if let savedStyle = UserDefaults.standard.value(forKey: "darkModeEnabled") as? Int {
+            window?.overrideUserInterfaceStyle = UIUserInterfaceStyle(rawValue: savedStyle) ?? .unspecified
+        }
+        
         let isIntro = UserDefaults.standard.bool(forKey: "isIntro")
         var firstVC = isIntro ? SignInVC() : GetStartedVC()
         

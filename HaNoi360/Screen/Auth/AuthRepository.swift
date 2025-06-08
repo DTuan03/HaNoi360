@@ -8,6 +8,7 @@
 import FirebaseAuth
 import FirebaseFirestore
 import FirebaseCore
+import GoogleSignIn
 
 class AuthRepository {
     static let shared = AuthRepository()
@@ -53,19 +54,29 @@ class AuthRepository {
             }
             guard let user = result?.user else { return }
             
-            self.db.collection("users").document(user.uid).getDocument { (document, error) in
-                if error != nil {
-                    return
+            if user.isEmailVerified {
+                self.db.collection("users").document(user.uid).getDocument { (document, error) in
+                    if error != nil {
+                        return
+                    }
+                    guard let document = document else {
+                        return
+                    }
+                    let data = document.data()
+                    let userId = data?["userId"] as? String ?? ""
+                    let userName = data?["name"] as? String ?? ""
+                    let role = data?["role"] as? String ?? ""
+                    let avatarUrl = data?["avatarUrl"] as? String ?? ""
+                    completion(.success((userId, userName, role, avatarUrl)))
                 }
-                guard let document = document else {
-                    return
+            } else {
+                let notVerifiedError = NSError(domain: "", code: -1001, userInfo: [NSLocalizedDescriptionKey: "Chưa xác minh email"])
+                completion(.failure(notVerifiedError))
+                do {
+                    try Auth.auth().signOut()
+                } catch {
+                    print("Lỗi sign out: \(error.localizedDescription)")
                 }
-                let data = document.data()
-                let userId = data?["userId"] as? String ?? ""
-                let userName = data?["name"] as? String ?? ""
-                let role = data?["role"] as? String ?? ""
-                let avatarUrl = data?["avatarUrl"] as? String ?? ""
-                completion(.success((userId, userName, role, avatarUrl)))
             }
         }
     }
@@ -82,6 +93,11 @@ class AuthRepository {
     
     func getAuthErrorMessage(_ error: Error) -> String {
         let nsError = error as NSError
+        
+        if nsError.code == -1001 {
+            return "Chưa xác minh email."
+        }
+        
         if let errorCode = AuthErrorCode.Code(rawValue: nsError.code) {
             switch errorCode {
             case .userNotFound:
@@ -101,4 +117,19 @@ class AuthRepository {
         return "Lỗi không xác định."
     }
 
+    
+    func saveUser(_ user: User, completion: @escaping () -> Void) {
+        let userData: [String: Any] = [
+            "userId": user.uid,
+            "email": user.email ?? "",
+            "name": user.displayName ?? "",
+            "avatarUrl": user.photoURL?.absoluteString ?? ""
+        ]
+        UserDefaults.standard.set(user.uid, forKey: "userId")
+        UserDefaults.standard.set(user.displayName, forKey: "userName")
+        UserDefaults.standard.set("user", forKey: "role")
+        UserDefaults.standard.set(user.photoURL?.absoluteString, forKey: "avatarUrl")
+        db.collection("users").document(user.uid).setData(userData, merge: true)
+        completion()
+    }
 }

@@ -27,6 +27,8 @@ pod 'Cloudinary'
 pod 'Segmentio'
 pod 'RealmSwift'
 pod 'CHTCollectionViewWaterfallLayout'
+pod 'GoogleSignIn'
+
 
 post_install do |installer|
   installer.pods_project.targets.each do |target|

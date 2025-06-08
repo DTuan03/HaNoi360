@@ -354,7 +354,9 @@ class MyProfileVC: BaseVC {
         viewModel.isUploaded
             .skip(1)
             .subscribe(onNext: { [weak self] _ in
-                self?.viewModel.addImageCheckIn()
+                self?.viewModel.addImageCheckIn {
+                    self?.viewModel.fetchAllCheckIn{}
+                }
             })
             .disposed(by: disposeBag)
         

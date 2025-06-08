@@ -11,6 +11,7 @@ import RxSwift
 
 class ConfirmEmailVC: BaseVC {
     var nameUser: String?
+    lazy var navigationView = NavigationViewFactory.createNavigationViewWithBackButtonOnly(delegate: self)
     lazy var titleLabel = LabelFactory.createLabel(text: "Xác thực email được gửi cho bạn !",
                                                    font: .bold24,
                                                    textAlignment: .center)
@@ -25,9 +26,13 @@ class ConfirmEmailVC: BaseVC {
     let viewModel = ConfirmEmailViewModel()
     
     override func setupUI() {
-        view.addSubviews([titleLabel, descriptionLabel, confirmBtn])
+        view.addSubviews([navigationView, titleLabel, descriptionLabel, confirmBtn])
+        navigationView.snp.makeConstraints { make in
+            make.top.equalTo(view.safeAreaLayoutGuide)
+            make.left.right.equalToSuperview()
+        }
         titleLabel.snp.makeConstraints { make in
-            make.top.equalTo(view.safeAreaLayoutGuide).offset(60)
+            make.top.equalTo(navigationView.snp.bottom).offset(16)
             make.centerX.equalToSuperview()
         }
         
@@ -58,5 +63,11 @@ class ConfirmEmailVC: BaseVC {
                 }
             })
             .disposed(by: disposeBag)
+    }
+}
+
+extension ConfirmEmailVC: NavigationViewDelegate {
+    func didTapButton(in view: UIView) {
+        self.navigationController?.popViewController(animated: true)
     }
 }

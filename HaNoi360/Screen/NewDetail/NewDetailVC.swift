@@ -500,6 +500,9 @@ class NewDetailVC: BaseVC {
                 self.viewModel.addReview()
             })
             .disposed(by: disposeBag)
+        
+        let moreLbTap = UITapGestureRecognizer(target: self, action: #selector(moreLabelAction))
+        moreLabel.addGestureRecognizer(moreLbTap)
     }
     
     @objc func backIvAction() {
@@ -559,6 +562,16 @@ class NewDetailVC: BaseVC {
         let offsetY = max(centerY, 0) // Không vượt quá top
         let targetOffset = CGPoint(x: 0, y: offsetY)
         scrollView.setContentOffset(targetOffset, animated: true)
+    }
+    
+    @objc func moreLabelAction() {
+        let vc = AllReviewVC()
+        vc.viewModel.placeId.accept(viewModel.placeId.value)
+        isLoading.accept(true)
+        vc.viewModel.featchReview() {
+            self.isLoading.accept(false)
+            self.navigationController?.pushViewController(vc, animated: true)
+        }
     }
     
     override func viewDidLayoutSubviews() {

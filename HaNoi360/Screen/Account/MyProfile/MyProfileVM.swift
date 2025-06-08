@@ -32,7 +32,7 @@ class MyProfileVM: BaseVM {
         }
     }
     
-    func addImageCheckIn() {
+    func addImageCheckIn(completion: @escaping () -> Void) {
         let docRef = Firestore.firestore().collection("users").document(userId).collection("checkIn").document(Date().toString(format: "dd-MM-yyyy"))
 
         docRef.setData([
@@ -45,6 +45,7 @@ class MyProfileVM: BaseVM {
                 self.isLoading.accept(false)
                 print("Đã thêm link mới")
             }
+            completion()
         }
 
     }
@@ -61,18 +62,6 @@ class MyProfileVM: BaseVM {
             case .failure(let error):
                 print("Lỗi upload: \(error.localizedDescription)")
             }
-        }
-    }
-    
-    func featchCheckIn(completion: @escaping () -> Void) {
-        checkInService.fetchAll { result in
-            switch result {
-            case .success(let checkIn):
-                self.checkIn.accept(checkIn)
-            case .failure(_):
-                print("Loi")
-            }
-            completion()
         }
     }
     

@@ -155,6 +155,7 @@ extension AccountVC: UITableViewDelegate {
             navigationController?.pushViewController(SignInVC(), animated: true)
             do {
                 try Auth.auth().signOut()
+                UserDefaults.standard.set(false, forKey: "isLoggedIn")
                 print("Đăng xuất thành công")
             } catch let signOutError as NSError {
                 print("Lỗi khi đăng xuất: %@", signOutError)

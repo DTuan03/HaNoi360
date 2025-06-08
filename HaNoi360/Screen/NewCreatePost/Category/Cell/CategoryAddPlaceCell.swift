@@ -25,8 +25,10 @@ class CategoryAddPlaceCell: UITableViewCell {
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         setupUI()
-        let chooseIvTap = UITapGestureRecognizer(target: self, action: #selector(chooseIvAction))
-        chooseIv.addGestureRecognizer(chooseIvTap)
+//        let chooseIvTap = UITapGestureRecognizer(target: self, action: #selector(chooseIvAction))
+//        chooseIv.addGestureRecognizer(chooseIvTap)
+        let cellTap = UITapGestureRecognizer(target: self, action: #selector(chooseIvAction))
+        contentView.addGestureRecognizer(cellTap)
     }
     
     @objc func chooseIvAction() {

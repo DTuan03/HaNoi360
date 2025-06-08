@@ -14,8 +14,8 @@
             filePath = "HaNoi360/Screen/Account/MyProfile/MyProfileVC.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "381"
-            endingLineNumber = "381"
+            startingLineNumber = "383"
+            endingLineNumber = "383"
             landmarkName = "bindState()"
             landmarkType = "7">
          </BreakpointContent>
@@ -110,9 +110,25 @@
             filePath = "HaNoi360/Screen/Account/MyProfile/MyProfileVC.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "641"
-            endingLineNumber = "641"
-            landmarkName = "collectionView(_:viewForSupplementaryElementOfKind:at:)"
+            startingLineNumber = "643"
+            endingLineNumber = "643"
+            landmarkName = "MyProfileVC"
+            landmarkType = "21">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "A3C29496-5925-4967-BB9C-7527D01717DC"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "HaNoi360/Screen/NewDetail/NewDetailVC.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "572"
+            endingLineNumber = "572"
+            landmarkName = "moreLabelAction()"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>

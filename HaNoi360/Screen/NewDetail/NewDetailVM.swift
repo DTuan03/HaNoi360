@@ -187,6 +187,7 @@ class NewDetailVM: BaseVM {
     func updateFlagReview(completion: @escaping () -> Void) {
         if var review = currentReview.value, let reviewId = review.reviewId {
             review.isFlagged = true
+            print(review)
             reviewService.set(review, withId: reviewId) { result in
                 switch result {
                 case .success():
@@ -203,6 +204,7 @@ class NewDetailVM: BaseVM {
     func updateUserAppealStatusForReview(completion: @escaping () -> Void) {
         if var review = currentReview.value, let reviewId = review.reviewId {
             review.hasUserAppealed = true
+            review.isFlagged = true
             reviewService.set(review, withId: reviewId) { result in
                 switch result {
                 case .success():

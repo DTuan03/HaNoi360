@@ -15,6 +15,6 @@ let accountData = [
     AccountModel(icon: "profile", title: "Hồ sơ", nextIcon: "next"),
     AccountModel(icon: "security", title: "Bảo mật", nextIcon: "next"),
     AccountModel(icon: "notification", title: "Thông báo", nextIcon: "next"),
-    AccountModel(icon: "language", title: "Ngôn ngữ", nextIcon: "next"),
+    AccountModel(icon: "language", title: "Ngôn ngữ & Giao diện", nextIcon: "next"),
     AccountModel(icon: "logout", title: "Đăng xuất", nextIcon: "")
 ]
