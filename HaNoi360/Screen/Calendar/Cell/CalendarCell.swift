@@ -13,11 +13,13 @@ class CalendarCell: UITableViewCell {
     lazy var containerView = {
         let view = UIView()
         view.backgroundColor = .tableViewCellColor
-//        view.layer.cornerRadius = 8
+        view.layer.cornerRadius = 8
+        view.layer.borderColor = UIColor.boderColor.cgColor
+        view.layer.borderWidth = 1
         return view
     }()
         
-    lazy var placeIV = ImageViewFactory.createImageView(image: .intro1, radius: 8)
+    lazy var placeIV = ImageViewFactory.createImageView(image: .intro1, contentMode: .scaleAspectFit, radius: 8)
     
     lazy var iconIV = ImageViewFactory.createImageView(image: UIImage(systemName: "calendar"), tintColor: .secondaryTextColor)
     

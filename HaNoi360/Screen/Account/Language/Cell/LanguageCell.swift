@@ -24,6 +24,7 @@ class LanguageCell: UITableViewCell {
     }
     
     func setupUI() {
+        self.backgroundColor = .clear
         contentView.addSubviews([titleLabel])
         titleLabel.snp.makeConstraints { make in
             make.left.equalToSuperview()

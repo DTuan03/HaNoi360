@@ -82,6 +82,7 @@ class NavigationViewFactory {
         let titleLabel = LabelFactory.createLabel(text: title, font: .medium18, textColor: .textNavigationColor, textAlignment: .center)
         
         let lineView = UIViewFactory.createLineView()
+        lineView.backgroundColor = .lineViewNavigationColor
         
         backButton.addTargetClosure { _ in
             delegate?.didTapButton(in: view)

@@ -53,6 +53,7 @@ class ReviewCell: UITableViewCell {
     }
     
     func setupUI() {
+        self.backgroundColor = .clear
         contentView.addSubviews([sv, reportIconIV, reportBtn])
         avatarIV.snp.makeConstraints { make in
             make.width.height.equalTo(50)

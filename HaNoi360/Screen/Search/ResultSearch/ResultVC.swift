@@ -36,7 +36,7 @@ class ResultVC: BaseVC {
         return cv
     }()
     
-    lazy var recentSearcheLabel = LabelFactory.createLabel(text: "0 Kết quả phù hợp", font: .regular16, textColor: UIColor(hex: "#374151"))
+    lazy var recentSearcheLabel = LabelFactory.createLabel(text: "0 Kết quả phù hợp", font: .regular16, textColor: .labelSecondColor )
     
     lazy var stv = [filterClv, recentSearcheLabel].vStack(24)
     

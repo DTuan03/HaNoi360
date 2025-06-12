@@ -85,7 +85,7 @@ class AddPlaceVC: BaseVC {
     
     lazy var addressTF = {
         let tf = TextFieldFactory.createTextField(placeholder: "Địa chỉ cụ thể")
-        tf.imageLeftView(image: .location)
+        tf.imageLeftView(image: UIImage(systemName: "mappin.and.ellipse.circle") ?? .location)
         tf.imageDeleteRightView(image: UIImage(systemName: "multiply"))
         tf.snp.makeConstraints { make in
             make.height.equalTo(58)

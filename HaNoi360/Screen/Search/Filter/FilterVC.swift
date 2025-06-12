@@ -26,6 +26,7 @@ class FilterVC: BaseVC {
         
         let cv = UICollectionView(frame: .zero, collectionViewLayout: layout)
         cv.showsHorizontalScrollIndicator = false
+        cv.backgroundColor = .clear
         cv.register(FilterCell.self, forCellWithReuseIdentifier: "FilterCell")
         cv.dataSource = self
         cv.delegate = self
@@ -43,8 +44,8 @@ class FilterVC: BaseVC {
         rangeSlider.maxValue = 5
         rangeSlider.selectedMinimum = 2
         rangeSlider.selectedMaximum = 4
-        rangeSlider.minLabelColour = .black
-        rangeSlider.maxLabelColour = .black
+        rangeSlider.minLabelColour = .primaryTextColor
+        rangeSlider.maxLabelColour = .primaryTextColor
         rangeSlider.minLabelFont = .regular14
         rangeSlider.maxLabelFont = .regular14
         rangeSlider.handleImage = UIImage(named: "thumb")
@@ -68,11 +69,11 @@ class FilterVC: BaseVC {
     
     lazy var districtTF = {
         let tf =  TextFieldFactory.createTextField(placeholder: "Chọn Quận/Huyện",
-                                                   bgColor: .white)
-        tf.imageLeftView(image: .location)
+                                                   bgColor: .textFiledColor)
+        tf.imageLeftView(image: UIImage(systemName: "mappin.and.ellipse.circle")!)
         let paddingView = UIView(frame: CGRect(x: 0, y: 0, width: 32, height: 46))
         let imageView = UIImageView(image: UIImage(systemName: "chevron.down"))
-        imageView.tintColor = .black
+        imageView.tintColor = .iconColor
         imageView.frame = CGRect(x: 8, y: 19, width: 8, height: 8)
         imageView.contentMode = .scaleAspectFill
         paddingView.addSubview(imageView)

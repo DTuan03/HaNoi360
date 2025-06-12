@@ -21,6 +21,7 @@ class SearchVC: BaseVC {
         tf.layer.borderWidth = 1
         tf.layer.borderColor = UIColor(hex: "#D1D5DB").cgColor
         tf.returnKeyType = .search
+        tf.backgroundColor = .textFiledColor
         tf.delegate = self
         return tf
     }()
@@ -34,7 +35,7 @@ class SearchVC: BaseVC {
         return btn
     }()
     
-    lazy var recentSearcheLabel = LabelFactory.createLabel(text: "Tìm kiếm gần đây", font: .regular16, textColor: UIColor(hex: "#374151"))
+    lazy var recentSearcheLabel = LabelFactory.createLabel(text: "Tìm kiếm gần đây", font: .regular16, textColor: .labelSecondColor)
     
     lazy var tableView = {
         let tableView = TableViewFactory.createTableView()
@@ -43,6 +44,7 @@ class SearchVC: BaseVC {
         tableView.register(SearchCell.self, forCellReuseIdentifier: "SearchCell")
         tableView.dataSource = self
         tableView.delegate = self
+        tableView.backgroundColor = .clear
         return tableView
     }()
     

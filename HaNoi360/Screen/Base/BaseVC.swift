@@ -14,6 +14,9 @@ class BaseVC: UIViewController {
     var disposeBag = DisposeBag()
     let isLoading = BehaviorRelay<Bool>(value: false)
     let isBgWhiteLoading = BehaviorRelay<Bool>(value: false)
+    var userId: String {
+        UserDefaults.standard.string(forKey: "userId") ?? "unknown"
+    }
     private let loadingView = LoadingView()
     var vm = BaseVM()
     

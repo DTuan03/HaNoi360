@@ -13,7 +13,9 @@ class FavoriteCell: UITableViewCell {
     lazy var containerView = {
         let view = UIView()
         view.backgroundColor = .tableViewCellColor
-//        view.layer.cornerRadius = 8
+        view.layer.borderColor = UIColor.boderColor.cgColor
+        view.layer.borderWidth = 1
+        view.layer.cornerRadius = 8
         return view
     }()
         
@@ -25,7 +27,7 @@ class FavoriteCell: UITableViewCell {
     
     lazy var starIconIV = ImageViewFactory.createImageView(image: .star)
     
-    lazy var favoriteIconIV = ImageViewFactory.createImageView(image: UIImage(systemName: "heart.circle.fill"), tintColor: UIColor(hex: "#EF4444"))
+    lazy var favoriteIconIV = ImageViewFactory.createImageView(image: .favorite)
     
     lazy var avgStarLabel = LabelFactory.createLabel(text: "4.0", font: .regular14)
     

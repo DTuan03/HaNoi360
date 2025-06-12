@@ -16,7 +16,7 @@ class AddCategoryVC: BaseVC {
     let viewModel = CategoryViewModel()
     lazy var containerView = {
         let view = UIView()
-        view.backgroundColor = .white
+        view.backgroundColor = .backgroundColor
         view.layer.cornerRadius = 20
         view.layer.maskedCorners = [.layerMaxXMinYCorner, .layerMinXMinYCorner]
         return view

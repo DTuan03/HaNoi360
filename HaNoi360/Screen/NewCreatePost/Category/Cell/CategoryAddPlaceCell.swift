@@ -24,6 +24,7 @@ class CategoryAddPlaceCell: UITableViewCell {
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
+        self.backgroundColor = .clear
         setupUI()
 //        let chooseIvTap = UITapGestureRecognizer(target: self, action: #selector(chooseIvAction))
 //        chooseIv.addGestureRecognizer(chooseIvTap)

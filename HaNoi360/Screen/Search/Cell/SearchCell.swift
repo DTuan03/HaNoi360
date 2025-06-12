@@ -17,11 +17,11 @@ class SearchCell: UITableViewCell {
         return view
     }()
     
-    lazy var timeIv = ImageViewFactory.createImageView(image: UIImage(systemName: "clock"), tintColor: .black)
+    lazy var timeIv = ImageViewFactory.createImageView(image: UIImage(systemName: "clock"), tintColor: .iconColor)
             
     lazy var textSearchLb = LabelFactory.createLabel(text: "Ho Tay", font: .regular15, textColor: .primaryTextColor, numberOfLines: 1)
         
-    lazy var closeIv = ImageViewFactory.createImageView(image: UIImage(systemName: "xmark"), tintColor: .black)
+    lazy var closeIv = ImageViewFactory.createImageView(image: UIImage(systemName: "xmark"), tintColor: .iconColor)
     
     var onDelete: (() -> Void)?
     

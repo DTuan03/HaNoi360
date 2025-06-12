@@ -140,8 +140,10 @@ extension AccountVC: UITableViewDelegate {
         case 0:
             let vc = MyProfileVC()
             vc.myProfileType = .owner
-            vc.viewModel.getPlaces(authorId: viewModel.userId) {
-                self.navigationController?.pushViewController(vc, animated: true)
+            vc.viewModel.fetchInfoUser(userId: viewModel.userId) {
+                vc.viewModel.getPlaces(authorId: self.viewModel.userId) {
+                    self.navigationController?.pushViewController(vc, animated: true)
+                }
             }
         case 1:
             let forgotPasswordVC = ForgotPasswordVC()

@@ -29,6 +29,7 @@ class DetailTextCell: UITableViewCell, UITextViewDelegate {
     }
     
     func setupUI() {
+        tv.textColor = .primaryTextColor
         contentView.addSubviews([tv, paddingView])
         tv.isScrollEnabled = false
         tv.isUserInteractionEnabled = false

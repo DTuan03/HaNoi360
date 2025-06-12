@@ -19,39 +19,39 @@ class TabBarVC: BaseVC {
     lazy var tabBarView = {
         let view = UIView()
         view.backgroundColor = .backgroundColor
-        view.layer.borderColor = UIColor(hex: "#F3F4F6").cgColor
+        view.layer.borderColor = UIColor.borderTabBarColor.cgColor
         view.layer.borderWidth = 1
         view.layer.maskedCorners = [.layerMinXMinYCorner, .layerMaxXMinYCorner]
-        let iv = ImageViewFactory.createImageView(image: .bg, contentMode: .scaleAspectFill)
-        view.addSubview(iv)
-        iv.snp.makeConstraints { make in
-            make.edges.equalToSuperview()
-        }
+//        let iv = ImageViewFactory.createImageView(image: .bg, contentMode: .scaleAspectFill)
+//        view.addSubview(iv)
+//        iv.snp.makeConstraints { make in
+//            make.edges.equalToSuperview()
+//        }
         
         return view
     }()
     
-    lazy var homeBtn = ButtonFactory.createImageButton(withImage: UIImage(systemName: "house.fill"), tinColor: UIColor(hex: "#4B5563"))
+    lazy var homeBtn = ButtonFactory.createImageButton(withImage: UIImage(systemName: "house.fill"), tinColor: .iconNoSelectTabBarColor)
     
-    lazy var titleHomeLabel = LabelFactory.createLabel(text: "Trang chủ", font: .regular14, textColor: UIColor(hex: "#1F2937"))
+    lazy var titleHomeLabel = LabelFactory.createLabel(text: "Trang chủ", font: .regular14, textColor: .iconNoSelectTabBarColor)
     
     lazy var stvHome = [homeBtn, titleHomeLabel].vStack(alignment: .center, distribution: .fillEqually)
     
-    lazy var calendarBtn = ButtonFactory.createImageButton(withImage: UIImage(systemName: "calendar.badge.plus"), tinColor: UIColor(hex: "#4B5563"))
+    lazy var calendarBtn = ButtonFactory.createImageButton(withImage: UIImage(systemName: "calendar.badge.plus"), tinColor: .iconNoSelectTabBarColor)
     
-    lazy var titleCalendarLabel = LabelFactory.createLabel(text: "Lịch trình", font: .regular14, textColor: UIColor(hex: "#1F2937"))
+    lazy var titleCalendarLabel = LabelFactory.createLabel(text: "Lịch trình", font: .regular14, textColor: .iconNoSelectTabBarColor)
     
     lazy var stvCalendar = [calendarBtn, titleCalendarLabel].vStack(alignment: .center, distribution: .fillEqually)
     
-    lazy var favoriteBtn = ButtonFactory.createImageButton(withImage: UIImage(systemName: "heart"), tinColor: UIColor(hex: "#4B5563"))
+    lazy var favoriteBtn = ButtonFactory.createImageButton(withImage: UIImage(systemName: "heart"), tinColor: .iconNoSelectTabBarColor)
     
-    lazy var titleFavoriteLabel = LabelFactory.createLabel(text: "Yêu thích", font: .regular14, textColor: UIColor(hex: "#1F2937"))
+    lazy var titleFavoriteLabel = LabelFactory.createLabel(text: "Yêu thích", font: .regular14, textColor: .iconNoSelectTabBarColor)
     
     lazy var stvFavorite = [favoriteBtn, titleFavoriteLabel].vStack(alignment: .center, distribution: .fillEqually)
     
-    lazy var profileBtn = ButtonFactory.createImageButton(withImage: UIImage(systemName: "person"), tinColor: UIColor(hex: "#4B5563"))
+    lazy var profileBtn = ButtonFactory.createImageButton(withImage: UIImage(systemName: "person"), tinColor: .iconNoSelectTabBarColor)
     
-    lazy var titleSettingLabel = LabelFactory.createLabel(text: "Tài khoản", font: .regular14, textColor: UIColor(hex: "#1F2937"))
+    lazy var titleSettingLabel = LabelFactory.createLabel(text: "Tài khoản", font: .regular14, textColor: .iconNoSelectTabBarColor)
     
     lazy var stvProfile = [profileBtn, titleSettingLabel].vStack(alignment: .center, distribution: .fillEqually)
     
@@ -76,8 +76,9 @@ class TabBarVC: BaseVC {
     override func setupUI() {
         view.addSubviews([containerView, tabBarView])
         tabBarView.snp.makeConstraints { make in
-            make.left.right.equalToSuperview()
-            make.bottom.equalToSuperview()
+            make.left.equalToSuperview().offset(-1)
+            make.right.equalToSuperview().offset(1)
+            make.bottom.equalToSuperview().offset(1)
             make.height.equalTo(80)
         }
         
@@ -180,8 +181,8 @@ class TabBarVC: BaseVC {
         let buttons = [homeBtn, calendarBtn, favoriteBtn, profileBtn]
         let labels = [titleHomeLabel, titleCalendarLabel, titleFavoriteLabel, titleSettingLabel]
         for (index, button) in buttons.enumerated() {
-            button.tintColor = (button == selected) ? UIColor(hex: "#FF3E00") : .black
-            labels[index].textColor = (button == selected) ? UIColor(hex: "#FF3E00") : .black
+            button.tintColor = (button == selected) ? UIColor.primaryColor : UIColor.iconNoSelectTabBarColor
+            labels[index].textColor = (button == selected) ? UIColor.primaryColor : UIColor.iconNoSelectTabBarColor
             labels[index].font = (button == selected) ? .medium14 : .regular14
         }
     }

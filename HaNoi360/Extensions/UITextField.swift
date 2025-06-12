@@ -11,7 +11,7 @@ extension UITextField {
     func imageLeftView(
         image: UIImage,
         placeholder: String = "",
-        tinColor: UIColor = .black,
+        tinColor: UIColor = .iconColor,
         padding: UIEdgeInsets = UIEdgeInsets(top: 16, left: 24, bottom: 16, right: 24),
         imageSize: CGSize = CGSize(width: 24, height: 24)
     ) {
@@ -43,7 +43,7 @@ extension UITextField {
     func imageRightView(image: UIImage?, placeholder: String = "") {
         let paddingView = UIView(frame: CGRect(x: 0, y: 0, width: 64, height: 50))
         let imageView = UIImageView(image: image)
-        imageView.tintColor = .black
+        imageView.tintColor = .iconColor
         imageView.frame = CGRect(x: 24, y: 17, width: 16, height: 16)
         imageView.contentMode = .scaleAspectFill
         paddingView.addSubview(imageView)
@@ -74,7 +74,7 @@ extension UITextField {
     func imageDeleteRightView(image: UIImage?, placeholder: String = "") {
         let paddingView = UIView(frame: CGRect(x: 0, y: 0, width: 48, height: 50))
         let imageView = UIImageView(image: image)
-        imageView.tintColor = .lightGray
+        imageView.tintColor = .iconColor
         imageView.frame = CGRect(x: 16, y: 17, width: 8, height: 16)
         imageView.contentMode = .scaleAspectFill
         paddingView.addSubview(imageView)

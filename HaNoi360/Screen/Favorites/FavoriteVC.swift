@@ -36,7 +36,7 @@ class FavoriteVC: BaseVC {
         }
         
         tableView.snp.makeConstraints { make in
-            make.top.equalTo(navigationView.snp.bottom)
+            make.top.equalTo(navigationView.snp.bottom).offset(16)
             make.left.right.equalToSuperview().inset(20)
             make.bottom.equalToSuperview()
         }

@@ -33,7 +33,9 @@ class NewCreatePostVC: BaseVC {
     
     lazy var titleTf = {
         let tf = TextFieldFactory.createTextField(placeholder: "Tiêu đề bài viết", rounded: 8)
-        tf.imageLeftView(image: .location, placeholder: "", padding: UIEdgeInsets(top: 8, left: 12, bottom: 8, right: 12), imageSize: CGSize(width: 16, height: 16))
+        tf.imageLeftView(image: UIImage(systemName: "mappin.and.ellipse.circle")!, placeholder: "", padding: UIEdgeInsets(top: 8, left: 12, bottom: 8, right: 12), imageSize: CGSize(width: 16, height: 16))
+        tf.layer.borderColor = UIColor.white.cgColor
+        tf.layer.borderWidth = 1
         tf.snp.makeConstraints { make in
             make.height.equalTo(40)
         }
@@ -47,6 +49,8 @@ class NewCreatePostVC: BaseVC {
         btn.layer.cornerRadius = 8
         btn.titleLabel?.lineBreakMode = .byTruncatingTail
         btn.titleLabel?.numberOfLines = 1
+        btn.layer.borderColor = UIColor.white.cgColor
+        btn.layer.borderWidth = 1
         btn.snp.makeConstraints { make in
             make.height.equalTo(40)
         }
@@ -57,6 +61,8 @@ class NewCreatePostVC: BaseVC {
         let btn = ButtonFactory.createImageButton(withImage: UIImage(systemName: "mappin"), title: "  Thêm địa chỉ", tinColor: .primaryColor, font: .regular12)
         btn.backgroundColor = .textFiledColor
         btn.layer.cornerRadius = 8
+        btn.layer.borderColor = UIColor.white.cgColor
+        btn.layer.borderWidth = 1
         btn.snp.makeConstraints { make in
             make.height.equalTo(40)
         }

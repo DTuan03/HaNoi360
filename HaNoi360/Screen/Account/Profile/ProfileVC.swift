@@ -25,10 +25,6 @@ class ProfileVC: BaseVC {
     }()
     
     let titles: [String] = ["Tên của bạn", "Email", "Điện thoại", "Sở thích", "Ngày sinh", "Địa chỉ"]
-    
-    lazy var saveBtn = ButtonFactory.createButton("Lưu",
-                                                  font: .bold16,
-                                                  textColor: .textButtonColor)
 
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
@@ -36,7 +32,7 @@ class ProfileVC: BaseVC {
     }
     
     override func setupUI() {
-        view.addSubviews([navigationView, tableView/*, saveBtn*/])
+        view.addSubviews([navigationView, tableView])
         
         navigationView.snp.makeConstraints { make in
             make.top.equalTo(view.safeAreaLayoutGuide)
@@ -48,11 +44,6 @@ class ProfileVC: BaseVC {
             make.left.right.equalToSuperview().inset(10)
             make.height.equalTo(70 * 6)
         }
-        
-//        saveBtn.snp.makeConstraints { make in
-//            make.top.equalTo(tableView.snp.bottom).offset(32)
-//            make.left.right.equalToSuperview().inset(40)
-//        }
     }
     
     override func bindState() {
@@ -119,19 +110,19 @@ class PopupProfile: BaseVC, UITextFieldDelegate {
     let viewModel = ProfileVM()
     lazy var containerView: UIView = {
         let view = UIView()
-        view.backgroundColor = .backgroundPopupColor
+        view.backgroundColor = .backgroundColor
         view.layer.cornerRadius = 12
         return view
     }()
     
-    lazy var closeBtn = ButtonFactory.createImageButton(withImage: UIImage(systemName: "multiply"))
+    lazy var closeBtn = ButtonFactory.createImageButton(withImage: UIImage(systemName: "multiply"), tinColor: .iconColor)
     
     lazy var titleLb = LabelFactory.createLabel(text: "Ten cua ban", font: .medium16)
     
     let lineView = UIViewFactory.createLineView()
     
     lazy var textField = {
-        let tf = TextFieldFactory.createTextField(placeholder: "ho ten", font: .regular14, bgColor: .white, rounded: 8)
+        let tf = TextFieldFactory.createTextField(placeholder: "ho ten", font: .regular14, bgColor: .textFiledColor, rounded: 8)
         tf.layer.borderColor = UIColor.lightGray.cgColor
         tf.layer.borderWidth = 1
         tf.returnKeyType = .done

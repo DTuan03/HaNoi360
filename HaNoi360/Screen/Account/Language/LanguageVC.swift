@@ -52,13 +52,13 @@ class LanguageVC: BaseVC {
         }
         
         themeLb.snp.makeConstraints { make in
-            make.top.equalTo(navigationView.snp.bottom).offset(4)
+            make.top.equalTo(navigationView.snp.bottom).offset(16)
             make.left.equalToSuperview().offset(16)
         }
         
         darkModeLb.snp.makeConstraints { make in
             make.top.equalTo(themeLb.snp.bottom).offset(24)
-            make.left.equalToSuperview().offset(16)
+            make.left.equalToSuperview().offset(20)
         }
         
         themeSwitch.snp.makeConstraints { make in
@@ -73,7 +73,8 @@ class LanguageVC: BaseVC {
         
         languageTableView.snp.makeConstraints { make in
             make.top.equalTo(languageLb.snp.bottom).offset(4)
-            make.left.right.equalToSuperview().inset(16)
+            make.left.equalToSuperview().offset(20)
+            make.right.equalToSuperview().inset(16)
             make.bottom.equalToSuperview()
         }
     }

@@ -15,7 +15,8 @@ class HeadingCell: UITableViewCell {
         tf.rightViewMode = .always
         tf.leftView = UIView(frame: CGRect(x: 0, y: 0, width: 12, height: tf.frame.height))
         tf.leftViewMode = .always
-        
+        tf.layer.borderColor = UIColor.lightGray.cgColor
+        tf.layer.borderWidth = 1
         return tf
     }()
     

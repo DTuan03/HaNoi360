@@ -47,7 +47,7 @@ class NewDetailVC: BaseVC {
     
     lazy var tabBarView: UIView = {
         let view = UIView()
-        view.backgroundColor = .white
+        view.backgroundColor = .backgroundColor
         view.addSubviews([tabBarSv])
         favoriteIV.snp.makeConstraints { make in
             make.height.width.equalTo(24)
@@ -114,7 +114,7 @@ class NewDetailVC: BaseVC {
     lazy var containerView = {
         locationIv.backgroundColor = .red
         let view = UIView()
-        view.backgroundColor = .white
+        view.backgroundColor = .backgroundColor
         view.addSubviews([backIv, infoSv/*, handleSv*/])
         backIv.snp.makeConstraints { make in
             make.centerY.equalToSuperview()
@@ -147,12 +147,13 @@ class NewDetailVC: BaseVC {
         cv.register(UICollectionViewCell.self, forCellWithReuseIdentifier: "CategoryCell")
         cv.dataSource = self
         cv.delegate = self
+        cv.backgroundColor = .clear
         return cv
     }()
     
     lazy var titleLb = LabelFactory.createLabel(text: viewModel.place.value?.title, font: .bold22)
     
-    lazy var createAtLb = LabelFactory.createLabel(text: viewModel.place.value?.createAt?.toString(format: "'Ngày' dd 'tháng' MM 'năm' yyyy"), font: .extraBoldItalic14, textColor: UIColor(hex: "#666666"))
+    lazy var createAtLb = LabelFactory.createLabel(text: viewModel.place.value?.createAt?.toString(format: "'Ngày' dd 'tháng' MM 'năm' yyyy"), font: .extraBoldItalic14, textColor: .secondaryTextColor)
     
     lazy var infoPost = [titleLb, createAtLb].vStack(4)
     
@@ -214,7 +215,7 @@ class NewDetailVC: BaseVC {
     
     lazy var safeArea: UIView = {
         let view = UIView()
-        view.backgroundColor = .white
+        view.backgroundColor = .backgroundColor
         return view
     }()
     
@@ -318,7 +319,7 @@ class NewDetailVC: BaseVC {
         }
         
         moreLabel.snp.makeConstraints { make in
-            make.top.equalTo(reviewTableView.snp.bottom).offset(-10)
+            make.top.equalTo(reviewTableView.snp.bottom).offset(8)
             make.centerX.equalToSuperview()
             make.bottom.equalToSuperview().inset(48)
         }
@@ -547,12 +548,18 @@ class NewDetailVC: BaseVC {
         //so sanh xem 2 userId giong nhau khong
         if viewModel.userId == viewModel.place.value?.authorId {
             vc.myProfileType = .owner
+            vc.viewModel.fetchInfoUser(userId: self.viewModel.userId) {
+                vc.viewModel.getPlaces(authorId: self.viewModel.place.value?.authorId ?? "") {
+                    self.navigationController?.pushViewController(vc, animated: true)
+                }
+            }
         } else {
             vc.myProfileType = .guest
-        }
-//        vc.viewModel.authorId.accept(viewModel.place.value?.authorId ?? "")
-        vc.viewModel.getPlaces(authorId: viewModel.place.value?.authorId ?? "") {
-            self.navigationController?.pushViewController(vc, animated: true)
+            vc.viewModel.fetchInfoUser(userId: (self.viewModel.place.value?.authorId)!) {
+                vc.viewModel.getPlaces(authorId: self.viewModel.place.value?.authorId ?? "") {
+                    self.navigationController?.pushViewController(vc, animated: true)
+                }
+            }
         }
     }
     
@@ -567,6 +574,7 @@ class NewDetailVC: BaseVC {
     @objc func moreLabelAction() {
         let vc = AllReviewVC()
         vc.viewModel.placeId.accept(viewModel.placeId.value)
+        vc.avgReview = viewModel.place.value?.avgRating ?? 0
         isLoading.accept(true)
         vc.viewModel.featchReview() {
             self.isLoading.accept(false)
@@ -592,7 +600,7 @@ extension NewDetailVC: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "CategoryCell", for: indexPath)
         
-        let label = LabelFactory.createLabel(font: .bold12, textColor: UIColor(hex: "#666666"), numberOfLines: 1)
+        let label = LabelFactory.createLabel(font: .bold12, textColor: .secondaryTextColor, numberOfLines: 1)
         label.text = viewModel.categoryHastag.value[indexPath.row]
         cell.contentView.addSubview(label)
         label.snp.makeConstraints { make in

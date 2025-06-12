@@ -15,6 +15,15 @@ import FirebaseCore
 
 class SignUpVC: BaseVC {
     let viewModel = SignUpViewModel()
+    
+    lazy var scrollView = ScrollViewFactory.createScrollView(backgroundColor: .backgroundColor)
+    
+    lazy var contentView = {
+        let view = UIView()
+        view.backgroundColor = .clear
+        return view
+    }()
+    
     lazy var navigation = NavigationViewFactory.createNavigationViewWithBackButtonOnly(image: .back,
                                                                                        isHiddenBtn: true,
                                                                                        delegate: self)
@@ -35,7 +44,7 @@ class SignUpVC: BaseVC {
     
     lazy var errorName = LabelFactory.createLabel(text: "❗Tên không được để trống",
                                                   font: .light12,
-                                                  textColor: .red)
+                                                  textColor: .erorrColor)
     
     lazy var nameStv = [nameTextField, errorName].vStack(4)
     
@@ -48,7 +57,7 @@ class SignUpVC: BaseVC {
     
     lazy var errorEmail = LabelFactory.createLabel(text: "❗Kiểm tra định dạng email",
                                                    font: .light12,
-                                                   textColor: .red)
+                                                   textColor: .erorrColor)
     
     lazy var emailStv = [emailTextField, errorEmail].vStack(4)
     
@@ -62,7 +71,7 @@ class SignUpVC: BaseVC {
     
     lazy var errorPass = LabelFactory.createLabel(text: "❗Nhập mật khẩu mạnh hơn, gồm 8 ký tự hoa, số, đặc biệt",
                                                   font: .light12,
-                                                  textColor: .red)
+                                                  textColor: .erorrColor)
     
     lazy var passStv = [passwordTF, errorPass].vStack(4)
     
@@ -78,7 +87,7 @@ class SignUpVC: BaseVC {
     
     lazy var stackView = [nameStv, emailStv, passStv, signUpBtn].vStack(22)
     
-    lazy var orSignInLabel = LabelFactory.createLabel(text: "Hoặc sử dụng Đăng ký ngay lập tức.",
+    lazy var orSignInLabel = LabelFactory.createLabel(text: "Hoặc sử dụng Đăng nhập ngay lập tức.",
                                                       font: .medium16,
                                                       textColor: .secondaryTextColor,
                                                       textAlignment: .center)
@@ -111,10 +120,21 @@ class SignUpVC: BaseVC {
     }()
     
     override func setupUI() {
-        view.addSubviews([navigation ,titleLabel, descriptionLabel, stackView, orSignInLabel, signUpOtherSv, signInLabel])
+        view.addSubviews([scrollView])
+        scrollView.snp.makeConstraints { make in
+            make.edges.equalToSuperview()
+        }
+        
+        scrollView.addSubview(contentView)
+        contentView.snp.makeConstraints { make in
+            make.top.left.bottom.equalToSuperview()
+            make.width.equalTo(scrollView.snp.width)
+        }
+        
+        contentView.addSubviews([navigation ,titleLabel, descriptionLabel, stackView, orSignInLabel, signUpOtherSv, signInLabel])
         
         navigation.snp.makeConstraints { make in
-            make.top.left.right.equalTo(view.safeAreaLayoutGuide)
+            make.top.left.right.equalToSuperview()
         }
         
         titleLabel.snp.makeConstraints { make in
@@ -158,6 +178,7 @@ class SignUpVC: BaseVC {
         signInLabel.snp.makeConstraints { make in
             make.top.equalTo(signUpOtherSv.snp.bottom).offset(48)
             make.centerX.equalToSuperview()
+            make.bottom.equalToSuperview().inset(10)
         }
         
         //        errorName.snp.makeConstraints { make in
@@ -199,7 +220,7 @@ class SignUpVC: BaseVC {
                     self.nameTextField.layer.borderWidth = 0
                 } else {
                     self.errorName.isHidden = false
-                    self.nameTextField.layer.borderColor = UIColor(hex: "#FF3030").cgColor
+                    self.nameTextField.layer.borderColor = UIColor.erorrColor.cgColor
                     self.nameTextField.layer.borderWidth = 1
                 }
             })
@@ -217,7 +238,7 @@ class SignUpVC: BaseVC {
                     self.emailTextField.layer.borderWidth = 0
                 } else {
                     self.errorEmail.isHidden = false
-                    self.emailTextField.layer.borderColor = UIColor(hex: "#FF3030").cgColor
+                    self.emailTextField.layer.borderColor = UIColor.erorrColor.cgColor
                     self.emailTextField.layer.borderWidth = 1
                 }
             })
@@ -235,7 +256,7 @@ class SignUpVC: BaseVC {
                     self.passwordTF.layer.borderWidth = 0
                 } else {
                     self.errorPass.isHidden = false
-                    self.passwordTF.layer.borderColor = UIColor(hex: "#FF3030").cgColor
+                    self.passwordTF.layer.borderColor = UIColor.erorrColor.cgColor
                     self.passwordTF.layer.borderWidth = 1
                 }
             })

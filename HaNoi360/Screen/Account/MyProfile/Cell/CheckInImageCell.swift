@@ -19,6 +19,7 @@ class CheckInImageCell: UICollectionViewCell {
     
     override init(frame: CGRect) {
         super.init(frame: frame)
+        self.backgroundColor = .clear
         contentView.addSubview(imageView)
         imageView.snp.makeConstraints { make in
             make.edges.equalToSuperview().inset(8)
@@ -43,9 +44,9 @@ class CheckInHeaderView: UICollectionReusableView {
 
     override init(frame: CGRect) {
         super.init(frame: frame)
-        backgroundColor = .white
+        self.backgroundColor = .clear
         titleLabel.font = .boldSystemFont(ofSize: 16)
-        titleLabel.textColor = .black
+        titleLabel.textColor = .primaryTextColor
         addSubview(titleLabel)
         titleLabel.snp.makeConstraints { make in
             make.left.equalToSuperview().offset(16)

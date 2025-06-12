@@ -14,4 +14,18 @@ struct ProfileModel: Codable {
     let interest: String?
     let date: String?
     let address: String?
+    let followers: [FollowersModel]?
+    let following: [FollowingModel]?
+}
+
+struct FollowingModel: Codable {
+    let followeeId: String?
+    let avatarUrl: String?
+    let name: String?
+}
+
+struct FollowersModel: Codable {
+    let followerId: String?
+    let avatarUrl: String?
+    let name: String?
 }

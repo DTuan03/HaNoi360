@@ -31,7 +31,8 @@ class CalendarVC: BaseVC {
         calendar.locale = Locale(identifier: "vi_VN")
         calendar.headerHeight = 0 // ẩn tháng
         
-        calendar.appearance.weekdayTextColor = UIColor.gray
+        calendar.appearance.titleDefaultColor = .labelSecondColor
+        calendar.appearance.weekdayTextColor = .labelSecondColor
         calendar.appearance.todayColor = UIColor.clear
         calendar.appearance.titleTodayColor = .primaryColor
         calendar.appearance.selectionColor = .primaryColor
@@ -50,7 +51,7 @@ class CalendarVC: BaseVC {
         return calendar
     }()
     
-    lazy var selectedDateLabel = LabelFactory.createLabel(text : selectedDate, font: .medium16, textColor: .black)
+    lazy var selectedDateLabel = LabelFactory.createLabel(text : selectedDate, font: .medium16, textColor: .primaryTextColor)
     
     lazy var currentDateLabel = LabelFactory.createLabel(text: "Hôm nay", font: .regular16, textColor: .primaryColor)
     

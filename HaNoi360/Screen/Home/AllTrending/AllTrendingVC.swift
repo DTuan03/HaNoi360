@@ -26,7 +26,7 @@ class AllTrendingVC: BaseVC {
         clv.autoresizingMask = [.flexibleHeight, .flexibleWidth]
         clv.dataSource = self
         clv.delegate = self
-        clv.backgroundColor = .white
+        clv.backgroundColor = .backgroundColor
         clv.register(TrendingCell.self, forCellWithReuseIdentifier: "TrendingCell")
         
         return clv

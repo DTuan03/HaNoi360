@@ -13,7 +13,7 @@ protocol ProfileCellDelegate: AnyObject {
 }
 
 class ProfileCell: UITableViewCell {
-    lazy var titleLabel = LabelFactory.createLabel(text: "Ho ten", font: .regular12, textColor: UIColor(hex: "#4F4F4F"))
+    lazy var titleLabel = LabelFactory.createLabel(text: "Ho ten", font: .regular12, textColor: .secondaryTextColor)
     
     lazy var valueLabel = LabelFactory.createLabel(text: "Dang Anh Tuan", font: .medium14)
     
@@ -34,6 +34,7 @@ class ProfileCell: UITableViewCell {
     }
     
     func setupUI() {
+        self.backgroundColor = .clear
         contentView.addSubviews([titleLabel, valueLabel, editLabel])
         titleLabel.snp.makeConstraints { make in
             make.left.equalToSuperview().offset(4)

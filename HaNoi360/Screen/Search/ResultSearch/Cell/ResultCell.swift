@@ -15,10 +15,12 @@ class ResultCell: UITableViewCell {
         view.backgroundColor = .tableViewCellColor
         view.layer.cornerRadius = 12
         view.layer.masksToBounds = true
+        view.layer.borderColor = UIColor.boderColor.cgColor
+        view.layer.borderWidth = 1
         return view
     }()
         
-    lazy var placeIV = ImageViewFactory.createImageView(image: .test, radius: 8)
+    lazy var placeIV = ImageViewFactory.createImageView(image: .test, contentMode: .scaleAspectFit, radius: 8)
     
     lazy var namePlaceLabel = LabelFactory.createLabel(text: "Ho Tay", font: .medium14, textColor: .primaryTextColor, numberOfLines: 1)
     

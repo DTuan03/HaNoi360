@@ -143,7 +143,7 @@ class CategoryVC: BaseVC {
     
     lazy var containerView = {
         let view = UIView()
-        view.backgroundColor = .white
+        view.backgroundColor = .backgroundColor
         view.layer.cornerRadius = 24
         view.layer.maskedCorners = [.layerMinXMinYCorner, .layerMaxXMinYCorner]
         return view
@@ -155,6 +155,7 @@ class CategoryVC: BaseVC {
         tb.register(CategoryPlaceCell.self, forCellReuseIdentifier: "CategoryPlaceCell")
         tb.dataSource = self
         tb.delegate = self
+        tb.backgroundColor = .clear
         tb.isScrollEnabled = false
         return tb
     }()

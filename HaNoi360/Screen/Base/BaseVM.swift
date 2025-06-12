@@ -25,4 +25,5 @@ class BaseVM {
     let blogService = BaseFirestoreService<BlogPost>(collectionPath: "blogs")
     lazy var checkInService = BaseFirestoreService<CheckInModel>(collectionPath: "users/\(userId)/checkIn")
     lazy var userService = BaseFirestoreService<ProfileModel>(collectionPath: "users")
+    lazy var followingService = BaseFirestoreService<ProfileModel>(collectionPath: "users/\(userId)/following")
 }

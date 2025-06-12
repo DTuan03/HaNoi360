@@ -35,6 +35,7 @@ class DetailHeadingCell: UITableViewCell {
     
     func setupUI() {
         contentView.addSubviews([tf, paddingView])
+        tf.textColor = .primaryTextColor
         tf.isScrollEnabled = false
         tf.isUserInteractionEnabled = false
         tf.snp.makeConstraints { make in

@@ -11,7 +11,7 @@ import SnapKit
 class FilterCell: UICollectionViewCell {
     
     lazy var titleLabel = LabelFactory.createLabel(font: .regular16,
-                                                   textColor: .black,
+                                                   textColor: .textTextFiledColor,
                                                    numberOfLines: 1,
                                                    textAlignment: .center)
     
@@ -44,12 +44,12 @@ class FilterCell: UICollectionViewCell {
         if isSelected {
             contentView.layer.borderColor = UIColor.white.cgColor
             contentView.backgroundColor = .primaryColor
-            titleLabel.textColor = .white
+            titleLabel.textColor = .primaryTextColor
             titleLabel.font = UIFont.medium16
         } else {
             contentView.layer.borderColor = UIColor(hex: "#6B7280").cgColor
             contentView.backgroundColor = .clear
-            titleLabel.textColor = .black
+            titleLabel.textColor = .primaryTextColor
             titleLabel.font = UIFont.regular16
         }
     }

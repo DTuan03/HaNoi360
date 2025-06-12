@@ -14,8 +14,8 @@ extension UITableView {
         animationView.loopMode = .loop
         animationView.play()
         
-        let title = LabelFactory.createLabel(text: title, font: .medium20, textColor: UIColor(hex: "#374151"))
-        let message = LabelFactory.createLabel(text: message, font: .regular16, textColor: UIColor(hex: "#374151"), textAlignment: .center)
+        let title = LabelFactory.createLabel(text: title, font: .medium20, textColor: .labelSecondColor)
+        let message = LabelFactory.createLabel(text: message, font: .regular16, textColor: .labelSecondColor, textAlignment: .center)
 
         let stv = [title, message].vStack(8, alignment: .center)
         let container = UIView(frame: self.bounds)

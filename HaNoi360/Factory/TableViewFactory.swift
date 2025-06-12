@@ -16,6 +16,7 @@ class TableViewFactory {
         tableView.estimatedRowHeight = 150
         tableView.separatorInset = .zero
         tableView.separatorColor = .gray
+        tableView.backgroundColor = .clear
 #if compiler(>=5.5)
         if #available(iOS 15.0, *) {
             tableView.sectionHeaderTopPadding = 0

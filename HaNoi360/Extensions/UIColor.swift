@@ -60,7 +60,7 @@ extension UIColor {
     }
     
     static let hightlightColor = UIColor { traitCollection in
-        return traitCollection.userInterfaceStyle == .light ? UIColor(hex: "#FF3E00") : UIColor(hex: "#FF3E00")
+        return traitCollection.userInterfaceStyle == .light ? UIColor(hex: "#F97316") : UIColor(hex: "#F97316")
     }
     
     static let textTextFiledColor = UIColor { traitCollection in
@@ -68,7 +68,7 @@ extension UIColor {
     }
     
     static let textFiledColor = UIColor { traitCollection in
-        return traitCollection.userInterfaceStyle == .light ? UIColor(hex: "#F3F4F6") : UIColor(hex: "#374151")
+        return traitCollection.userInterfaceStyle == .light ? UIColor(hex: "#FFFFFF") : .clear
     }
     
     static let textNavigationColor = UIColor { traitCollection in
@@ -89,5 +89,41 @@ extension UIColor {
     
     static let backgroundTableViewCellColor = UIColor { traitCollection in
         return traitCollection.userInterfaceStyle == .light ? UIColor(hex: "#FEE2E2") : UIColor(hex: "#FEE2E2")
+    }
+
+    static let iconColor = UIColor { traitCollection in
+        return traitCollection.userInterfaceStyle == .light ? UIColor(hex: "#374151") : UIColor(hex: "#E5E7EB")
+    }
+    
+    static let erorrColor = UIColor { traitCollection in
+        return traitCollection.userInterfaceStyle == .light ? UIColor(hex: "#FF0000") : UIColor(hex: "#CF6679")
+    }
+    
+    static let borderTabBarColor = UIColor { traitCollection in
+        return traitCollection.userInterfaceStyle == .light ? UIColor(hex: "#f9fafb") : UIColor(hex: "#1F2937")
+    }
+    
+    static let iconNoSelectTabBarColor = UIColor { traitCollection in
+        return traitCollection.userInterfaceStyle == .light ? UIColor(hex: "#4B5563") : UIColor(hex: "#9CA3AF")
+    }
+    
+    static let labelSecondColor = UIColor { traitCollection in
+        return traitCollection.userInterfaceStyle == .light ? UIColor(hex: "#374151") : UIColor(hex: "#D1D5DB")
+    }
+    
+    static let whiteBlackColor = UIColor { traitCollection in
+        return traitCollection.userInterfaceStyle == .light ? UIColor(hex: "#FFFFFF") : UIColor(hex: "#111827")
+    }
+    
+    static let lineViewColor = UIColor { traitCollection in
+        return traitCollection.userInterfaceStyle == .light ? UIColor(hex: "#F1F1F1") : UIColor(hex: "#374151")
+    }
+    
+    static let lineViewNavigationColor = UIColor { traitCollection in
+        return traitCollection.userInterfaceStyle == .light ? UIColor(hex: "#F9FAFB") : .clear
+    }
+    
+    static let boderColor = UIColor { traitCollection in
+        return traitCollection.userInterfaceStyle == .light ? .clear : UIColor(hex: "#FFFFFF")
     }
 }

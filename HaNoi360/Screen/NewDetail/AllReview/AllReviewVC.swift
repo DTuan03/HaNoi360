@@ -13,9 +13,10 @@ import SnapKit
 
 class AllReviewVC: BaseVC {
     let viewModel = AllReviewVM()
+    lazy var avgReview: Double = 0
     lazy var navigationView = NavigationViewFactory.createNavigationViewWithBackButtonAndTitle(image: .back, title: "Nhận xét", delegate: self)
     
-    lazy var avgReviewLb = LabelFactory.createLabel(text: "4.8", font: .bold32, textColor: .black)
+    lazy var avgReviewLb = LabelFactory.createLabel(text: "\(avgReview)", font: .bold32, textColor: .primaryTextColor)
     
     lazy var avgReviewStv = {
         let totalLb = LabelFactory.createLabel(text: "/5", font: .medium24, textColor: .lightGray)
@@ -41,6 +42,10 @@ class AllReviewVC: BaseVC {
     
     override func setupUI() {
         sortLb.isHidden = true
+        starReview.isUserInteractionEnabled = false
+        starReview.rating = avgReview
+        starReview.settings.fillMode = .precise // hiển thị chính xác đến thập phân
+
         view.addSubview(navigationView)
         navigationView.snp.makeConstraints { make in
             make.top.equalTo(view.safeAreaLayoutGuide)
@@ -49,7 +54,7 @@ class AllReviewVC: BaseVC {
         
         view.addSubviews([avgReviewStv, starReview, descripLb, sortLb, reviewTableView])
         avgReviewStv.snp.makeConstraints { make in
-            make.top.equalTo(navigationView.snp.bottom).offset(4)
+            make.top.equalTo(navigationView.snp.bottom).offset(32)
             make.left.equalToSuperview().offset(20)
         }
         
@@ -59,7 +64,7 @@ class AllReviewVC: BaseVC {
         }
         
         descripLb.snp.makeConstraints { make in
-            make.top.equalTo(avgReviewStv.snp.bottom).offset(8)
+            make.top.equalTo(avgReviewStv.snp.bottom).offset(16)
             make.left.equalToSuperview().offset(20)
         }
         
@@ -69,7 +74,7 @@ class AllReviewVC: BaseVC {
         }
         
         reviewTableView.snp.makeConstraints { make in
-            make.top.equalTo(sortLb.snp.bottom).offset(16)
+            make.top.equalTo(sortLb.snp.bottom).offset(12)
             make.left.right.equalToSuperview().inset(20)
             make.bottom.equalToSuperview()
             make.height.lessThanOrEqualTo(400)
@@ -82,6 +87,7 @@ class AllReviewVC: BaseVC {
                 guard let self = self else { return }
                 self.reviewTableView.reloadData()
                 self.reviewTableView.layoutIfNeeded()
+                self.descripLb.text = "Dựa trên \(review?.count ?? 0) lượt đánh giá"
                 self.reviewTableView.snp.updateConstraints { make in
                     make.height.equalTo(self.reviewTableView.contentSize.height)
                 }

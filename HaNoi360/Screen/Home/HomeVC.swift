@@ -32,8 +32,7 @@ class HomeVC: BaseVC {
                                                    highLightFont: .medium32)
     
     lazy var searchTF = {
-        let tf =  TextFieldFactory.createTextField(placeholder: "Tìm kiếm",
-                                                   bgColor: .white)
+        let tf =  TextFieldFactory.createTextField(placeholder: "Tìm kiếm")
         tf.imageLeftView(image: .search)
         tf.layer.borderWidth = 1
         tf.layer.borderColor = UIColor(hex: "#D1D5DB").cgColor
@@ -59,6 +58,7 @@ class HomeVC: BaseVC {
         
         let cv = UICollectionView(frame: .zero, collectionViewLayout: layout)
         cv.showsHorizontalScrollIndicator = false
+        cv.backgroundColor = .clear
         cv.register(NameDistrictCell.self, forCellWithReuseIdentifier: "NameDistrictCell")
         cv.dataSource = self
         cv.delegate = self
@@ -74,6 +74,7 @@ class HomeVC: BaseVC {
         
         let cv = UICollectionView(frame: .zero, collectionViewLayout: layout)
         cv.showsHorizontalScrollIndicator = false
+        cv.backgroundColor = .clear
         cv.register(PlaceCell.self, forCellWithReuseIdentifier: "PlaceCell")
         cv.dataSource = self
         cv.delegate = self
@@ -91,6 +92,7 @@ class HomeVC: BaseVC {
         
         let cv = UICollectionView(frame: .zero, collectionViewLayout: layout)
         cv.showsHorizontalScrollIndicator = false
+        cv.backgroundColor = .clear
         cv.register(CategoryCell.self, forCellWithReuseIdentifier: "CategoryCell")
         cv.dataSource = self
         cv.delegate = self
@@ -112,6 +114,7 @@ class HomeVC: BaseVC {
         
         let cv = UICollectionView(frame: .zero, collectionViewLayout: layout)
         cv.showsHorizontalScrollIndicator = false
+        cv.backgroundColor = .clear
         cv.register(TrendingCell.self, forCellWithReuseIdentifier: "TrendingCell")
         cv.dataSource = self
         cv.delegate = self

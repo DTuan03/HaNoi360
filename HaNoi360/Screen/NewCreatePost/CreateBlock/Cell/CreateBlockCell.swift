@@ -38,6 +38,7 @@ class CreateBlockCell: UITableViewCell {
     }
     
     func setupUI() {
+        self.backgroundColor = .clear
         contentView.addSubviews([nameLabel, chooseIv])
         nameLabel.snp.makeConstraints { make in
             make.left.equalToSuperview().offset(16)

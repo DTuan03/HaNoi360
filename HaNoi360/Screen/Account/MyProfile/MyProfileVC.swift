@@ -23,12 +23,12 @@ class MyProfileVC: BaseVC {
     let viewModel = MyProfileVM()
     lazy var myProfileType: MyProfileType = .owner
     
-    lazy var nameHeaderLb = LabelFactory.createLabel(text: viewModel.user.value?.name, font: .bold18, textColor: UIColor(hex: "#000000", alpha: 1))
-    lazy var backHeaderIv = ImageViewFactory.createImageView(image: UIImage(systemName: "chevron.backward"), tintColor: UIColor(hex: "#000000", alpha: 1))
+    lazy var nameHeaderLb = LabelFactory.createLabel(text: viewModel.user.value?.name, font: .bold18, textColor: .primaryTextColor)
+    lazy var backHeaderIv = ImageViewFactory.createImageView(image: UIImage(systemName: "chevron.backward"), tintColor: .primaryTextColor)
     
     lazy var headerView: UIView = {
         let view = UIView()
-        view.backgroundColor = UIColor(hex: "#FFFFFF", alpha: 1)
+        view.backgroundColor = .whiteBlackColor
         view.addSubviews([nameHeaderLb, backHeaderIv])
         
         nameHeaderLb.snp.makeConstraints { make in
@@ -55,26 +55,26 @@ class MyProfileVC: BaseVC {
         return view
     }()
     
-    lazy var backIv = ImageViewFactory.createImageView(image: UIImage(systemName: "chevron.backward"), tintColor: .black)
+    lazy var backIv = ImageViewFactory.createImageView(image: UIImage(systemName: "chevron.backward"), tintColor: .iconColor)
     
-    lazy var nameLb = LabelFactory.createLabel(text: viewModel.user.value?.name, font: .bold18, textColor: .black)
+    lazy var nameLb = LabelFactory.createLabel(text: viewModel.user.value?.name, font: .bold18, textColor: .primaryTextColor)
     
     lazy var avatarIv = ImageViewFactory.createImageView(image: .test, contentMode: .scaleAspectFill, radius: 40)
     
     lazy var blogLbBuilder = LabelStackBuilder()
-        .setFirstLabel(text: "34", textColor: .black, font: .extraBoldItalic13)
+        .setFirstLabel(text: "34", textColor: .primaryTextColor, font: .extraBoldItalic13)
         .setSecondLabel(text: "Bài viết", font: .extraBoldItalic13)
     
     lazy var numberBlogsLb = blogLbBuilder.build(spacing: 4, alignment: .center)
     
     lazy var followersLbBuilder = LabelStackBuilder()
-        .setFirstLabel(text: "240", textColor: .black, font: .extraBoldItalic13)
+        .setFirstLabel(text: "240", textColor: .primaryTextColor, font: .extraBoldItalic13)
         .setSecondLabel(text: "người theo dõi", font: .extraBoldItalic13)
     
     lazy var followersLb = followersLbBuilder.build(spacing: 4, alignment: .center)
     
     lazy var followingLbBuilder = LabelStackBuilder()
-        .setFirstLabel(text: "456", textColor: .black, font: .extraBoldItalic13)
+        .setFirstLabel(text: "456", textColor: .primaryTextColor, font: .extraBoldItalic13)
         .setSecondLabel(text: "đang theo dõi", font: .extraBoldItalic13)
     
     lazy var followingLb = followingLbBuilder.build(spacing: 4, alignment: .center)
@@ -90,7 +90,7 @@ class MyProfileVC: BaseVC {
     
     lazy var topView: UIView = {
         let view = UIView()
-        view.backgroundColor = .white
+        view.backgroundColor = .backgroundColor
         let infoSv = [avatarIv, numberBlogsLb, followersLb, followingLb].hStack(4, alignment: .center, distribution: .equalSpacing)
         let stv = [nameLb, descriptionLb, editProfileBtn].vStack(8, alignment: .leading, distribution: .fill)
         view.addSubviews([backIv, infoSv, stv])
@@ -116,7 +116,7 @@ class MyProfileVC: BaseVC {
         return view
     }()
     
-    lazy var lineView = UIViewFactory.createLineView(height: 8, bgColor: UIColor(hex: "#F1F1F1"))
+    lazy var lineView = UIViewFactory.createLineView(height: 8, bgColor: .lineViewColor /*UIColor(hex: "#F1F1F1")*/)
     
     lazy var segmentioView: Segmentio = {
         let segment = Segmentio()
@@ -130,7 +130,7 @@ class MyProfileVC: BaseVC {
             content: content,
             style: .onlyLabel,
             options: SegmentioOptions(
-                backgroundColor: .white,
+                backgroundColor: .backgroundColor,
                 scrollEnabled: false,
                 indicatorOptions: SegmentioIndicatorOptions(
                     type: .bottom,
@@ -150,17 +150,17 @@ class MyProfileVC: BaseVC {
                 labelTextNumberOfLines: 1,
                 segmentStates: SegmentioStates(
                     defaultState: SegmentioState(
-                        backgroundColor: .white,
+                        backgroundColor: .backgroundColor,
                         titleFont: .regular14,
                         titleTextColor: .gray
                     ),
                     selectedState: SegmentioState(
-                        backgroundColor: .white,
+                        backgroundColor: .backgroundColor,
                         titleFont: .bold14,
                         titleTextColor: .primaryColor
                     ),
                     highlightedState: SegmentioState(
-                        backgroundColor: .white,
+                        backgroundColor: .backgroundColor,
                         titleFont: .regular14,
                         titleTextColor: .gray
                     )
@@ -190,7 +190,7 @@ class MyProfileVC: BaseVC {
     
     lazy var bottomView: UIView = {
         let view = UIView()
-        view.backgroundColor = .white
+        view.backgroundColor = .clear
         
         view.addSubviews([contentTbv])
         //        actionButtons.snp.makeConstraints { make in
@@ -220,6 +220,7 @@ class MyProfileVC: BaseVC {
         cv.register(CheckInImageCell.self, forCellWithReuseIdentifier: "CheckInImageCell")
         cv.dataSource = self
         cv.delegate = self
+        cv.backgroundColor = .clear
         cv.isScrollEnabled = false
         cv.register(CheckInHeaderView.self,
                              forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader,
@@ -229,7 +230,7 @@ class MyProfileVC: BaseVC {
     
     lazy var checkInBottomView: UIView = {
         let view = UIView()
-        view.backgroundColor = .white
+        view.backgroundColor = .clear
         view.addSubviews([checkInClv])
         
         checkInClv.snp.makeConstraints { make in
@@ -255,13 +256,14 @@ class MyProfileVC: BaseVC {
         cv.dataSource = self
         cv.delegate = self
         cv.isScrollEnabled = false
+        cv.backgroundColor = .backgroundColor
 
         return cv
     }()
     
     lazy var albumBottomView: UIView = {
         let view = UIView()
-        view.backgroundColor = .white
+        view.backgroundColor = .backgroundColor
         view.addSubviews([albumClv])
         
         albumClv.snp.makeConstraints { make in
@@ -281,7 +283,9 @@ class MyProfileVC: BaseVC {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        viewModel.fetchInfoUser()
+        if myProfileType == .guest {
+            self.viewModel.isFollowing.accept(viewModel.user.value?.followers?.contains { $0.followerId == self.userId } ?? false)
+        }
     }
     
     override func setupUI() {
@@ -327,7 +331,6 @@ class MyProfileVC: BaseVC {
         switch myProfileType {
         case .guest:
             actionButtons.isHidden = true
-            editProfileBtn.setTitle("Theo dõi", for: .normal)
         case .owner:
             actionButtons.isHidden = false
             editProfileBtn.setTitle("Chỉnh sửa trang cá nhân", for: .normal)
@@ -392,6 +395,8 @@ class MyProfileVC: BaseVC {
                 self.nameLb.text = value?.name
                 self.descriptionLb.text = value?.interest
                 self.avatarIv.kf.setImage(with: URL(string: value?.avatarUrl ?? ""))
+                self.followersLbBuilder.first.text = "\(value?.followers?.count ?? 0)"
+                self.followingLbBuilder.first.text = "\(value?.following?.count ?? 0)"
             })
             .disposed(by: disposeBag)
         
@@ -409,6 +414,19 @@ class MyProfileVC: BaseVC {
                     make.left.right.equalToSuperview()
                     make.bottom.equalToSuperview()
                     make.height.equalTo((Int(self.widthScreen / 3 + 10) * (count / 3)))
+                }
+            })
+            .disposed(by: disposeBag)
+        
+        viewModel.isFollowing
+            .subscribe(onNext: { [weak self] value in
+                guard let self = self else { return }
+                if self.myProfileType == .guest {
+                    if viewModel.isFollowing.value {
+                        editProfileBtn.setTitle("Đang theo dõi", for: .normal)
+                    } else {
+                        editProfileBtn.setTitle("Theo dõi", for: .normal)
+                    }
                 }
             })
             .disposed(by: disposeBag)
@@ -459,7 +477,19 @@ class MyProfileVC: BaseVC {
             .subscribe(onNext: {
                 switch self.myProfileType {
                 case .guest:
-                    print("Theo doi")
+                    if self.viewModel.isFollowing.value {
+                        self.viewModel.unfollowUser(currentUserId: self.userId, targetUserId: (self.viewModel.user.value?.userId)!) {_ in
+                            let numberFollowers = (self.viewModel.user.value?.followers?.count ?? 0) - 1
+                            self.followersLbBuilder.first.text = "\(numberFollowers)"
+                            self.viewModel.isFollowing.accept(false)
+                        }
+                    } else {
+                        self.viewModel.followUser(currentUserId: self.userId, targetUserId: (self.viewModel.user.value?.userId)!) {
+                            let numberFollowers = (self.viewModel.user.value?.followers?.count ?? 0) + 1
+                            self.followersLbBuilder.first.text = "\(numberFollowers)"
+                            self.viewModel.isFollowing.accept(true)
+                        }
+                    }
                 case .owner:
                     let vc = ProfileVC()
                     self.navigationController?.pushViewController(vc, animated: true)
@@ -511,9 +541,9 @@ extension MyProfileVC: UIScrollViewDelegate, UITableViewDelegate {
         let offsetY = scrollView.contentOffset.y
         let maxOffset: CGFloat = 110
         let normalized = min(max(offsetY / maxOffset, 0), 1)
-        self.headerView.backgroundColor = UIColor(hex: "#FFFFFF", alpha: normalized)
-        self.nameHeaderLb.textColor = UIColor(hex: "#000000", alpha: normalized)
-        self.backHeaderIv.tintColor = UIColor(hex: "#000000", alpha: normalized)
+        self.headerView.backgroundColor = UIColor.whiteBlackColor.withAlphaComponent(normalized)
+        self.nameHeaderLb.textColor = UIColor.primaryTextColor.withAlphaComponent(normalized)
+        self.backHeaderIv.tintColor = UIColor.primaryTextColor.withAlphaComponent(normalized)
         let frameInView = segmentioView.convert(segmentioView.bounds, to: self.view)
         
         if frameInView.origin.y <= headerView.frame.height, !isSegmentPinned {
@@ -705,7 +735,7 @@ class LabelStackBuilder {
         return self
     }
     
-    func setSecondLabel(text: String, textColor: UIColor = .black, font: UIFont = .regular16) -> Self {
+    func setSecondLabel(text: String, textColor: UIColor = .primaryTextColor, font: UIFont = .regular16) -> Self {
         secondLabel.text = text
         secondLabel.textColor = textColor
         secondLabel.font = font
@@ -729,16 +759,16 @@ class LabelStackBuilder {
 }
 
 class ImageLabelBuilder: UIView {
-    lazy var topView = UIViewFactory.createLineView(height: 2, bgColor: UIColor(hex: "#F1F1F1"))
+    lazy var topView = UIViewFactory.createLineView(height: 2, bgColor: .lineViewColor)
     
-    lazy var bottomView = UIViewFactory.createLineView(height: 2, bgColor: UIColor(hex: "#F1F1F1"))
+    lazy var bottomView = UIViewFactory.createLineView(height: 2, bgColor: .lineViewColor)
     
     lazy var writePostButton: UIButton = {
         let button = UIButton(type: .system)
         button.setTitle("Viết bài", for: .normal)
         button.setImage(UIImage(systemName: "pencil"), for: .normal)
-        button.tintColor = .gray
-        button.setTitleColor(.gray, for: .normal)
+        button.tintColor = .iconColor
+        button.setTitleColor(.secondaryTextColor, for: .normal)
         button.titleLabel?.font = .medium14
         button.semanticContentAttribute = .forceLeftToRight
         button.imageEdgeInsets = UIEdgeInsets(top: 0, left: -8, bottom: 0, right: 0)
@@ -749,8 +779,8 @@ class ImageLabelBuilder: UIView {
         let button = UIButton(type: .system)
         button.setTitle("Check-in", for: .normal)
         button.setImage(UIImage(systemName: "camera"), for: .normal)
-        button.tintColor = .gray
-        button.setTitleColor(.gray, for: .normal)
+        button.tintColor = .iconColor
+        button.setTitleColor(.secondaryTextColor, for: .normal)
         button.titleLabel?.font = .medium14
         button.semanticContentAttribute = .forceLeftToRight
         button.imageEdgeInsets = UIEdgeInsets(top: 0, left: -8, bottom: 0, right: 0)
@@ -759,7 +789,7 @@ class ImageLabelBuilder: UIView {
     
     private let dividerView: UIView = {
         let view = UIView()
-        view.backgroundColor = UIColor(hex: "#F1F1F1")
+        view.backgroundColor = .lineViewColor
         return view
     }()
     
@@ -773,7 +803,7 @@ class ImageLabelBuilder: UIView {
     }
     
     private func setupUI() {
-        self.backgroundColor = .white
+        self.backgroundColor = .backgroundColor
         let stv = [writePostButton, checkinButton].hStack(distribution: .fillEqually)
         addSubviews([topView, stv, dividerView, bottomView])
         

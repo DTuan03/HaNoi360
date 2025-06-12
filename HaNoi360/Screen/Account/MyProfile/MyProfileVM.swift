@@ -19,6 +19,7 @@ class MyProfileVM: BaseVM {
     var checkIn = BehaviorRelay<[CheckInModel]?>(value: nil)
     var user = BehaviorRelay<ProfileModel?>(value: nil)
     var allUrlImage = BehaviorRelay<[String]>(value: [])
+    var isFollowing = BehaviorRelay<Bool>(value: false)
 
     func getPlaces(authorId: String, completion: @escaping () -> Void)  {
         blogService.fetchWhereEqualTo(field: "authorId", value: authorId) { result in
@@ -91,16 +92,90 @@ class MyProfileVM: BaseVM {
         }
     }
     
-    func fetchInfoUser() {
+//    func fetchInfoUser(userId: String, completion: @escaping () -> Void) {
+//        isLoading.accept(true)
+//        userService.fetchWhereEqualTo(field: "userId", value: userId) { result in
+//            switch result {
+//            case .success(let profile):
+//                self.user.accept(profile[0])
+//            case .failure(_):
+//                print("loi")
+//            }
+//            completion()
+//        }
+//    }
+    
+    func fetchInfoUser(userId: String, completion: @escaping () -> Void) {
+        isLoading.accept(true)
+
         userService.fetchWhereEqualTo(field: "userId", value: userId) { result in
             switch result {
-            case .success(let profile):
-                self.user.accept(profile[0])
+            case .success(let profiles):
+                guard var profile = profiles.first else {
+                    self.isLoading.accept(false)
+                    completion()
+                    return
+                }
+
+                let db = Firestore.firestore()
+                let userRef = db.collection("users").document(userId)
+
+                let group = DispatchGroup()
+
+                group.enter()
+                userRef.collection("followers").getDocuments { snapshot, error in
+                    if let documents = snapshot?.documents {
+                        let followers = documents.compactMap { try? $0.data(as: FollowersModel.self) }
+                        profile = ProfileModel(
+                            userId: profile.userId,
+                            avatarUrl: profile.avatarUrl,
+                            name: profile.name,
+                            email: profile.email,
+                            phone: profile.phone,
+                            interest: profile.interest,
+                            date: profile.date,
+                            address: profile.address,
+                            followers: followers,
+                            following: profile.following
+                        )
+                    }
+                    group.leave()
+                }
+
+                group.enter()
+                userRef.collection("following").getDocuments { snapshot, error in
+                    if let documents = snapshot?.documents {
+                        let following = documents.compactMap { try? $0.data(as: FollowingModel.self) }
+                        profile = ProfileModel(
+                            userId: profile.userId,
+                            avatarUrl: profile.avatarUrl,
+                            name: profile.name,
+                            email: profile.email,
+                            phone: profile.phone,
+                            interest: profile.interest,
+                            date: profile.date,
+                            address: profile.address,
+                            followers: profile.followers,
+                            following: following
+                        )
+                    }
+                    group.leave()
+                }
+
+                group.notify(queue: .main) {
+                    self.user.accept(profile)
+                    self.isLoading.accept(false)
+                    completion()
+                }
+
             case .failure(_):
-                print("loi")
+                print("Lỗi khi fetch user")
+                self.isLoading.accept(false)
+                completion()
             }
         }
     }
+
     
     func filterImageAlbum() {
         let blogPosts = blogsPost.value
@@ -111,6 +186,59 @@ class MyProfileVM: BaseVM {
                 .compactMap { $0.value }
         }
         self.allUrlImage.accept(allImageUrls)
+    }
+    
+    func followUser(currentUserId: String, targetUserId: String, completion: @escaping () -> Void) {
+        let db = Firestore.firestore()
+        
+        let currentUserData: [String: Any] = [
+            "followeeId": targetUserId,
+            "avatarUrl": self.user.value?.avatarUrl ?? "",
+            "name": self.user.value?.name ?? ""
+        ]
+        
+        let targetUserData: [String: Any] = [
+            "followerId": currentUserId,
+            "avatarUrl": self.avatarUser ?? "",
+            "name": self.nameUser
+        ]
+        
+        let followerRef = db.collection("users").document(targetUserId).collection("followers").document(currentUserId)
+        let followingRef = db.collection("users").document(currentUserId).collection("following").document(targetUserId)
+        
+        let batch = db.batch()
+        batch.setData(targetUserData, forDocument: followerRef)
+        batch.setData(currentUserData, forDocument: followingRef)
+        
+        batch.commit { error in
+            if let error = error {
+                print("Follow failed: \(error)")
+            } else {
+                print("Followed successfully")
+                completion()
+            }
+        }
+    }
+
+    func unfollowUser(currentUserId: String, targetUserId: String, completion: @escaping (Bool) -> Void) {
+        let db = Firestore.firestore()
+        
+        let followerRef = db.collection("users").document(targetUserId).collection("followers").document(currentUserId)
+        let followingRef = db.collection("users").document(currentUserId).collection("following").document(targetUserId)
+        
+        let batch = db.batch()
+        batch.deleteDocument(followerRef)
+        batch.deleteDocument(followingRef)
+        
+        batch.commit { error in
+            if let error = error {
+                print("Unfollow failed: \(error)")
+                completion(false)
+            } else {
+                print("Unfollowed successfully")
+                completion(true)
+            }
+        }
     }
 
 }

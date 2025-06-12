@@ -12,11 +12,11 @@ class MyProfileCell: UITableViewCell {
     
     lazy var avatarIv = ImageViewFactory.createImageView(image: .test, contentMode: .scaleAspectFill, radius: 30)
 
-    lazy var nameLb = LabelFactory.createLabel(text: "Đặng Anh Tuấn", font: .bold18, textColor: .black)
+    lazy var nameLb = LabelFactory.createLabel(text: "Đặng Anh Tuấn", font: .bold18, textColor: .primaryTextColor)
 
-    lazy var timeLb = LabelFactory.createLabel(text: "4h", font: .regular16, textColor: UIColor(hex: "#808080"))
+    lazy var timeLb = LabelFactory.createLabel(text: "4h", font: .regular14, textColor: .secondaryTextColor)
     
-    lazy var infoSv = [avatarIv, [nameLb, timeLb].vStack(2)].hStack(6, alignment: .center)
+    lazy var infoSv = [avatarIv, [nameLb, timeLb].vStack(2)].hStack(8, alignment: .center)
     
     lazy var titleLb = LabelFactory.createLabel(text: "Kinh Nghiệm Du Lịch TP HCM Tự Túc Mới Nhất", font: .bold16)
     
@@ -24,12 +24,13 @@ class MyProfileCell: UITableViewCell {
     
     lazy var avatarPlaceIv = ImageViewFactory.createImageView(image: UIImage(named: "placeholderImage2"), contentMode: .scaleAspectFit)
     
-    lazy var lineView = UIViewFactory.createLineView(height: 3, bgColor: UIColor(hex: "#F1F1F1"))
+    lazy var lineView = UIViewFactory.createLineView(height: 3, bgColor: .lineViewColor)
     
     lazy var stv = [infoSv, titleLb, descriptionLb, avatarPlaceIv].vStack(6)
 
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
+        self.backgroundColor = .clear
         setupUI()
     }
     

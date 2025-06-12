@@ -34,7 +34,7 @@ class MapVC: BaseVC {
     
     lazy var backBtn = {
         let btn = ButtonFactory.createImageButton(withImage: .back, radius: 20)
-        btn.backgroundColor = .white
+        btn.backgroundColor = .backgroundColor
         return btn
     }()
     
@@ -48,7 +48,7 @@ class MapVC: BaseVC {
     
     lazy var resultContainerView = {
         let view = UIView()
-        view.backgroundColor = .white
+        view.backgroundColor = .backgroundColor
         view.layer.cornerRadius = 20
         view.layer.maskedCorners = [.layerMaxXMinYCorner, .layerMinXMinYCorner]
         view.isHidden = true
@@ -66,7 +66,7 @@ class MapVC: BaseVC {
     
     lazy var addressLabel = LabelFactory.createLabel(font: .regular16)
     
-    lazy var deleteBtn = ButtonFactory.createImageButton(withImage: UIImage(systemName: "multiply"), tinColor: .white)
+    lazy var deleteBtn = ButtonFactory.createImageButton(withImage: UIImage(systemName: "multiply"), tinColor: .iconColor)
     
     lazy var chooseBtn = ButtonFactory.createButton("   Chọn địa điểm   ", font: .medium14, rounded: true, height: 40)
     
@@ -78,7 +78,7 @@ class MapVC: BaseVC {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        view.backgroundColor = .white
+        view.backgroundColor = .backgroundColor
         
         let tapGesture = UITapGestureRecognizer(target: self, action: #selector(handleMapTap(_:)))
         mapView.addGestureRecognizer(tapGesture)

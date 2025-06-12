@@ -17,7 +17,7 @@ class FilterDistrictVC: BaseVC, FilterDistrictCellDelegate {
 //    var
     lazy var containerView = {
         let view = UIView()
-        view.backgroundColor = .white
+        view.backgroundColor = .backgroundColor
         view.layer.cornerRadius = 20
         view.layer.maskedCorners = [.layerMaxXMinYCorner, .layerMinXMinYCorner]
         view.layer.shadowColor = UIColor.black.cgColor
@@ -39,7 +39,10 @@ class FilterDistrictVC: BaseVC, FilterDistrictCellDelegate {
     
     let searchBarV: UISearchBar = {
         let sb = UISearchBar()
-        sb.placeholder = "Tìm kiếm địa điểm..."
+        sb.placeholder = "Tìm kiếm quận/huyện ..."
+        sb.searchBarStyle = .minimal
+        sb.backgroundColor = .clear
+
         return sb
     }()
 
