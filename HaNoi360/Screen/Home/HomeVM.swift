@@ -8,7 +8,7 @@
 import RxSwift
 import RxCocoa
 
-class HomeVM {
+class HomeVM: BaseVM {
     let districts: [District] = [
         District(id: "TH1", name: "Ba Đình"),
         District(id: "TH2", name: "Ba Vì"),
@@ -43,9 +43,7 @@ class HomeVM {
     ]
 
     var itemsNameDistrict = BehaviorRelay<[District]>(value: [])
-    var itemsPlace = BehaviorRelay<[BlogModel]>(value: [])
-
-    let blogService = BaseFirestoreService<BlogModel>(collectionPath: "blogs")
+    var itemsPlace = BehaviorRelay<[BlogPost]>(value: [])
     
     let categories: [CategoryModel] = [
         CategoryModel(id: "amThuc", name: "Ẩm thực", img: "amThuc"),
@@ -57,9 +55,10 @@ class HomeVM {
     ]
     var itemsCategory = BehaviorRelay<[CategoryModel]>(value: [])
     
-    var itemsTrendingPlace = BehaviorRelay<[BlogModel]>(value: [])
+    var itemsTrendingPlace = BehaviorRelay<[BlogPost]>(value: [])
     
-    init() {
+    override init() {
+        super.init()
         itemsNameDistrict.accept(districts)
         itemsCategory.accept(categories)
         getPlaces(idDistrict: "TH1")

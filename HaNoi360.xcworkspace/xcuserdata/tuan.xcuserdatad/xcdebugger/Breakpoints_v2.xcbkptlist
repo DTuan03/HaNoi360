@@ -7,176 +7,158 @@
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            uuid = "FC4C8ADB-A630-4945-8F1D-D3671C330184"
-            shouldBeEnabled = "No"
+            uuid = "28F9C88D-A350-49E2-9095-781B1391FD21"
+            shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "HaNoi360/Screen/Account/MyProfile/MyProfileVC.swift"
+            filePath = "HaNoi360/Screen/NewCreatePost/NewCreatePostVM.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "386"
-            endingLineNumber = "386"
-            landmarkName = "bindState()"
+            startingLineNumber = "181"
+            endingLineNumber = "181"
+            landmarkName = "savePost()"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            uuid = "95F31B05-89BB-40A6-95E1-D9744C9F88CD"
-            shouldBeEnabled = "No"
+            uuid = "9279D3C3-D401-460D-B907-2C9DE685C752"
+            shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "HaNoi360/Screen/Account/Profile/ProfileVC.swift"
+            filePath = "HaNoi360/Screen/NewCreatePost/NewCreatePostVM.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "53"
-            endingLineNumber = "53"
-            landmarkName = "bindState()"
+            startingLineNumber = "182"
+            endingLineNumber = "182"
+            landmarkName = "savePost()"
+            landmarkType = "7">
+            <Locations>
+               <Location
+                  uuid = "9279D3C3-D401-460D-B907-2C9DE685C752 - 1b73c3f13ff5e393"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "HaNoi360.NewCreatePostVM.savePost() -&gt; ()"
+                  moduleName = "HaNoi360.debug.dylib"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/mac/Downloads/App/HaNoi360/HaNoi360/Screen/NewCreatePost/NewCreatePostVM.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "182"
+                  endingLineNumber = "182">
+               </Location>
+               <Location
+                  uuid = "9279D3C3-D401-460D-B907-2C9DE685C752 - 423e31da85dcd608"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "closure #1 (HaNoi360.District) -&gt; Swift.Bool in HaNoi360.NewCreatePostVM.savePost() -&gt; ()"
+                  moduleName = "HaNoi360.debug.dylib"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/mac/Downloads/App/HaNoi360/HaNoi360/Screen/NewCreatePost/NewCreatePostVM.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "182"
+                  endingLineNumber = "182">
+               </Location>
+            </Locations>
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "905AE4D7-2FE5-4C93-8203-40D44497B5FA"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "HaNoi360/Screen/NewCreatePost/NewCreatePostVM.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "183"
+            endingLineNumber = "183"
+            landmarkName = "savePost()"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            uuid = "72C02E1F-F36F-4D06-AF4F-F93A6347F60F"
-            shouldBeEnabled = "No"
+            uuid = "134182B2-2E24-4EF4-80DE-E01D482E9B9F"
+            shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "HaNoi360/Screen/Account/Profile/ProfileVC.swift"
+            filePath = "HaNoi360/Screen/NewCreatePost/NewCreatePostVM.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "31"
-            endingLineNumber = "31"
-            landmarkName = "viewWillAppear(_:)"
+            startingLineNumber = "184"
+            endingLineNumber = "184"
+            landmarkName = "savePost()"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            uuid = "6CFD7471-8C40-49F3-AB64-477EB60514E8"
-            shouldBeEnabled = "No"
+            uuid = "DDD163D2-91F3-4DDC-9688-03581C0D5BEC"
+            shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "HaNoi360/Screen/Account/AccountVC.swift"
+            filePath = "HaNoi360/Screen/NewCreatePost/NewCreatePostVM.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "95"
-            endingLineNumber = "95"
-            landmarkName = "bindState()"
+            startingLineNumber = "185"
+            endingLineNumber = "185"
+            landmarkName = "savePost()"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            uuid = "D37E923A-24A5-4ADD-9DC8-0E70F890FFAE"
-            shouldBeEnabled = "No"
+            uuid = "896CCF6E-9890-4AED-A42F-0CC9A2BA89FA"
+            shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "HaNoi360/Screen/Account/Profile/ProfileVM.swift"
+            filePath = "HaNoi360/Screen/NewCreatePost/NewCreatePostVM.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "52"
-            endingLineNumber = "52"
-            landmarkName = "uploadAvatar()"
+            startingLineNumber = "186"
+            endingLineNumber = "186"
+            landmarkName = "savePost()"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            uuid = "CCF2CD7C-B883-4E91-BF5A-CB9CF357CE41"
-            shouldBeEnabled = "No"
+            uuid = "90497E85-3B8B-4923-982B-454E0D0A2983"
+            shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "HaNoi360/Screen/Account/Profile/ProfileVM.swift"
+            filePath = "HaNoi360/Screen/NewCreatePost/NewCreatePostVM.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "38"
-            endingLineNumber = "38"
-            landmarkName = "updateProfile(field:value:completion:)"
+            startingLineNumber = "187"
+            endingLineNumber = "187"
+            landmarkName = "savePost()"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            uuid = "E319C8BF-331E-41FD-84ED-56D362359EC7"
-            shouldBeEnabled = "No"
+            uuid = "E3CC1D1B-FA60-47F7-A0B6-8729048F7B70"
+            shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "HaNoi360/Screen/Account/MyProfile/MyProfileVC.swift"
+            filePath = "HaNoi360/Screen/NewCreatePost/NewCreatePostVM.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "673"
-            endingLineNumber = "673"
-            landmarkName = "MyProfileVC"
-            landmarkType = "21">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            uuid = "A3C29496-5925-4967-BB9C-7527D01717DC"
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "HaNoi360/Screen/NewDetail/NewDetailVC.swift"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "580"
-            endingLineNumber = "580"
-            landmarkName = "moreLabelAction()"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            uuid = "B1A86733-F73C-49D7-B7BA-128AADE2DFCE"
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "HaNoi360/Extensions/UIColor.swift"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "71"
-            endingLineNumber = "71"
-            landmarkName = "textFiledColor"
-            landmarkType = "24">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            uuid = "C76C0590-E341-48E5-A986-72F6E02A7EC9"
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "HaNoi360/Screen/Account/MyProfile/MyProfileVC.swift"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "398"
-            endingLineNumber = "398"
-            landmarkName = "bindState()"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            uuid = "21734B9C-98A7-4BD8-A95C-04AB8B43ED5E"
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "HaNoi360/Screen/Account/MyProfile/MyProfileVC.swift"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "287"
-            endingLineNumber = "287"
-            landmarkName = "viewWillAppear(_:)"
+            startingLineNumber = "188"
+            endingLineNumber = "188"
+            landmarkName = "savePost()"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>

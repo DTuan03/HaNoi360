@@ -158,29 +158,33 @@ class BaseFirestoreService<T: Codable> {
             }
     }
     
-    func fetchTopRatedPlaces(limit: Int = 4, completion: @escaping (Result<[T], Error>) -> Void) {
-        collection
-            .order(by: "avgRating", descending: true)
-            .limit(to: limit)
-            .getDocuments { snapshot, error in
-                if let error = error {
-                    completion(.failure(error))
-                    return
-                }
-
-                guard let documents = snapshot?.documents else {
-                    completion(.success([]))
-                    return
-                }
-
-                do {
-                    let results: [T] = try documents.map { try $0.data(as: T.self) }
-                    completion(.success(results))
-                } catch {
-                    completion(.failure(error))
-                }
+    func fetchTopRatedPlaces(limit: Int? = 4, completion: @escaping (Result<[T], Error>) -> Void) {
+        var query = collection.order(by: "avgRating", descending: true)
+        
+        if let limit = limit {
+            query = query.limit(to: limit)
+        }
+        
+        query.getDocuments { snapshot, error in
+            if let error = error {
+                completion(.failure(error))
+                return
             }
+
+            guard let documents = snapshot?.documents else {
+                completion(.success([]))
+                return
+            }
+
+            do {
+                let results: [T] = try documents.map { try $0.data(as: T.self) }
+                completion(.success(results))
+            } catch {
+                completion(.failure(error))
+            }
+        }
     }
+
     //Cap nhập 1 document trong 1 collection
     func updateFields(_ fields: [String: Any], forId id: String, completion: @escaping (Result<Void, Error>) -> Void) {
         collection.document(id).updateData(fields) { error in

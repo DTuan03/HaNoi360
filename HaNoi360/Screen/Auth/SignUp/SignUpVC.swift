@@ -119,6 +119,13 @@ class SignUpVC: BaseVC {
         return aI
     }()
     
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        self.nameTextField.text = ""
+        self.emailTextField.text = ""
+        self.passwordTF.text = ""
+    }
+    
     override func setupUI() {
         view.addSubviews([scrollView])
         scrollView.snp.makeConstraints { make in
@@ -276,9 +283,6 @@ class SignUpVC: BaseVC {
         viewModel.signUpSuccess
             .subscribe(onNext: { success in
                 if success {
-                    self.nameTextField.text = ""
-                    self.emailTextField.text = ""
-                    self.passwordTF.text = ""
                     let confirmEmailVC = ConfirmEmailVC()
                     confirmEmailVC.nameUser = self.nameTextField.text
                     self.navigationController?.pushViewController(ConfirmEmailVC(), animated: true)

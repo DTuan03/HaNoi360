@@ -26,6 +26,8 @@ class TextFieldFactory {
         textField.textColor = textColor
         textField.textAlignment = textAlignment
         textField.layer.cornerRadius = rounded
+        textField.layer.borderWidth = 1
+        textField.layer.borderColor = UIColor.white.cgColor
         return textField
     }
 }

@@ -219,7 +219,7 @@ class NewDetailVM: BaseVM {
     }
     
     func updateUserReportStatusForReview(reviewId: String, completion: @escaping () -> Void) {
-            reviewService.updateFields(["report": true], forId: reviewId) { result in
+        reviewService.updateFields(["report": true, "reporterId": "\(self.userId)"], forId: reviewId) { result in
                 switch result {
                 case .success():
                     completion()

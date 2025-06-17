@@ -218,7 +218,7 @@ extension CalendarVC: UITableViewDataSource {
 extension CalendarVC: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let detailVC = NewDetailVC()
-        detailVC.viewModel.placeId.accept(viewModel.placeCalendar.value?[indexPath.row].placeId)
+        detailVC.viewModel.placeId.accept(viewModel.placeCalendar.value?[indexPath.section].placeId)
         isLoading.accept(true)
         detailVC.viewModel.isFavoritePlace {
             detailVC.viewModel.featchPlace() {

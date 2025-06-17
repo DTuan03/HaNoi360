@@ -8,13 +8,11 @@
 import RxSwift
 import RxCocoa
 
-class AllTrendingVM {
-    var itemsTrendingPlace = BehaviorRelay<[BlogModel]>(value: [])
-    
-    let blogService = BaseFirestoreService<BlogModel>(collectionPath: "blogs")
-    
+class AllTrendingVM: BaseVM {
+    var itemsTrendingPlace = BehaviorRelay<[BlogPost]>(value: [])
+        
     func getTrendingPlace(completion: @escaping () -> Void) {
-        blogService.fetchTopRatedPlaces() { result in
+        blogService.fetchTopRatedPlaces(limit: nil) { result in
             switch result {
             case .success( let places):
                 self.itemsTrendingPlace.accept(places)

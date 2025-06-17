@@ -21,27 +21,27 @@ class NewDetailVC: BaseVC {
     lazy var overlayView = UIViewFactory.overlayView()
     
     lazy var favoriteIV = ImageViewFactory.createImageView(image: UIImage(systemName: "heart"),
-                                                           tintColor: UIColor(hex: "#666666"))
+                                                           tintColor: .iconColor)
     
     lazy var countFavoriteLb = LabelFactory.createLabel(text: viewModel.place.value?.totalFavorites?.formattedText, font: .regular16, textColor: .clear)
     
     lazy var favoriteSv = [favoriteIV, countFavoriteLb].hStack(4, alignment: .center)
     
     lazy var commentIV = ImageViewFactory.createImageView(image: UIImage(systemName: "pencil.and.list.clipboard"),
-                                                          tintColor: UIColor(hex: "#666666"))
+                                                          tintColor: .iconColor)
     
     lazy var countCommentLb = LabelFactory.createLabel(text: viewModel.place.value?.totalReviews?.formattedText, font: .regular16, textColor: UIColor(hex: "#666666"))
     
     lazy var commentSv = [commentIV, countCommentLb].hStack(4, alignment: .center)
     
     lazy var shareIV = ImageViewFactory.createImageView(image: UIImage(systemName: "square.and.arrow.up"),
-                                                        tintColor: UIColor(hex: "#666666"))
+                                                        tintColor: .iconColor)
     
     lazy var mapIV = ImageViewFactory.createImageView(image: UIImage(systemName: "map"),
-                                                      tintColor: UIColor(hex: "#666666"))
+                                                      tintColor: .iconColor)
     
     lazy var calendarIV = ImageViewFactory.createImageView(image: UIImage(systemName: "calendar"),
-                                                           tintColor: UIColor(hex: "#666666"))
+                                                           tintColor: .iconColor)
     
     lazy var tabBarSv = [favoriteSv, commentSv, shareIV, mapIV, calendarIV].hStack(8, alignment: .center, distribution: .fillEqually)
     
@@ -108,6 +108,8 @@ class NewDetailVC: BaseVC {
     //    lazy var locationSv = [locationIv, locationLb].hStack(4, distribution: .fill)
     
     lazy var infoSv = [avatarAuthor, [nameAuthor, locationLb].vStack(2, distribution: .fill)].hStack(12, alignment: .center, distribution: .fill)
+    
+    lazy var editIv = ImageViewFactory.createImageView(image: UIImage(systemName: "pencil"), tintColor: .iconColor)
     
     lazy var handleSv = [favoriteIV, calendarIV].hStack(16, distribution: .fillProportionally)
     
@@ -220,7 +222,7 @@ class NewDetailVC: BaseVC {
     }()
     
     override func setupUI() {
-        view.addSubviews([scrollView, safeArea, tabBarView, containerView])
+        view.addSubviews([scrollView, safeArea, tabBarView, containerView, editIv])
         safeArea.snp.makeConstraints { make in
             make.top.left.right.equalToSuperview()
             make.bottom.equalTo(containerView.snp.top)
@@ -238,6 +240,12 @@ class NewDetailVC: BaseVC {
         containerView.snp.makeConstraints { make in
             make.top.equalTo(view.safeAreaLayoutGuide)
             make.left.right.equalToSuperview()
+        }
+        
+        editIv.snp.makeConstraints { make in
+            make.top.equalTo(containerView.snp.top).offset(8)
+            make.right.equalTo(containerView.snp.right).inset(16)
+            make.height.width.equalTo(26)
         }
         
         scrollView.addSubview(contentView)
@@ -324,7 +332,15 @@ class NewDetailVC: BaseVC {
             make.bottom.equalToSuperview().inset(48)
         }
         
-        self.avatarUser.kf.setImage(with: URL(string: UserDefaults.standard.string(forKey: "avatarUrl") ?? "https://upload.wikimedia.org/wikipedia/commons/7/7c/Profile_avatar_placeholder_large.png"))
+        if let urlString = UserDefaults.standard.string(forKey: "avatarUrl"),
+           let url = URL(string: urlString) {
+            self.avatarUser.kf.setImage(with: url)
+        } else if let placeholderURL = URL(string: "https://upload.wikimedia.org/wikipedia/commons/7/7c/Profile_avatar_placeholder_large.png") {
+            self.avatarUser.kf.setImage(with: placeholderURL)
+        }
+
+        let isAuthor = self.viewModel.place.value?.authorId == self.viewModel.userId
+        self.editIv.isHidden = !isAuthor
     }
     
     override func bindState() {
@@ -369,11 +385,11 @@ class NewDetailVC: BaseVC {
                     Toast.showToast(message: "Đánh giá thành công", image: "toast_success")
                     self.reviewTextView.text = ""
                     self.starReview.rating = 1
-                    self.viewModel.featchReview{}
+                    self.viewModel.featchReview {
+                        
+                    }
                     self.sendReviewBtn.isEnabled = false
                     self.sendReviewBtn.backgroundColor = .lightGray
-                    self.countReview = (self.viewModel.place.value?.totalReviews ?? 0) + 1
-                    self.countCommentLb.text = self.countReview.formattedText
                     DispatchQueue.global(qos: .userInitiated).async {
                         self.viewModel.checkContentReview()
                     }
@@ -393,11 +409,14 @@ class NewDetailVC: BaseVC {
                     self.reviewLabel.isHidden =  true
                     self.moreLabel.isHidden = true
                 } else if review?.count ?? 0 <= 3 {
+                    self.reviewLabel.isHidden =  false
                     self.moreLabel.isHidden = true
                 } else {
                     self.reviewLabel.isHidden =  false
                     self.moreLabel.isHidden = false
                 }
+                self.countReview = review?.count ?? 0
+                self.countCommentLb.text = self.countReview.formattedText
             })
             .disposed(by: disposeBag)
         
@@ -423,11 +442,6 @@ class NewDetailVC: BaseVC {
                             self.present(popupVC, animated: true)
                         }
                     }
-                } else {
-                    self.countReview = (self.viewModel.place.value?.totalReviews ?? 0) - 1
-                    DispatchQueue.main.async {
-                        self.countCommentLb.text = self.countReview.formattedText
-                    }
                 }
             })
             .disposed(by: disposeBag)
@@ -439,7 +453,7 @@ class NewDetailVC: BaseVC {
                     self.favoriteIV.tintColor = .red
                 } else {
                     self.favoriteIV.image = UIImage(systemName: "heart")
-                    self.favoriteIV.tintColor = .black
+                    self.favoriteIV.tintColor = .iconColor
                 }
             })
             .disposed(by: disposeBag)
@@ -499,11 +513,16 @@ class NewDetailVC: BaseVC {
             .subscribe(onNext: { [weak self] in
                 guard let self = self else { return }
                 self.viewModel.addReview()
+                self.viewModel.rating.accept(1)
+                self.viewModel.countReview.accept(0)
             })
             .disposed(by: disposeBag)
         
         let moreLbTap = UITapGestureRecognizer(target: self, action: #selector(moreLabelAction))
         moreLabel.addGestureRecognizer(moreLbTap)
+        
+        let editIvTap = UITapGestureRecognizer(target: self, action: #selector(editIvAction))
+        editIv.addGestureRecognizer(editIvTap)
     }
     
     @objc func backIvAction() {
@@ -580,6 +599,14 @@ class NewDetailVC: BaseVC {
             self.isLoading.accept(false)
             self.navigationController?.pushViewController(vc, animated: true)
         }
+    }
+    
+    @objc func editIvAction() {
+        let vc = NewCreatePostVC()
+        vc.newCreateBlogType = .edit
+        vc.viewModel.blog.accept(viewModel.place.value)
+        vc.titleNavigation = "Sửa bài viết"
+        self.navigationController?.pushViewController(vc, animated: true)
     }
     
     override func viewDidLayoutSubviews() {

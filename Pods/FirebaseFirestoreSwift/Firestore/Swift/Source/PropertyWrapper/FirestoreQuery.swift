@@ -124,15 +124,11 @@ public struct FirestoreQuery<T>: DynamicProperty {
     /// The query's predicates.
     public var predicates: [QueryPredicate]
 
-    /// The strategy to use in case there was a problem during the decoding phase.
+    // The strategy to use in case there was a problem during the decoding phase.
     public var decodingFailureStrategy: DecodingFailureStrategy = .raise
 
     /// If any errors occurred, they will be exposed here as well.
     public var error: Error?
-
-    /// The type of animation to apply when updating the view. If this is ommitted then no
-    /// animations are fired.
-    public var animation: Animation?
   }
 
   /// The results of the query.
@@ -160,16 +156,13 @@ public struct FirestoreQuery<T>: DynamicProperty {
   ///     filter for the fetched results.
   ///   - decodingFailureStrategy: The strategy to use when there is a failure
   ///     during the decoding phase. Defaults to `DecodingFailureStrategy.raise`.
-  ///   - animation: The optional animation to apply to the transaction.
   public init<U: Decodable>(collectionPath: String, predicates: [QueryPredicate] = [],
-                            decodingFailureStrategy: DecodingFailureStrategy = .raise,
-                            animation: Animation? = nil)
+                            decodingFailureStrategy: DecodingFailureStrategy = .raise)
     where T == [U] {
     let configuration = Configuration(
       path: collectionPath,
       predicates: predicates,
-      decodingFailureStrategy: decodingFailureStrategy,
-      animation: animation
+      decodingFailureStrategy: decodingFailureStrategy
     )
 
     _firestoreQueryObservable =
@@ -183,16 +176,13 @@ public struct FirestoreQuery<T>: DynamicProperty {
   ///     filter for the fetched results.
   ///   - decodingFailureStrategy: The strategy to use when there is a failure
   ///     during the decoding phase. Defaults to `DecodingFailureStrategy.raise`.
-  ///   - animation: The optional animation to apply to the transaction.
   public init<U: Decodable>(collectionPath: String, predicates: [QueryPredicate] = [],
-                            decodingFailureStrategy: DecodingFailureStrategy = .raise,
-                            animation: Animation? = nil)
+                            decodingFailureStrategy: DecodingFailureStrategy = .raise)
     where T == Result<[U], Error> {
     let configuration = Configuration(
       path: collectionPath,
       predicates: predicates,
-      decodingFailureStrategy: decodingFailureStrategy,
-      animation: animation
+      decodingFailureStrategy: decodingFailureStrategy
     )
 
     _firestoreQueryObservable =

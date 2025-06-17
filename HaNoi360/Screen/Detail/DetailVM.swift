@@ -185,6 +185,5 @@ class DetailVM: BaseVM {
                 }
             }
         }
-       
     }
 }

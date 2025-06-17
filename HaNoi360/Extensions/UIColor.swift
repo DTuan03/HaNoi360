@@ -68,7 +68,7 @@ extension UIColor {
     }
     
     static let textFiledColor = UIColor { traitCollection in
-        return traitCollection.userInterfaceStyle == .light ? UIColor(hex: "#FFFFFF") : .clear
+        return traitCollection.userInterfaceStyle == .light ? UIColor(hex: "#F3F4F6") : .clear
     }
     
     static let textNavigationColor = UIColor { traitCollection in

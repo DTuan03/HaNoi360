@@ -35,14 +35,14 @@ class NewCreateScheduleVC: BaseVC {
     
     lazy var lineView = UIViewFactory.createLineView(height: 2)
     
-    lazy var pencilIv = ImageViewFactory.createImageView(image: UIImage(systemName: "pencil"), tintColor: .black)
+    lazy var pencilIv = ImageViewFactory.createImageView(image: UIImage(systemName: "pencil"), tintColor: .iconColor)
     
-    lazy var selectedDateLabel = LabelFactory.createLabel(font: .medium18, textColor: UIColor(hex: "#000000", alpha: 0.8))
+    lazy var selectedDateLabel = LabelFactory.createLabel(font: .medium18, textColor: .primaryTextColor.withAlphaComponent(0.8))
     
-    lazy var monthLabel = LabelFactory.createLabel(text: String.formatMonth(Date()), font: .medium14, textColor: .lightGray)
+    lazy var monthLabel = LabelFactory.createLabel(text: String.formatMonth(Date()), font: .medium14, textColor: .secondaryTextColor)
     
     lazy var monthSv = {
-        let downIv = ImageViewFactory.createImageView(image: UIImage(systemName: "arrowtriangle.down.fill"), tintColor: .lightGray)
+        let downIv = ImageViewFactory.createImageView(image: UIImage(systemName: "arrowtriangle.down.fill"), tintColor: .secondaryTextColor)
         downIv.snp.makeConstraints { make in
             make.width.equalTo(20)
             make.height.equalTo(12)
@@ -52,9 +52,9 @@ class NewCreateScheduleVC: BaseVC {
         return sv
     }()
     
-    lazy var backBtn = ButtonFactory.createImageButton(withImage: UIImage(systemName: "chevron.left"), tinColor: UIColor(hex: "#000000", alpha: 0.8))
+    lazy var backBtn = ButtonFactory.createImageButton(withImage: UIImage(systemName: "chevron.left"), tinColor: .primaryTextColor.withAlphaComponent(0.8))
     
-    lazy var nextBtn = ButtonFactory.createImageButton(withImage: UIImage(systemName: "chevron.right"), tinColor: UIColor(hex: "#000000", alpha: 0.8))
+    lazy var nextBtn = ButtonFactory.createImageButton(withImage: UIImage(systemName: "chevron.right"), tinColor: .primaryTextColor.withAlphaComponent(0.8))
     
     lazy var stvBtn = [backBtn, nextBtn].hStack(40)
     
@@ -64,12 +64,12 @@ class NewCreateScheduleVC: BaseVC {
         calendar.locale = Locale(identifier: "vi_VN")
         calendar.headerHeight = 0
         calendar.firstWeekday = 2
-        calendar.appearance.weekdayTextColor = .gray
-        calendar.appearance.titleDefaultColor = .black
+        calendar.appearance.weekdayTextColor = .secondaryTextColor
+        calendar.appearance.titleDefaultColor = .primaryTextColor
         calendar.appearance.todayColor = .clear
         calendar.appearance.titleTodayColor = .orange
         calendar.appearance.selectionColor = .orange
-        calendar.appearance.titleSelectionColor = .white
+        calendar.appearance.titleSelectionColor = .primaryTextColor
         calendar.appearance.borderRadius = 1.0
         calendar.appearance.headerTitleFont = .medium18
         calendar.appearance.weekdayFont = .medium16
@@ -93,7 +93,7 @@ class NewCreateScheduleVC: BaseVC {
     
     lazy var containerView: UIView = {
         let view = UIView()
-        view.backgroundColor = .white
+        view.backgroundColor = .backgroundColor
         view.layer.cornerRadius = 20
         view.addSubviews([chooseDateLabel, dateLabel, pencilIv, lineView, monthSv, stvBtn, calendar, svCancelOk])
         

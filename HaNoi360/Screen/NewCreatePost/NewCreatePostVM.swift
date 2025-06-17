@@ -45,7 +45,14 @@ class NewCreatePostVM {
         District(id: "TH29", name: "Thường Tín"),
         District(id: "TH30", name: "Ứng Hòa")
     ]
-    
+    let categories: [CategoryModel] = [
+        CategoryModel(id: "amThuc", name: "Ẩm thực", img: "amThuc"),
+        CategoryModel(id: "tamLinh", name: "Tâm linh", img: "tamLinh"),
+        CategoryModel(id: "traiNghiem", name: "Trải nghiệm", img: "traiNghiem"),
+        CategoryModel(id: "muaSam", name: "Mua sắm", img: "muaSam"),
+        CategoryModel(id: "maoHiem", name: "Mạo hiểm", img: "maoHiem"),
+        CategoryModel(id: "canhQuan", name: "Cảnh quan", img: "canhQuan")
+    ]
     var avatarIV = BehaviorRelay<UIImage?>(value: nil)
     var avatarUrl = BehaviorRelay<String?>(value: nil)
     var title = BehaviorRelay<String?>(value: nil)
@@ -58,12 +65,16 @@ class NewCreatePostVM {
     
     let userId = UserDefaults.standard.string(forKey: "userId")
     let userName = UserDefaults.standard.string(forKey: "userName")
-    let userAvatar = UserDefaults.standard.string(forKey: "userAvatar") ?? "https://upload.wikimedia.org/wikipedia/commons/8/89/Portrait_Placeholder.png"
+    let userAvatar = UserDefaults.standard.string(forKey: "avatarUrl") ?? "https://upload.wikimedia.org/wikipedia/commons/8/89/Portrait_Placeholder.png"
     
     let blogService = BaseFirestoreService<CreateBlogPost>(collectionPath: "blogs")
     
     var isLoading = PublishRelay<Bool>()
     var isSuccess = PublishRelay<Bool>()
+    
+    var blogId = Firestore.firestore().collection("blogs").document().documentID
+    
+    let blog = BehaviorRelay<BlogPost?>(value: nil)
     
     private let disposeBag = DisposeBag()
 
@@ -92,7 +103,9 @@ class NewCreatePostVM {
     
     func uploadImageAvatar(completion: @escaping () -> Void) {
         guard let image = avatarIV.value else { return }
-        CloudinaryService.shared.uploadImage(image: image) { result in
+        
+        let path = "blogs/\(blogId)/gallery/\(UUID().uuidString).jpg"
+        FirebaseStorageService.shared.uploadImage(image, to: path) { result in
             switch result {
             case .success(let url):
                 self.avatarUrl.accept(url)
@@ -117,11 +130,14 @@ class NewCreatePostVM {
         }
         let dispatchGroup = DispatchGroup()
         
-        for (index, block) in contentBlocks.value.enumerated() {
-            guard case .image = block.type, let image = block.image else { continue }
-            
+        for (index, block) in imageBlocks {
+//            guard case .image = block.type, let image = block.image else { continue }
+            guard let image = block.image else { continue }
+
             dispatchGroup.enter()
-            CloudinaryService.shared.uploadImage(image: image) { result in
+            guard let userId = userId else { return }
+            let path = "users/\(userId)/blogs/\(blogId)/gallery/\(UUID().uuidString).jpg"
+            FirebaseStorageService.shared.uploadImage(image, to: path) { result in
                 switch result {
                 case .success(let url):
                     self.uploadedImageURLs[index] = url
@@ -171,13 +187,11 @@ class NewCreatePostVM {
             let authorName = userName,
             let districId = idAddress.value
         else { return }
-        
-        let id = Firestore.firestore().collection("blogs").document().documentID
-        
+                
         let contentBlocks = mapToContentBlocks(from: contentBlocks.value, uploadedImageURLs: uploadedImageURLs)
         
         let newPost = CreateBlogPost(
-            placeId: id,
+            placeId: blogId,
             title: title,
             placeImage: placeImage,
             address: address,
@@ -194,7 +208,7 @@ class NewCreatePostVM {
             createAt: Date()
         )
         
-        blogService.set(newPost, withId: id) { [weak self] result in
+        blogService.set(newPost, withId: blogId) { [weak self] result in
             self?.isLoading.accept(false)
             switch result {
             case .success():

@@ -97,11 +97,11 @@ class PlaceCell: UICollectionViewCell {
         }
     }
     
-    func configure(model: BlogModel) {
-        imageView.kf.setImage(with: URL(string: model.placeImage))
+    func configure(model: BlogPost) {
+        imageView.kf.setImage(with: URL(string: model.placeImage!))
         starIv.image = .star
         nameLabel.text = model.title
         addressLabel.text = model.authorName
-        avgReviewLabel.text = String(model.avgRating)
+        avgReviewLabel.text = "\(model.avgRating ?? 0)"
     }
 }

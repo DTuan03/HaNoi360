@@ -11,7 +11,7 @@ class TextViewFactory {
     static func createTextView(
         text: String? = nil,
         font: UIFont = .regular16,
-        textColor: UIColor = .black,
+        textColor: UIColor = .primaryTextColor,
         textAlignment: NSTextAlignment = .left,
         isEditable: Bool = true,
         isSelectable: Bool = true,

@@ -54,11 +54,12 @@ class MyProfileVM: BaseVM {
     func uploadImage() {
         guard let image = image.value else { return }
         isLoading.accept(true)
-        CloudinaryService.shared.uploadImage(image: image) { result in
+        
+        let path = "avatars/\(userId).jpg"
+        FirebaseStorageService.shared.uploadImage(image, to: path) { result in
             switch result {
             case .success(let url):
                 self.url.accept(url)
-                print(url)
                 self.isUploaded.accept(true)
             case .failure(let error):
                 print("Lỗi upload: \(error.localizedDescription)")

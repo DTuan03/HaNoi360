@@ -31,8 +31,10 @@ struct ReviewModel: Codable {
     let authorAvatar: String?
     let content: String?
     let rating: Int?
+    var reporterId: String = ""
     var report: Bool = false
     var isFlagged: Bool = false
     var hasUserAppealed: Bool = false
+    var isSendNoti: String = "unSent"
     var createAt: Date = Date()
 }

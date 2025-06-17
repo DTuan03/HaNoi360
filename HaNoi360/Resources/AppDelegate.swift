@@ -23,6 +23,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         }
         IQKeyboardManager.shared.isEnabled = true
         FirebaseApp.configure()
+        
         return true
     }
     

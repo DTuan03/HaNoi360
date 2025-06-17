@@ -32,7 +32,7 @@ class HomeVC: BaseVC {
                                                    highLightFont: .medium32)
     
     lazy var searchTF = {
-        let tf =  TextFieldFactory.createTextField(placeholder: "Tìm kiếm")
+        let tf =  TextFieldFactory.createTextField(placeholder: "Tìm kiếm", bgColor: .clear)
         tf.imageLeftView(image: .search)
         tf.layer.borderWidth = 1
         tf.layer.borderColor = UIColor(hex: "#D1D5DB").cgColor
@@ -434,6 +434,7 @@ extension HomeVC: SkeletonCollectionViewDataSource {
 
 extension HomeVC: NavigationViewDelegate {
     func didTapButton(in view: UIView) {
-        print("noti")
+        let vc = NotificationVC()
+        self.navigationController?.pushViewController(vc, animated: true)
     }
 }

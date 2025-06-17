@@ -10,9 +10,17 @@ import RxSwift
 import RxCocoa
 import SnapKit
 import CoreLocation
+import Kingfisher
+
+enum NewCreateBlogType {
+    case edit
+    case create
+}
 
 class NewCreatePostVC: BaseVC {
     let viewModel = NewCreatePostVM()
+    var newCreateBlogType: NewCreateBlogType = .create
+    lazy var titleNavigation: String? = "Thêm bài viết"
     lazy var scrollView = ScrollViewFactory.createScrollView(backgroundColor: .backgroundColor,
                                                              showsVerticalScrollIndicator: true)
     
@@ -23,7 +31,7 @@ class NewCreatePostVC: BaseVC {
     }()
     
     lazy var navigationView = NavigationViewFactory.createNavigationViewWithBackButtonAndTitle(image: .back,
-                                                                                               title: "Thêm bài viết",
+                                                                                               title: titleNavigation,
                                                                                                delegate: self)
     lazy var avatarIV = {
         let iv = ImageViewFactory.createImageView(image: UIImage(named: "placeholderImage"), contentMode: .scaleAspectFill, radius: 20)
@@ -168,6 +176,13 @@ class NewCreatePostVC: BaseVC {
             make.left.right.equalToSuperview().inset(20)
             make.height.equalTo(40)
         }
+        
+        switch newCreateBlogType {
+        case .edit:
+            createBtn.setTitle("Sửa bài viết", for: .normal)
+        case .create:
+            createBtn.setTitle("Thêm bài viết", for: .normal)
+        }
     }
     
     override func setupEvent() {
@@ -253,9 +268,19 @@ class NewCreatePostVC: BaseVC {
                 guard let self = self else { return }
                 if value {
                     self.resetForm()
-                    Toast.showToast(message: "Thêm bài viết thành công", image: "toast_success")
+                    switch newCreateBlogType {
+                    case .edit:
+                        Toast.showToast(message: "Sửa bài viết thành công", image: "toast_success")
+                    case .create:
+                        Toast.showToast(message: "Thêm bài viết thành công", image: "toast_success")
+                    }
                 } else {
-                    Toast.showToast(message: "Thêm bài viết thất bại", image: "toast_error")
+                    switch newCreateBlogType {
+                    case .edit:
+                        Toast.showToast(message: "Sửa bài viết thất bại", image: "toast_error")
+                    case .create:
+                        Toast.showToast(message: "Thêm bài viết thất bại", image: "toast_error")
+                    }
                 }
             })
             .disposed(by: disposeBag)
@@ -281,7 +306,107 @@ class NewCreatePostVC: BaseVC {
             })
             .disposed(by: disposeBag)
         
+        viewModel.blog
+            .subscribe(onNext: { [weak self] value in
+                guard let self = self, let value = value else { return }
+                self.viewModel.blogId = value.placeId!
+                self.viewModel.title.accept(value.title)
+                self.titleTf.text = value.title
+                self.viewModel.avatarUrl.accept(value.placeImage)
+                if let urlString = value.placeImage, let url = URL(string: urlString) {
+                    self.avatarIV.kf.setImage(with: url) { result in
+                        switch result {
+                        case .success(let imageResult):
+                            self.viewModel.avatarIV.accept(imageResult.image)
+                        case .failure:
+                            self.avatarIV.image = UIImage(named: "placeholderImage")
+                            self.viewModel.avatarIV.accept(nil)
+                        }
+                    }
+                }
+                self.viewModel.idAddress.accept(value.districId)
+                self.mapBtn.setTitle(value.address, for: .normal)
+                self.viewModel.coordinate.accept(CLLocationCoordinate2D(latitude: value.coordinates.latitude, longitude: value.coordinates.longitude))
+                self.viewModel.categoryId.accept(value.category)
+                let categoryNames = value.category!.compactMap { id in
+                    self.viewModel.categories.first(where: { $0.id == id })?.name
+                }
+                let joinedName = categoryNames.joined(separator: ", ")
+                self.tagBtn.setTitle(joinedName, for: .normal)
+                convertBlocks(contentBlocks: value.contentBlocks) { createBlocks in
+                    self.viewModel.contentBlocks.accept(createBlocks)
+                }
+            })
+            .disposed(by: disposeBag)
+        
+        viewModel.contentBlocks
+            .subscribe(onNext: { [weak self] _ in
+                guard let self = self else { return }
+                self.contentTableView.reloadData()
+            })
+            .disposed(by: disposeBag)
     }
+    
+    func convertBlocks(
+        contentBlocks: [ContentBlock],
+        completion: @escaping ([CreateBlock]) -> Void
+    ) {
+        let group = DispatchGroup()
+        var result = [CreateBlock]()
+        let resultQueue = DispatchQueue(label: "convertBlocks.result.queue") // bảo vệ result
+
+        for block in contentBlocks {
+            switch block.type {
+            case .heading:
+                let text = block.value ?? ""
+                let createBlock = CreateBlock(type: .heading(text), text: text, image: nil)
+                resultQueue.async {
+                    result.append(createBlock)
+                }
+
+            case .text:
+                let text = block.value ?? ""
+                let createBlock = CreateBlock(type: .text(text), text: text, image: nil)
+                resultQueue.async {
+                    result.append(createBlock)
+                }
+
+            case .image:
+                group.enter()
+                if let urlString = block.value, let url = URL(string: urlString) {
+                    KingfisherManager.shared.retrieveImage(with: url) { resultKF in
+                        defer { group.leave() }
+                        let createBlock: CreateBlock
+                        switch resultKF {
+                        case .success(let imageResult):
+                            createBlock = CreateBlock(type: .image(imageResult.image), text: nil, image: imageResult.image)
+                        case .failure:
+                            createBlock = CreateBlock(type: .image(nil), text: nil, image: nil)
+                        }
+                        resultQueue.async {
+                            result.append(createBlock)
+                        }
+                    }
+                } else {
+                    let createBlock = CreateBlock(type: .image(nil), text: nil, image: nil)
+                    resultQueue.async {
+                        result.append(createBlock)
+                    }
+                    group.leave()
+                }
+            }
+        }
+
+        group.notify(queue: .main) {
+            resultQueue.async {
+                let safeResult = result // snapshot result tránh race
+                DispatchQueue.main.async {
+                    completion(safeResult)
+                }
+            }
+        }
+    }
+
     
     func updateTableViewHeight() {
         contentTableView.layoutIfNeeded()

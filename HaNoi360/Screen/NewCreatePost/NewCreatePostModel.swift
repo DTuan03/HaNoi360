@@ -23,7 +23,7 @@ struct CreateBlogPost: Codable {
     let title: String
     let placeImage: String?
     let address: String?
-    let category: [String]?
+    let category: [String]? //
     let coordinates: Coordinate
     let authorId: String?
     let authorName: String?
@@ -31,7 +31,7 @@ struct CreateBlogPost: Codable {
     let districId: String?
     let avgRating: Double?
     let totalReviews: Int?
-    let contentBlocks: [ContentBlock]
+    let contentBlocks: [ContentBlock] //
     let keyword: [String]?
     let createAt: Date?
 }

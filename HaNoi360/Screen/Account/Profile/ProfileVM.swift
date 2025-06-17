@@ -46,9 +46,11 @@ class ProfileVM: BaseVM {
     
     func uploadAvatar() {
         guard let image = avatarIv.value else { return }
-        CloudinaryService.shared.uploadImage(image: image) { result in
+        let path = "avatars/\(userId).jpg"
+        FirebaseStorageService.shared.uploadImage(image, to: path) { result in
             switch result {
             case .success(let url):
+                UserDefaults.standard.set(url, forKey: "avatarUrl")
                 self.avatarUrl.accept(url)
             case .failure(let error):
                 print("Lỗi upload: \(error.localizedDescription)")

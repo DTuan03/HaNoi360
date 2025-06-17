@@ -33,5 +33,6 @@ struct BlogPost: Codable {
     let totalReviews: Int?
     let totalFavorites: Int?
     let contentBlocks: [ContentBlock]
+    let keyword: [String]?
     let createAt: Date?
 }
