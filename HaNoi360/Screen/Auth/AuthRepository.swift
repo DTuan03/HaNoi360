@@ -94,29 +94,46 @@ class AuthRepository {
     func getAuthErrorMessage(_ error: Error) -> String {
         let nsError = error as NSError
         
-        if nsError.code == -1001 {
-            return "Chưa xác minh email."
+        if nsError.domain == NSURLErrorDomain {
+            switch nsError.code {
+            case NSURLErrorNotConnectedToInternet:
+                return "Không có kết nối Internet."
+            case NSURLErrorTimedOut:
+                return "Kết nối quá hạn. Vui lòng thử lại."
+            default:
+                return "Lỗi mạng. Vui lòng kiểm tra kết nối."
+            }
         }
         
-        if let errorCode = AuthErrorCode.Code(rawValue: nsError.code) {
-            switch errorCode {
+        if let authError = AuthErrorCode(_bridgedNSError: nsError) {
+            switch authError.code {
             case .userNotFound:
                 return "Tài khoản không tồn tại."
             case .emailAlreadyInUse:
                 return "Email đã được sử dụng."
             case .wrongPassword:
                 return "Sai mật khẩu."
-            case .networkError:
-                return "Lỗi kết nối. Vui lòng kiểm tra internet."
             case .invalidEmail:
                 return "Email không đúng định dạng."
+            case .networkError:
+                return "Lỗi kết nối. Vui lòng kiểm tra Internet."
+            case .tooManyRequests:
+                return "Thiết bị tạm thời bị chặn do hoạt động bất thường. Vui lòng thử lại sau."
+            case .userDisabled:
+                return "Tài khoản đã bị vô hiệu hóa."
+            case .weakPassword:
+                return "Mật khẩu quá yếu. Vui lòng chọn mật khẩu mạnh hơn."
+            case .requiresRecentLogin:
+                return "Hành động yêu cầu đăng nhập lại gần đây."
             default:
-                return "Lỗi hệ thống. Vui lòng thử lại."
+                return "Lỗi hệ thống. Vui lòng thử lại sau."
             }
         }
-        return "Lỗi không xác định."
+        
+        return "Lỗi không xác định. Vui lòng thử lại."
     }
-
+    
+    
     
     func saveUser(_ user: User, completion: @escaping () -> Void) {
         let userData: [String: Any] = [
