@@ -12,7 +12,7 @@ struct NotificationModel: Codable {
     var isRead: Bool?
     let message: String?
     let reviewContent: String?
-    let reviewId: String?
-    let userId: String?
+    let reportedId: String?
+    let authorId: String?
     let createdAt: Date?
 }

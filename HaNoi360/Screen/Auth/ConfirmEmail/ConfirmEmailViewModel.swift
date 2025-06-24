@@ -24,7 +24,7 @@ class ConfirmEmailViewModel {
             }
             
             if user.isEmailVerified {
-                AuthRepository.shared.saveUserInfoToFirestore(user: user, name: name, role: "user", completion: {_ in
+                AuthRepository.shared.saveUserInfoToFirestore(user: user, name: name, completion: {_ in
                     self.isConfirm.accept(true)
                 })
             } else {

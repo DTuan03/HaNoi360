@@ -8,12 +8,11 @@ import Foundation
 
 struct NewCreateScheduleModel: Codable {
     let scheduleId: String
-    let placeId: String
-    let placeImage: String
-    let name: String
+    let blogId: String
+    let avatarBlog: String
+    let title: String
     let address: String
     let avgRating: Double
-    let userId: String
     let date: String
     let createAt: Date
 }

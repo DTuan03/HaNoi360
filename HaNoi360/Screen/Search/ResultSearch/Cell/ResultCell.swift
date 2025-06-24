@@ -74,7 +74,7 @@ class ResultCell: UITableViewCell {
     }
     
     func configData(model: BlogPost) {
-        placeIV.kf.setImage(with: URL(string: model.placeImage ?? ""))
+        placeIV.kf.setImage(with: URL(string: model.avatarBlog ?? ""))
         namePlaceLabel.text = model.title
         addressLabel.text = model.address
         avgStarLabel.text = String(format: "%.1f", model.avgRating ?? 0.0)

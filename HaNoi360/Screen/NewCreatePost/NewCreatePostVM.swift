@@ -11,6 +11,7 @@ import Foundation
 import UIKit
 import CoreLocation
 import FirebaseFirestore
+import FirebaseAuth
 
 class NewCreatePostVM {
     let districts: [District] = [
@@ -63,7 +64,7 @@ class NewCreatePostVM {
     
     var uploadedImageURLs: [Int: String] = [:]
     
-    let userId = UserDefaults.standard.string(forKey: "userId")
+    let userId = Auth.auth().currentUser?.uid
     let userName = UserDefaults.standard.string(forKey: "userName")
     let userAvatar = UserDefaults.standard.string(forKey: "avatarUrl") ?? "https://upload.wikimedia.org/wikipedia/commons/8/89/Portrait_Placeholder.png"
     
@@ -191,9 +192,9 @@ class NewCreatePostVM {
         let contentBlocks = mapToContentBlocks(from: contentBlocks.value, uploadedImageURLs: uploadedImageURLs)
         
         let newPost = CreateBlogPost(
-            placeId: blogId,
+            blogId: blogId,
             title: title,
-            placeImage: placeImage,
+            avatarBlog: placeImage,
             address: address,
             category: categories,
             coordinates: Coordinate(latitude: coordinate.latitude, longitude: coordinate.longitude),
@@ -202,7 +203,6 @@ class NewCreatePostVM {
             authorAvatar: userAvatar,
             districId: districId,
             avgRating: 0,
-            totalReviews: 0,
             contentBlocks: contentBlocks,
             keyword: KeyWord.shared.generateAllSearchKeywords(from: title),
             createAt: Date()

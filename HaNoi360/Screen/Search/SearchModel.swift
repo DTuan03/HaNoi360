@@ -7,6 +7,7 @@
 
 import Foundation
 import RealmSwift
+import FirebaseAuth
 
 class SearchModel: Object {
     @objc dynamic var searchId: String?
@@ -21,7 +22,7 @@ class SearchModel: Object {
     convenience init(searchId: String, textSearch: String) {
         self.init()
         self.searchId = searchId
-        self.userId = UserDefaults.standard.string(forKey: "userId") ?? ""
+        self.userId = Auth.auth().currentUser?.uid
         self.textSearch = textSearch
         self.createAt = Date()
     }

@@ -20,6 +20,7 @@ class MyProfileVM: BaseVM {
     var user = BehaviorRelay<ProfileModel?>(value: nil)
     var allUrlImage = BehaviorRelay<[String]>(value: [])
     var isFollowing = BehaviorRelay<Bool>(value: false)
+    var isDelete = PublishRelay<Bool>()
 
     func getPlaces(authorId: String, completion: @escaping () -> Void)  {
         blogService.fetchWhereEqualTo(field: "authorId", value: authorId) { result in
@@ -93,19 +94,6 @@ class MyProfileVM: BaseVM {
         }
     }
     
-//    func fetchInfoUser(userId: String, completion: @escaping () -> Void) {
-//        isLoading.accept(true)
-//        userService.fetchWhereEqualTo(field: "userId", value: userId) { result in
-//            switch result {
-//            case .success(let profile):
-//                self.user.accept(profile[0])
-//            case .failure(_):
-//                print("loi")
-//            }
-//            completion()
-//        }
-//    }
-    
     func fetchInfoUser(userId: String, completion: @escaping () -> Void) {
         isLoading.accept(true)
 
@@ -129,7 +117,7 @@ class MyProfileVM: BaseVM {
                         let followers = documents.compactMap { try? $0.data(as: FollowersModel.self) }
                         profile = ProfileModel(
                             userId: profile.userId,
-                            avatarUrl: profile.avatarUrl,
+                            avatarUser: profile.avatarUser,
                             name: profile.name,
                             email: profile.email,
                             phone: profile.phone,
@@ -149,7 +137,7 @@ class MyProfileVM: BaseVM {
                         let following = documents.compactMap { try? $0.data(as: FollowingModel.self) }
                         profile = ProfileModel(
                             userId: profile.userId,
-                            avatarUrl: profile.avatarUrl,
+                            avatarUser: profile.avatarUser,
                             name: profile.name,
                             email: profile.email,
                             phone: profile.phone,
@@ -176,7 +164,6 @@ class MyProfileVM: BaseVM {
             }
         }
     }
-
     
     func filterImageAlbum() {
         let blogPosts = blogsPost.value
@@ -194,7 +181,7 @@ class MyProfileVM: BaseVM {
         
         let currentUserData: [String: Any] = [
             "followeeId": targetUserId,
-            "avatarUrl": self.user.value?.avatarUrl ?? "",
+            "avatarUrl": self.user.value?.avatarUser ?? "",
             "name": self.user.value?.name ?? ""
         ]
         
@@ -242,4 +229,16 @@ class MyProfileVM: BaseVM {
         }
     }
 
+    func deleteBlog(blogId: String, completion: @escaping () -> Void) {
+        isLoading.accept(true)
+        blogService.delete(id: blogId) { result in
+            self.isLoading.accept(false)
+            switch result {
+            case .success():
+                self.isDelete.accept(true)
+            case .failure(_):
+                self.isDelete.accept(false)
+            }
+        }
+    }
 }

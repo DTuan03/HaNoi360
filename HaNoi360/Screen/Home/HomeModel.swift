@@ -11,8 +11,8 @@ struct District {
 }
 
 struct BlogModel: Codable {
-    let placeId: String
-    let placeImage: String
+    let blogId: String
+    let avatarBlog: String
     let title: String
     let authorName: String
     let avgRating: Double

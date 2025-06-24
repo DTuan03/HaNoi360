@@ -8,6 +8,10 @@
 import UIKit
 import Kingfisher
 
+protocol MyProfileCellDelegate: AnyObject {
+    func didDeleteBlog(cell: UITableViewCell)
+}
+
 class MyProfileCell: UITableViewCell {
     
     lazy var avatarIv = ImageViewFactory.createImageView(image: .test, contentMode: .scaleAspectFill, radius: 30)
@@ -27,11 +31,16 @@ class MyProfileCell: UITableViewCell {
     lazy var lineView = UIViewFactory.createLineView(height: 3, bgColor: .lineViewColor)
     
     lazy var stv = [infoSv, titleLb, descriptionLb, avatarPlaceIv].vStack(6)
+    
+    lazy var deleteIv = ImageViewFactory.createImageView(image: UIImage(systemName: "multiply"), tintColor: .iconColor)
+    
+    weak var delegate: MyProfileCellDelegate?
 
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         self.backgroundColor = .clear
         setupUI()
+        setupEvent()
     }
     
     required init?(coder: NSCoder) {
@@ -39,7 +48,7 @@ class MyProfileCell: UITableViewCell {
     }
     
     func setupUI() {
-        contentView.addSubviews([stv, lineView])
+        contentView.addSubviews([stv, lineView, deleteIv])
         
         avatarIv.snp.makeConstraints { make in
             make.height.width.equalTo(60)
@@ -60,15 +69,35 @@ class MyProfileCell: UITableViewCell {
             make.left.right.equalToSuperview()
             make.bottom.equalToSuperview().inset(12)
         }
+        
+        deleteIv.snp.makeConstraints { make in
+            make.width.height.equalTo(24)
+            make.right.equalToSuperview().inset(12)
+            make.top.equalToSuperview().offset(4)
+        }
     }
     
     func configData(model: BlogPost) {
-        avatarIv.kf.setImage(with: URL(string: model.authorAvatar ?? ""))
-        avatarPlaceIv.kf.setImage(with: URL(string: model.placeImage ?? ""))
+        var url: String = "https://upload.wikimedia.org/wikipedia/commons/8/89/Portrait_Placeholder.png"
+        if let t = model.authorAvatar {
+            url = t.isEmpty ? "https://upload.wikimedia.org/wikipedia/commons/8/89/Portrait_Placeholder.png" : t
+        }
+        avatarIv.kf.setImage(with: URL(string: url))
+        avatarPlaceIv.kf.setImage(with: URL(string: model.avatarBlog ?? ""))
+        nameLb.text = model.authorName
         titleLb.text = model.title
         timeLb.text = model.createAt?.displayRelativeTime()
         if let firstDescription = model.contentBlocks.first(where: { $0.type.rawValue == "text"}) {
             descriptionLb.text = firstDescription.value
         }
+    }
+    
+    func setupEvent() {
+        let tap = UITapGestureRecognizer(target: self, action: #selector(deleteIvAction))
+        deleteIv.addGestureRecognizer(tap)
+    }
+    
+    @objc func deleteIvAction() {
+        delegate?.didDeleteBlog(cell: self)
     }
 }

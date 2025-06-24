@@ -19,19 +19,23 @@ struct CreateBlock {
 }
 
 struct CreateBlogPost: Codable {
-    let placeId: String?
+    let blogId: String?
     let title: String
-    let placeImage: String?
+    let avatarBlog: String?
     let address: String?
-    let category: [String]? //
+    let category: [String]?
     let coordinates: Coordinate
     let authorId: String?
     let authorName: String?
     let authorAvatar: String?
     let districId: String?
     let avgRating: Double?
-    let totalReviews: Int?
-    let contentBlocks: [ContentBlock] //
+    let contentBlocks: [ContentBlock]
     let keyword: [String]?
     let createAt: Date?
+}
+
+struct Coordinate: Codable {
+    var latitude: Double
+    var longitude: Double
 }

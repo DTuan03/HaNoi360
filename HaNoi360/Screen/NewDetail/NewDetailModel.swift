@@ -19,9 +19,9 @@ struct ContentBlock: Codable {
 }
 
 struct BlogPost: Codable {
-    let placeId: String?
+    let blogId: String?
     let title: String
-    let placeImage: String?
+    let avatarBlog: String?
     let address: String?
     let category: [String]?
     let coordinates: Coordinate
@@ -30,9 +30,23 @@ struct BlogPost: Codable {
     let authorAvatar: String?
     let districId: String?
     let avgRating: Double?
-    let totalReviews: Int?
-    let totalFavorites: Int?
     let contentBlocks: [ContentBlock]
     let keyword: [String]?
     let createAt: Date?
+}
+
+struct ReviewModel: Codable {
+    let reviewId: String?
+    let blogId: String?
+    let authorId: String?
+    let authorName: String?
+    let authorAvatar: String?
+    let content: String?
+    let rating: Int?
+    var reporterId: String = ""
+    var report: Bool = false
+    var isFlagged: Bool = false
+    var hasUserAppealed: Bool = false
+    var isSendNoti: String = "unSent"
+    var createAt: Date = Date()
 }

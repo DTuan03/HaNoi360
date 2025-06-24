@@ -309,11 +309,11 @@ class NewCreatePostVC: BaseVC {
         viewModel.blog
             .subscribe(onNext: { [weak self] value in
                 guard let self = self, let value = value else { return }
-                self.viewModel.blogId = value.placeId!
+                self.viewModel.blogId = value.blogId!
                 self.viewModel.title.accept(value.title)
                 self.titleTf.text = value.title
-                self.viewModel.avatarUrl.accept(value.placeImage)
-                if let urlString = value.placeImage, let url = URL(string: urlString) {
+                self.viewModel.avatarUrl.accept(value.avatarBlog)
+                if let urlString = value.avatarBlog, let url = URL(string: urlString) {
                     self.avatarIV.kf.setImage(with: url) { result in
                         switch result {
                         case .success(let imageResult):

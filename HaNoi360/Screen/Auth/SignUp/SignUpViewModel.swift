@@ -44,8 +44,7 @@ class SignUpViewModel {
         if isName.value && isEmail.value && isPassword.value {
             AuthRepository.shared.signUp(name: nameInput.value,
                                          email: emailInput.value,
-                                         password: passwordInput.value,
-                                         role: "user") { result in
+                                         password: passwordInput.value) { result in
                 switch result {
                 case .success(_):
                     self.signUpSuccess.accept(true)

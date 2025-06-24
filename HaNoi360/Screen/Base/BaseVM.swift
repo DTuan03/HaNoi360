@@ -57,7 +57,6 @@ class BaseVM {
     }
     
     lazy var calendarService = BaseFirestoreService<NewCreateScheduleModel>(collectionPath: "users/\(userId)/calendars")
-    let placeService = BaseFirestoreService<DetailModel>(collectionPath: "places")
     lazy var favoriteService = BaseFirestoreService<FavoriteModel>(collectionPath: "users/\(userId)/favorites")
     let reviewService = BaseFirestoreService<ReviewModel>(collectionPath: "reviews")
     let blogService = BaseFirestoreService<BlogPost>(collectionPath: "blogs")

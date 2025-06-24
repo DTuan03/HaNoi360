@@ -108,7 +108,7 @@ extension FavoriteVC: UITableViewDelegate {
             let popupVC = PopupVC()
             popupVC.modalTransitionStyle = .crossDissolve
             popupVC.modalPresentationStyle = .overCurrentContext
-            self.viewModel.placeId.accept(self.viewModel.placeFavorite.value?[indexPath.section].placeId ?? "")
+            self.viewModel.placeId.accept(self.viewModel.placeFavorite.value?[indexPath.section].blogId ?? "")
             popupVC.onOk = {
                 self.viewModel.deleteFavorite()
             }
@@ -134,7 +134,7 @@ extension FavoriteVC: UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let detailVC = NewDetailVC()
-        detailVC.viewModel.placeId.accept(viewModel.placeFavorite.value?[indexPath.row].placeId)
+        detailVC.viewModel.placeId.accept(viewModel.placeFavorite.value?[indexPath.row].blogId)
         isLoading.accept(true)
         detailVC.viewModel.isFavoritePlace {
             detailVC.viewModel.featchPlace() {

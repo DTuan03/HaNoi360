@@ -38,7 +38,8 @@ class MyProfileVC: BaseVC {
         
         backHeaderIv.snp.makeConstraints { make in
             make.centerY.equalTo(nameHeaderLb.snp.centerY)
-            make.left.equalToSuperview().offset(10)
+            make.left.equalToSuperview().offset(12)
+            make.width.equalTo(24)
         }
         return view
     }()
@@ -99,7 +100,8 @@ class MyProfileVC: BaseVC {
         }
         backIv.snp.makeConstraints { make in
             make.top.equalToSuperview().offset(4)
-            make.left.equalToSuperview().offset(10)
+            make.left.equalToSuperview().offset(12)
+            make.width.equalTo(24)
         }
         
         infoSv.snp.makeConstraints { make in
@@ -238,7 +240,7 @@ class MyProfileVC: BaseVC {
             make.left.right.equalToSuperview()
             make.bottom.equalToSuperview()
             make.height.greaterThanOrEqualTo(700)
-            make.height.equalTo(350 * (viewModel.checkIn.value?.count ?? 0))
+            make.height.equalTo(400)
         }
         
         return view
@@ -271,7 +273,6 @@ class MyProfileVC: BaseVC {
             make.left.right.equalToSuperview()
             make.bottom.equalToSuperview()
             make.height.greaterThanOrEqualTo(700)
-            make.height.equalTo(1)
         }
         
         return view
@@ -280,6 +281,24 @@ class MyProfileVC: BaseVC {
     lazy var lineViewBottom = UIViewFactory.overlayView()
     
     lazy var stv = [topView, lineView, segmentioView, actionButtons, bottomView, albumBottomView, checkInBottomView].vStack(2)
+    
+    lazy var emptyTbv = {
+        let tv = TableViewFactory.createTableView()
+        tv.separatorStyle = .none
+        tv.showsVerticalScrollIndicator = false
+        tv.backgroundColor = .clear
+        tv.setLottieBackground(
+            name: "emptyBlog",
+            title: "Bạn chưa có hoạt động nào...",
+            message: "Hãy trải nghiệm và chia sẻ nhé",
+            topAnimation: -150,
+            topStv: -180
+        )
+        return tv
+    }()
+    
+    var isEmptyBlog: Bool = false
+    var isEmptyCheckIn: Bool = false
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
@@ -304,7 +323,7 @@ class MyProfileVC: BaseVC {
         
         scrollView.addSubview(contentView)
         
-        contentView.addSubviews([stv, lineViewBottom])
+        contentView.addSubviews([stv, lineViewBottom, emptyTbv])
         
         contentView.snp.makeConstraints { make in
             make.edges.equalToSuperview()
@@ -319,6 +338,12 @@ class MyProfileVC: BaseVC {
             make.top.equalTo(stv.snp.bottom)
             make.left.right.equalToSuperview()
             make.bottom.equalToSuperview()
+        }
+        
+        emptyTbv.snp.makeConstraints { make in
+            make.left.right.equalToSuperview()
+            make.bottom.equalTo(view.safeAreaLayoutGuide.snp.bottom)
+            make.height.equalTo(400)
         }
         
         self.segmentioView.selectedSegmentioIndex = 0
@@ -344,6 +369,8 @@ class MyProfileVC: BaseVC {
                 self.blogLbBuilder.first.text = "\(value.count)"
                 self.contentTbv.reloadData()
                 self.viewModel.filterImageAlbum()
+                self.isEmptyBlog = value.isEmpty
+                self.emptyTbv.isHidden = !value.isEmpty
             })
             .disposed(by: disposeBag)
         
@@ -370,6 +397,18 @@ class MyProfileVC: BaseVC {
             })
             .disposed(by: disposeBag)
         
+        viewModel.isDelete
+            .subscribe(onNext: { [weak self] value in
+                guard let self = self else { return }
+                if value {
+                    Toast.showToast(message: "Xoá thành công", image: "toast_success")
+                    self.viewModel.getPlaces(authorId: userId) {}
+                } else {
+                    Toast.showToast(message: "Xoá thất bại", image: "toast_error")
+                }
+            })
+            .disposed(by: disposeBag)
+        
         viewModel.checkIn
             .skip(1)
             .subscribe(onNext: { [weak self] value in
@@ -385,6 +424,8 @@ class MyProfileVC: BaseVC {
                     make.bottom.equalToSuperview()
                     make.height.equalTo((Int(self.widthScreen / 3 + 50) * (value?.count ?? 0)))
                 }
+                self.isEmptyCheckIn = ((value?.isEmpty) != nil)
+                self.emptyTbv.isHidden = !(value?.isEmpty ?? true)
             })
             .disposed(by: disposeBag)
         
@@ -394,7 +435,7 @@ class MyProfileVC: BaseVC {
                 self.nameHeaderLb.text = value?.name
                 self.nameLb.text = value?.name
                 self.descriptionLb.text = value?.interest
-                self.avatarIv.kf.setImage(with: URL(string: value?.avatarUrl ?? ""))
+                self.avatarIv.kf.setImage(with: URL(string: value?.avatarUser ?? "https://upload.wikimedia.org/wikipedia/commons/8/89/Portrait_Placeholder.png"))
                 self.followersLbBuilder.first.text = "\(value?.followers?.count ?? 0)"
                 self.followingLbBuilder.first.text = "\(value?.following?.count ?? 0)"
             })
@@ -413,7 +454,7 @@ class MyProfileVC: BaseVC {
                     make.top.equalToSuperview().offset(6)
                     make.left.right.equalToSuperview()
                     make.bottom.equalToSuperview()
-                    make.height.equalTo((Int(self.widthScreen / 3 + 10) * (count / 3)))
+                    make.height.equalTo((Int(self.widthScreen / 3 + 10) * (count % 3)))
                 }
             })
             .disposed(by: disposeBag)
@@ -440,15 +481,18 @@ class MyProfileVC: BaseVC {
                 self.bottomView.isHidden = false
                 self.checkInBottomView.isHidden = true
                 self.albumBottomView.isHidden = true
+                self.emptyTbv.isHidden = !self.isEmptyBlog
             case 1:
                 self.bottomView.isHidden = true
                 self.checkInBottomView.isHidden = true
                 self.albumBottomView.isHidden = false
+                self.emptyTbv.isHidden = !self.isEmptyBlog
             case 2:
                 self.bottomView.isHidden = true
                 self.albumBottomView.isHidden = true
                 self.checkInBottomView.isHidden = false
                 self.viewModel.fetchAllCheckIn{}
+                self.emptyTbv.isHidden = !self.isEmptyCheckIn
             default:
                 self.bottomView.isHidden = false
                 self.checkInBottomView.isHidden = true
@@ -591,6 +635,20 @@ extension MyProfileVC: UIScrollViewDelegate, UITableViewDelegate {
             self.contentView.layoutIfNeeded()
         }
     }
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        let detailVC = NewDetailVC()
+        detailVC.viewModel.placeId.accept(viewModel.blogsPost.value[indexPath.row].blogId)
+        isLoading.accept(true)
+        detailVC.viewModel.isFavoritePlace {
+            detailVC.viewModel.featchPlace() {
+                detailVC.viewModel.featchReview() {
+                    self.isLoading.accept(false)
+                    self.navigationController?.pushViewController(detailVC, animated: true)
+                }
+            }
+        }
+    }
 }
 
 extension MyProfileVC: UITableViewDataSource {
@@ -602,10 +660,30 @@ extension MyProfileVC: UITableViewDataSource {
         guard let cell = tableView.dequeueReusableCell(withIdentifier: "MyProfileCell", for: indexPath) as? MyProfileCell else {
             return UITableViewCell()
         }
+        switch myProfileType {
+        case .guest:
+            cell.deleteIv.isHidden = true
+        case .owner:
+            cell.deleteIv.isHidden = false
+        }
         let model = viewModel.blogsPost.value[indexPath.row]
         cell.configData(model: model)
         cell.selectionStyle = .none
+        cell.delegate = self
         return cell
+    }
+}
+
+extension MyProfileVC: MyProfileCellDelegate {
+    func didDeleteBlog(cell: UITableViewCell) {
+        guard let indexPath = contentTbv.indexPath(for: cell) else { return }
+        let popupVC = PopupVC()
+        popupVC.modalTransitionStyle = .crossDissolve
+        popupVC.modalPresentationStyle = .overCurrentContext
+        popupVC.onOk = {
+            self.viewModel.deleteBlog(blogId: self.viewModel.blogsPost.value[indexPath.row].blogId!){}
+        }
+        self.present(popupVC, animated: true)
     }
 }
 

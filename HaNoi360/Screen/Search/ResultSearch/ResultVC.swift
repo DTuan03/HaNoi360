@@ -149,7 +149,7 @@ extension ResultVC: UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let detailVC = NewDetailVC()
-        detailVC.viewModel.placeId.accept(viewModel.resultSearch.value?[indexPath.section].placeId)
+        detailVC.viewModel.placeId.accept(viewModel.resultSearch.value?[indexPath.section].blogId)
         isLoading.accept(true)
         detailVC.viewModel.isFavoritePlace {
             detailVC.viewModel.featchPlace() {

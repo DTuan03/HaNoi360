@@ -49,7 +49,7 @@ class NewDetailVM: BaseVM {
         guard let id = placeId.value else {
             return
         }
-        blogService.fetchWhereEqualTo(field: "placeId", value: id) { result in
+        blogService.fetchWhereEqualTo(field: "blogId", value: id) { result in
             self.isLoading.accept(false)
             switch result {
             case .success(let place):
@@ -68,7 +68,7 @@ class NewDetailVM: BaseVM {
             return
         }
         let fields = [
-            "placeId": placeId,
+            "blogId": placeId,
             "userId": userId
         ]
         favoriteService.fetchDocumentsByFields(fields: fields as [String : Any]) { result in
@@ -89,10 +89,9 @@ class NewDetailVM: BaseVM {
 //        let id = Firestore.firestore().collection("favorites").document().documentID
         idFavorite.accept(placeId.value!)
         let favoritePlace = FavoriteModel(favoriteId: placeId.value,
-                                          placeId: placeId.value,
-                                          userId: userId,
-                                          placeImage: place.value?.placeImage,
-                                          name: place.value?.title,
+                                          blogId: placeId.value,
+                                          avatarBlog: place.value?.avatarBlog,
+                                          title: place.value?.title,
                                           address: place.value?.address,
                                           avgRating: place.value?.avgRating,
                                           createdAt: Date())
@@ -135,7 +134,7 @@ class NewDetailVM: BaseVM {
         isLoading.accept(true)
         let id = Firestore.firestore().collection("reviews").document().documentID
         let review = ReviewModel(reviewId: id,
-                                 placeId: placeId.value,
+                                 blogId: placeId.value,
                                  authorId: userId,
                                  authorName: nameUser,
                                  authorAvatar: avatarUser,
@@ -160,10 +159,10 @@ class NewDetailVM: BaseVM {
         
         let query = Firestore.firestore()
             .collection("reviews")
-            .whereField("placeId", isEqualTo: placeId)
+            .whereField("blogId", isEqualTo: placeId)
             .whereField("isFlagged", isEqualTo: false)
             .order(by: "createAt", descending: true)
-            .limit(to: 4)
+//            .limit(to: 4)
         
         query.getDocuments { result, error  in
             if let error = error {

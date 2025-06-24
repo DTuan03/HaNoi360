@@ -67,12 +67,11 @@ class NewCreateScheduleVM: BaseVM {
     func addPlaceCalendar() {
         let id = Firestore.firestore().collection("calendars").document().documentID
         let place = NewCreateScheduleModel(scheduleId: placeId.value ?? "",
-                                           placeId: placeId.value ?? "",
-                                           placeImage: place.value?.placeImage ?? "",
-                                           name: place.value?.title ?? "",
+                                           blogId: placeId.value ?? "",
+                                           avatarBlog: place.value?.avatarBlog ?? "",
+                                           title: place.value?.title ?? "",
                                            address: place.value?.address ?? "",
                                            avgRating: place.value?.avgRating ?? 0,
-                                           userId: userId,
                                            date: date.value ?? Date().toString(),
                                            createAt: Date())
         calendarService.set(place, withId: id /*placeId.value ?? ""*/) { result in

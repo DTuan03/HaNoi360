@@ -78,7 +78,7 @@ extension AllTrendingVC: UICollectionViewDataSource {
 extension AllTrendingVC: UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         let detailVC = NewDetailVC()
-        detailVC.viewModel.placeId.accept(viewModel.itemsTrendingPlace.value[indexPath.row].placeId)
+        detailVC.viewModel.placeId.accept(viewModel.itemsTrendingPlace.value[indexPath.row].blogId)
         isLoading.accept(true)
         detailVC.viewModel.isFavoritePlace {
             detailVC.viewModel.featchPlace() {

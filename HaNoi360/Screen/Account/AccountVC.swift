@@ -85,7 +85,7 @@ class AccountVC: BaseVC {
                 guard let self = self, let profile = profile else { return }
                 self.nameLabel.text = profile.name
                 self.emailLabel.text = profile.email
-                self.avatarIV.kf.setImage(with: URL(string: profile.avatarUrl ?? "https://upload.wikimedia.org/wikipedia/commons/7/7c/Profile_avatar_placeholder_large.png"))
+                self.avatarIV.kf.setImage(with: URL(string: profile.avatarUser ?? "https://upload.wikimedia.org/wikipedia/commons/7/7c/Profile_avatar_placeholder_large.png"))
             })
             .disposed(by: disposeBag)
         
@@ -140,8 +140,10 @@ extension AccountVC: UITableViewDelegate {
         case 0:
             let vc = MyProfileVC()
             vc.myProfileType = .owner
+            isLoading.accept(true)
             vc.viewModel.fetchInfoUser(userId: viewModel.userId) {
                 vc.viewModel.getPlaces(authorId: self.viewModel.userId) {
+                    self.isLoading.accept(false)
                     self.navigationController?.pushViewController(vc, animated: true)
                 }
             }

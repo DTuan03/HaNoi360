@@ -68,7 +68,7 @@ class TrendingCell: UICollectionViewCell {
     }
     
     func configData(model: BlogPost) {
-        image.kf.setImage(with: URL(string: model.placeImage!))
+        image.kf.setImage(with: URL(string: model.avatarBlog ?? ""))
         nameLabel.text = model.title
         avgReviewLabel.text = "\(model.avgRating ?? 0)"
     }

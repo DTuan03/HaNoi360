@@ -23,14 +23,14 @@ class NewDetailVC: BaseVC {
     lazy var favoriteIV = ImageViewFactory.createImageView(image: UIImage(systemName: "heart"),
                                                            tintColor: .iconColor)
     
-    lazy var countFavoriteLb = LabelFactory.createLabel(text: viewModel.place.value?.totalFavorites?.formattedText, font: .regular16, textColor: .clear)
+    lazy var countFavoriteLb = LabelFactory.createLabel(text: "0", font: .regular16, textColor: .clear)
     
     lazy var favoriteSv = [favoriteIV, countFavoriteLb].hStack(4, alignment: .center)
     
     lazy var commentIV = ImageViewFactory.createImageView(image: UIImage(systemName: "pencil.and.list.clipboard"),
                                                           tintColor: .iconColor)
     
-    lazy var countCommentLb = LabelFactory.createLabel(text: viewModel.place.value?.totalReviews?.formattedText, font: .regular16, textColor: UIColor(hex: "#666666"))
+    lazy var countCommentLb = LabelFactory.createLabel(text: viewModel.review.value?.count.formattedText, font: .regular16, textColor: UIColor(hex: "#666666"))
     
     lazy var commentSv = [commentIV, countCommentLb].hStack(4, alignment: .center)
     
@@ -94,7 +94,11 @@ class NewDetailVC: BaseVC {
     
     lazy var avatarAuthor: UIImageView = {
         let iv = ImageViewFactory.createImageView(contentMode: .scaleAspectFill, radius: 25)
-        iv.kf.setImage(with: URL(string: viewModel.place.value?.authorAvatar ?? ""))
+        var url: String = "https://upload.wikimedia.org/wikipedia/commons/8/89/Portrait_Placeholder.png"
+        if let t = viewModel.place.value?.authorAvatar {
+            url = t.isEmpty ? "https://upload.wikimedia.org/wikipedia/commons/8/89/Portrait_Placeholder.png" : t
+        }
+        iv.kf.setImage(with: URL(string: url))
         iv.snp.makeConstraints { make in
             make.height.width.equalTo(50)
         }
@@ -462,8 +466,6 @@ class NewDetailVC: BaseVC {
             .subscribe(onNext: { isFavorite in
                 if isFavorite {
                     Toast.showToast(message: "Yêu thích thành công", image: "toast_success")
-                    self.countFavorite = (self.viewModel.place.value?.totalFavorites ?? 0) + 1
-                    self.countFavoriteLb.text = self.countFavorite.formattedText
                 } else {
                     Toast.showToast(message: "Yêu thích thất bại", image: "toast_error")
                 }
@@ -474,8 +476,6 @@ class NewDetailVC: BaseVC {
             .subscribe(onNext: { isFavorite in
                 if isFavorite {
                     Toast.showToast(message: "Đã bỏ yêu thích", image: "toast_success")
-                    self.countFavorite = (self.viewModel.place.value?.totalFavorites ?? 0) - 1
-                    self.countFavoriteLb.text = self.countFavorite.formattedText
                 } else {
                     Toast.showToast(message: "Bỏ yêu thích thất bại", image: "toast_error")
                 }

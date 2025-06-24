@@ -81,8 +81,8 @@ class FavoriteCell: UITableViewCell {
     }
     
     func configData(model: FavoriteModel) {
-        placeIV.kf.setImage(with: URL(string: model.placeImage ?? ""))
-        namePlaceLabel.text = model.name
+        placeIV.kf.setImage(with: URL(string: model.avatarBlog ?? ""))
+        namePlaceLabel.text = model.title
         addressLabel.text = model.address
         avgStarLabel.text = String(model.avgRating ?? 0)
     }

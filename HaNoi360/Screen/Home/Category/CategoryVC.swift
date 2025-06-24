@@ -382,7 +382,7 @@ extension CategoryVC: UITableViewDataSource {
 extension CategoryVC: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let detailVC = NewDetailVC()
-        detailVC.viewModel.placeId.accept(viewModel.placesForCategory.value?[indexPath.row].placeId)
+        detailVC.viewModel.placeId.accept(viewModel.placesForCategory.value?[indexPath.row].blogId)
         isLoading.accept(true)
         detailVC.viewModel.isFavoritePlace {
             detailVC.viewModel.featchPlace() {

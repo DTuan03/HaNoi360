@@ -218,7 +218,7 @@ extension CalendarVC: UITableViewDataSource {
 extension CalendarVC: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let detailVC = NewDetailVC()
-        detailVC.viewModel.placeId.accept(viewModel.placeCalendar.value?[indexPath.section].placeId)
+        detailVC.viewModel.placeId.accept(viewModel.placeCalendar.value?[indexPath.section].blogId)
         isLoading.accept(true)
         detailVC.viewModel.isFavoritePlace {
             detailVC.viewModel.featchPlace() {
@@ -237,7 +237,7 @@ extension CalendarVC: UITableViewDelegate {
             popupVC.titleLabel.text = "Xoá khỏi lịch trình ?"
             popupVC.modalTransitionStyle = .crossDissolve
             popupVC.modalPresentationStyle = .overCurrentContext
-            self.viewModel.placeId.accept(self.viewModel.placeCalendar.value?[indexPath.section].placeId ?? "")
+            self.viewModel.placeId.accept(self.viewModel.placeCalendar.value?[indexPath.section].blogId ?? "")
             popupVC.onOk = {
                 self.viewModel.deleteCalendar()
             }

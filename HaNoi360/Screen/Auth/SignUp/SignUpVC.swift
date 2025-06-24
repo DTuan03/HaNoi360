@@ -220,6 +220,8 @@ class SignUpVC: BaseVC {
                 if let nameText = self.nameTextField.text {
                     self.viewModel.isValidateName(nameText)
                     self.viewModel.nameInput.accept(nameText)
+                    print("NameTextField: \(nameText)")
+                    print("Name VM: \(self.viewModel.nameInput.value)")
                 }
                 
                 if self.viewModel.isName.value {
@@ -283,9 +285,8 @@ class SignUpVC: BaseVC {
         viewModel.signUpSuccess
             .subscribe(onNext: { success in
                 if success {
-                    let confirmEmailVC = ConfirmEmailVC()
-                    confirmEmailVC.nameUser = self.nameTextField.text
-                    self.navigationController?.pushViewController(ConfirmEmailVC(), animated: true)
+                    let confirmEmailVC = ConfirmEmailVC(nameUser: self.viewModel.nameInput.value)
+                    self.navigationController?.pushViewController(confirmEmailVC, animated: true)
                 }
             })
             .disposed(by: disposeBag)

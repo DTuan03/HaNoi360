@@ -284,6 +284,14 @@ class HomeVC: BaseVC {
                 self.trendingCV.reloadData()
             })
             .disposed(by: disposeBag)
+
+        viewModel.isLoading
+            .subscribe(onNext: { [weak self] value in
+                guard let self = self else { return }
+                print(value)
+                self.isLoading.accept(value)
+            })
+            .disposed(by: disposeBag)
     }
 }
 
@@ -350,7 +358,7 @@ extension HomeVC: UICollectionViewDelegate {
             viewModel.getPlaces(idDistrict: viewModel.districts[indexPath.row].id)
         case placeCV:
             let detailVC = NewDetailVC()
-            detailVC.viewModel.placeId.accept(viewModel.itemsPlace.value[indexPath.row].placeId)
+            detailVC.viewModel.placeId.accept(viewModel.itemsPlace.value[indexPath.row].blogId)
             isLoading.accept(true)
             detailVC.viewModel.isFavoritePlace {
                 detailVC.viewModel.featchPlace() {
@@ -370,7 +378,7 @@ extension HomeVC: UICollectionViewDelegate {
             self.navigationController?.pushViewController(vc, animated: true)
         default:
             let detailVC = NewDetailVC()
-            detailVC.viewModel.placeId.accept(viewModel.itemsTrendingPlace.value[indexPath.row].placeId)
+            detailVC.viewModel.placeId.accept(viewModel.itemsTrendingPlace.value[indexPath.row].blogId)
             isLoading.accept(true)
             detailVC.viewModel.isFavoritePlace {
                 detailVC.viewModel.featchPlace() {

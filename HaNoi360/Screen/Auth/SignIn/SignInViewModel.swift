@@ -23,10 +23,8 @@ class SignInViewModel {
         if !emailInput.value.isEmpty && !passwordInput.value.isEmpty {
             AuthRepository.shared.signIn(email: emailInput.value, password: passwordInput.value, completion: { result in
                 switch result {
-                case .success(let (userId, userName, role, avatarUrl)):
-                    UserDefaults.standard.set(userId, forKey: "userId")
+                case .success(let (userId, userName, avatarUrl)):
                     UserDefaults.standard.set(userName, forKey: "userName")
-                    UserDefaults.standard.set(role, forKey: "role")
                     UserDefaults.standard.set(avatarUrl, forKey: "avatarUrl")
                     self.signUpSuccess.accept(true)
                     self.isLoading.accept(false)

@@ -45,6 +45,8 @@ class HomeVM: BaseVM {
     var itemsNameDistrict = BehaviorRelay<[District]>(value: [])
     var itemsPlace = BehaviorRelay<[BlogPost]>(value: [])
     
+    var isLoading = PublishRelay<Bool>()
+    
     let categories: [CategoryModel] = [
         CategoryModel(id: "amThuc", name: "Ẩm thực", img: "amThuc"),
         CategoryModel(id: "tamLinh", name: "Tâm linh", img: "tamLinh"),
@@ -59,6 +61,7 @@ class HomeVM: BaseVM {
     
     override init() {
         super.init()
+        isLoading.accept(true)
         itemsNameDistrict.accept(districts)
         itemsCategory.accept(categories)
         getPlaces(idDistrict: "TH1")
@@ -81,6 +84,7 @@ class HomeVM: BaseVM {
             switch result {
             case .success( let places):
                 self.itemsTrendingPlace.accept(places)
+                self.isLoading.accept(false)
             case .failure(let error):
                 print("Loi")
             }

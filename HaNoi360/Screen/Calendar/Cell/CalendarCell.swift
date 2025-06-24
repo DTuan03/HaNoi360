@@ -72,9 +72,9 @@ class CalendarCell: UITableViewCell {
     }
     
     func configDate(model: NewCreateScheduleModel) {
-        placeIV.kf.setImage(with: URL(string: model.placeImage))
+        placeIV.kf.setImage(with: URL(string: model.avatarBlog))
         calendarLabel.text = model.createAt.toString()
-        namePlaceLabel.text = model.name
+        namePlaceLabel.text = model.title
         addressLabel.text = model.address
     }
 }

@@ -9,10 +9,9 @@ import Foundation
 
 struct FavoriteModel: Codable {
     let favoriteId: String?
-    let placeId: String?
-    let userId: String?
-    let placeImage: String?
-    let name: String?
+    let blogId: String?
+    let avatarBlog: String?
+    let title: String?
     let address: String?
     let avgRating: Double?
     var createdAt: Date?

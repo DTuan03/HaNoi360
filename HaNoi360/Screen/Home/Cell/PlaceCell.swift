@@ -98,7 +98,7 @@ class PlaceCell: UICollectionViewCell {
     }
     
     func configure(model: BlogPost) {
-        imageView.kf.setImage(with: URL(string: model.placeImage!))
+        imageView.kf.setImage(with: URL(string: model.avatarBlog!))
         starIv.image = .star
         nameLabel.text = model.title
         addressLabel.text = model.authorName

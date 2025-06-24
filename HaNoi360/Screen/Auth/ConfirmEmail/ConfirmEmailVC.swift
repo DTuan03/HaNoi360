@@ -10,7 +10,7 @@ import SnapKit
 import RxSwift
 
 class ConfirmEmailVC: BaseVC {
-    var nameUser: String?
+    var nameUser: String 
     lazy var navigationView = NavigationViewFactory.createNavigationViewWithBackButtonOnly(delegate: self)
     lazy var titleLabel = LabelFactory.createLabel(text: "Xác thực email được gửi cho bạn !",
                                                    font: .bold24,
@@ -24,6 +24,15 @@ class ConfirmEmailVC: BaseVC {
     lazy var confirmBtn = ButtonFactory.createButton("Tôi đã xác thực")
     
     let viewModel = ConfirmEmailViewModel()
+    
+    init(nameUser: String) {
+        self.nameUser = nameUser
+        super.init(nibName: nil, bundle: nil)
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
     
     override func setupUI() {
         view.addSubviews([navigationView, titleLabel, descriptionLabel, confirmBtn])
@@ -50,7 +59,7 @@ class ConfirmEmailVC: BaseVC {
     override func setupEvent() {
         confirmBtn.rx.tap
             .subscribe(onNext: {
-                self.viewModel.confirm(name: self.nameUser ?? "")
+                self.viewModel.confirm(name: self.nameUser ?? "k")
             })
             .disposed(by: disposeBag)
         
