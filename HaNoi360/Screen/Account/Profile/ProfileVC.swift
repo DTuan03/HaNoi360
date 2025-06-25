@@ -13,7 +13,7 @@ import RxCocoa
 class ProfileVC: BaseVC {
     let viewModel = ProfileVM()
     lazy var navigationView = NavigationViewFactory.createNavigationViewWithBackButtonAndTitle(image: .back,
-                                                                                               title: "Hồ sơ",
+                                                                                               title: "account.profile".localized,
                                                                                                delegate: self)
     lazy var tableView = {
         let tableView = TableViewFactory.createTableView()
@@ -24,7 +24,7 @@ class ProfileVC: BaseVC {
         return tableView
     }()
     
-    let titles: [String] = ["Tên của bạn", "Email", "Điện thoại", "Sở thích", "Ngày sinh", "Địa chỉ"]
+    let titles: [String] = ["account.name".localized, "Email", "account.phone".localized, "account.interest".localized, "account.date".localized, "account.address".localized]
 
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
@@ -83,7 +83,7 @@ extension ProfileVC: NavigationViewDelegate {
 extension ProfileVC: ProfileCellDelegate {
     func didTapEdit(in cell: ProfileCell) {
         guard let indexPath = tableView.indexPath(for: cell) else { return }
-        let placeholder: [String] = ["Nhập họ tên", "", "Nhập số điện thoại", "Sở thích của bạn là gì?", "Ngày sinh", "Bạn đang ở đâu?"]
+        let placeholder: [String] = ["placeholder.enter.name".localized, "", "placeholder.enter.phone".localized, "placeholder.enter.interest".localized, "placeholder.enter.birthdate".localized, "placeholder.enter.address".localized]
         let field: [String] = ["name", "", "phone", "interest", "date", "address"]
         let vc = PopupProfile()
         vc.titleLb.text = titles[indexPath.row]
@@ -140,7 +140,7 @@ class PopupProfile: BaseVC, UITextFieldDelegate {
     
     lazy var stv = [textField, picker].vStack()
     
-    lazy var saveBtn = ButtonFactory.createButton("Lưu",
+    lazy var saveBtn = ButtonFactory.createButton("account.save".localized,
                                                   font: .bold16,
                                                   textColor: .textButtonColor)
     
@@ -232,7 +232,7 @@ class PopupProfile: BaseVC, UITextFieldDelegate {
                             self.dismiss(animated: true)
                         }
                     } else {
-                        Toast.showToast(message: "Ngày không phù hợp", image: "error")
+                        Toast.showToast(message: "account.inappropriate".localized, image: "error")
                     }
                 } else {
                     if self.valueOld != self.textField.text {
@@ -241,7 +241,7 @@ class PopupProfile: BaseVC, UITextFieldDelegate {
                             self.dismiss(animated: true)
                         }
                     } else {
-                        Toast.showToast(message: "Chưa thay đổi thông tin", image: "error")
+                        Toast.showToast(message: "account.no.change".localized, image: "error")
                     }
                 }
             })

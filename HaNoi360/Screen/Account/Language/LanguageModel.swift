@@ -9,4 +9,4 @@ struct LanguageModel {
     let title: String
 }
 
-let languageData = ["Tiếng Việt", "Tiếng Anh"]
+let languageData = ["account.vietnam".localized, "account.english".localized]

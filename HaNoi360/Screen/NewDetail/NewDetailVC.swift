@@ -175,7 +175,7 @@ class NewDetailVC: BaseVC {
         return tableView
     }()
     
-    lazy var writeReviewLabel = LabelFactory.createLabel(text: "Viết nhận xét", font: .medium20)
+    lazy var writeReviewLabel = LabelFactory.createLabel(text: "detail.write.review".localized, font: .medium20)
     
     lazy var avatarUser = ImageViewFactory.createImageView(image: .test,
                                                            contentMode: .scaleAspectFill,
@@ -187,7 +187,7 @@ class NewDetailVC: BaseVC {
                                                 cornerRadius: 10,
                                                 borderColor: .lightGray,
                                                 borderWidth: 1,
-                                                placeholder: "Viết nhận xét")
+                                                placeholder: "detail.write.review".localized)
         tv.delegate = self
         return tv
     }()
@@ -197,7 +197,7 @@ class NewDetailVC: BaseVC {
     lazy var rangeReviewLabel = LabelFactory.createLabel(text: "0/250", font: .regular16, textColor: .lightGray)
     
     lazy var sendReviewBtn = {
-        let btn = ButtonFactory.createButton("Gửi", rounded: false, height: 38)
+        let btn = ButtonFactory.createButton("detail.send".localized, rounded: false, height: 38)
         btn.layer.cornerRadius = 16
         btn.isEnabled = false
         btn.backgroundColor = .lightGray

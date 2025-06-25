@@ -36,7 +36,7 @@ class SignInViewModel {
             })
         } else {
             self.isLoading.accept(false)
-            signUpError.accept("Nhập đủ thông tin!")
+            signUpError.accept("auth.validation.fill.all".localized)
         }
     }
 }

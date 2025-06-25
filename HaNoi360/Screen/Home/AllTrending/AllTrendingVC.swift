@@ -13,7 +13,7 @@ import Kingfisher
 
 class AllTrendingVC: BaseVC {
     let viewModel = AllTrendingVM()
-    lazy var navigationView = NavigationViewFactory.createNavigationViewWithBackButtonAndTitle(image: .back, title: "Thịnh hành", delegate: self)
+    lazy var navigationView = NavigationViewFactory.createNavigationViewWithBackButtonAndTitle(image: .back, title: "trending.trending".localized, delegate: self)
     
     lazy var clv = {
         let layout = CHTCollectionViewWaterfallLayout()

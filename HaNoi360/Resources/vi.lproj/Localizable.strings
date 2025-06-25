@@ -1,0 +1,175 @@
+
+//Common
+"common.search" = "Tìm kiếm";
+"common.forgot.password" = "Quên mật khẩu ?";
+"common.cf" = "Xác nhận";
+"common.add" = "Thêm";
+"common.delete.success" = "Xoá thành công";
+"common.delete.faild" = "Xoá thất bại";
+ 
+//Forgot Pass
+"forgot.pass.title" = "Nhập địa chỉ email của bạn để đặt lại mật khẩu";
+
+//OTP Code
+"otp.code" = "Mã OTP";
+"otp.code.title" = "Mã OTP đã được gửi đến số điện thoại đã chỉ định. Vui lòng kiểm tra điện thoại của bạn để nhận mã xác thực.";
+"otp.code.resend.code" = "Gửi lại mã";
+
+
+//TabBar
+"tabBar.home" = "Trang chủ";
+"tabBar.schedule" = "Lịch trình";
+"tabBar.favorite" = "Yêu thích";
+"tabBar.account" = "Tài khoản";
+
+//Home
+"home.title" = "Bạn muốn khám phá \nđịa điểm nào";
+"home.title.hightLight" = "khám phá";
+"home.category" = "Thể loại";
+"home.trending" = "Blog thịnh hành";
+"home.all" = "Tất cả";
+
+//Schedule
+"schedule.title" = "Lịch trình dự kiến";
+"schedule.today" = "Hôm nay";
+"schedule.intenđe.destination" = "Địa điểm dự kiến đi";
+
+//Favorite
+"favorite.title" = "Blog yêu thích";
+
+//Acount
+"account.title" = "Tài khoản";
+"account.profile" = "Hồ sơ";
+"account.security" = "Bảo mật";
+"account.noti" = "Thông báo";
+"account.langugae.interface" = "Ngôn ngữ & Giao diện";
+"account.logout" = "Đăng xuất";
+"account.edit.profile" = "Chỉnh sửa trang cá nhân";
+"account.follow" = "Theo dõi";
+"account.timeline" = "Dòng thời gian";
+"account.posts" = "Bài viết";
+"account.followers" = "người theo dõi";
+"account.following" = "đang theo dõi";
+"account.change.pass" = "Đổi mật khẩu";
+"account.empty.title" = "Bạn chưa có hoạt động nào ...";
+"account.empty.message" = "Hãy trải nghiệm và chia sẻ nhé";
+"account.following.new" = "Đang theo dõi";
+"account.follow" = "Theo dõi";
+"account.language" = "Ngôn ngữ";
+"account.interface" = "Giao diện";
+"account.darkMode" = "Chế độ tối";
+"account.vietnam" = "Tiếng Việt";
+"account.english" = "Tiếng Anh";
+"account.write.articles" = "Viết bài";
+"account.name" = "Tên của bạn";
+"account.phone" = "Điện thoại";
+"account.interest" = "Sở thích";
+"account.date" = "Ngày sinh";
+"account.address" = "Địa chỉ";
+"account.edit" = "Chỉnh sửa";
+"placeholder.enter.name" = "Nhập họ tên";
+"placeholder.enter.phone" = "Nhập số điện thoại";
+"placeholder.enter.interest" = "Sở thích của bạn là gì?";
+"placeholder.enter.birthdate" = "Ngày sinh";
+"placeholder.enter.address" = "Bạn đang ở đâu?";
+"account.save" = "Lưu";
+"account.inappropriate" = "Ngày không phù hợp";
+"account.no.change" = "Chưa thay đổi thông tin";
+
+//popup
+"popup.schedule.title" = "Bạn đang rảnh rỗi ?";
+"popup.schedule.message" = "Bạn đã sẵn sàng cho chuyến phiêu lưu tiếp theo chưa ?";
+"popup.cf.delete" = "Xoá khỏi lịch trình ?";
+"popup.favorite.title" = " Chưa có hoạt động nào ở đây";
+"popup.favorite.message" = "Bắt đầu khám phá và thêm vào yêu thích nhé";
+"popup.noti.email" = "Đã gửi email xác nhận!";
+"popup.camera.faild" = "Camera không khả dụng";
+"popup.cf.delete" = "Bạn có chắc muốn xoá blog này ?";
+
+//detail
+"detail.write.review" = "Viết nhận xét";
+"detail.send" = "Gửi";
+
+//create
+"create.edit.post" = "Sửa bài viết";
+"create.add.post" = "Thêm bài viết";
+"create.post.content" = "Nội dung bài viết";
+"create.add.new.block" = "Thêm khối mới";
+"create.add.tag" = "Thêm thẻ";
+"create.add.address" = "Thêm địa chỉ";
+"create.add" = "Thêm";
+
+//category
+"category.food" = "Ẩm thực";
+"category.spirituality" = "Tâm linh";
+"category.experience" = "Trải nghiệm";
+"category.shopping" = "Mua sắm";
+"category.adventure" = "Mạo hiểm";
+"category.landscape" = "Cảnh quan";
+
+//trending
+"trending.trending" = "Thịnh hành";
+
+//search
+"search.rcent" = "Tìm kiếm gần đây";
+"search.empty.title" = "Chưa có tìm kiếm nào";
+"search.empty.message" = "Bắt đầu khám phá và tìm kiếm nhiều hơn nhé";
+
+//filter
+"filter.title" = "Lọc";
+"filter.review" = "Đánh giá";
+"filter.dictrict" = "Quận/Huyện";
+"filter.choose.dictrict" = "Chọn Quận/Huyện";
+"filter.apply.filter" = "Áp dụng lọc";
+"filter.all" = "Tất cả";
+"filter.search.district" = "Tìm kiếm quận/huyện ...";
+
+//result
+"result.title" = "Kết quả tìm kiếm";
+"result.matching.result" = "Kết quả phù hợp";
+"result.empty.title" = "Không tìm thấy";
+"result.empty.message" = "Vui lòng tìm kiếm khác thay thế";
+
+// Auth - Email Verification
+"auth.email.sent" = "Xác thực email được gửi cho bạn !";
+"auth.email.instruction" = "Nếu đã xác thực hãy nhấn nút xác nhận bên dưới.";
+"auth.email.verified.button" = "Tôi đã xác thực";
+"auth.email.retry" = "Hãy thử lại !";
+
+// Auth - Welcome
+"auth.welcome.hello" = "Xin chào !";
+"auth.welcome.title" = "Chào mừng đến với HaNoi360";
+
+// Auth - Login
+"auth.password" = "Mật khẩu";
+"auth.login.button" = "Đăng nhập";
+"auth.login.question" = "Bạn chưa có tài khoản ? Đăng ký";
+"auth.signup.button" = "Đăng ký";
+
+// Auth - Form Validation
+"auth.validation.fill.all" = "Nhập đủ thông tin !";
+"auth.get.started" = "Bắt đầu thôi";
+"auth.signup.instruction" = "Vui lòng điền thông tin và tạo tài khoản.";
+
+// Auth - Form Fields
+"auth.fullname" = "Họ tên";
+"auth.error.name.empty" = "❗Tên không được để trống";
+"auth.error.email.invalid" = "❗Kiểm tra định dạng email";
+"auth.error.password.weak" = "❗Nhập mật khẩu mạnh hơn, gồm 8 ký tự hoa, số, đặc biệt";
+
+// Auth - Navigation
+"auth.login.existing" = "Bạn đã có tài khoản ? Đăng nhập";
+"auth.login.with.google" = "      Đăng nhập bằng Google";
+"auth.login.or" = "Hoặc sử dụng Đăng nhập ngay lập tức.";
+
+"auth.error.userNotFound" = "Tài khoản không tồn tại.";
+"auth.error.emailAlreadyInUse" = "Email đã được sử dụng.";
+"auth.error.wrongPassword" = "Sai mật khẩu.";
+"auth.error.invalidEmail" = "Email không đúng định dạng.";
+"auth.error.networkError" = "Lỗi kết nối. Vui lòng kiểm tra Internet.";
+"auth.error.tooManyRequests" = "Thiết bị tạm thời bị chặn do hoạt động bất thường. Vui lòng thử lại sau.";
+"auth.error.userDisabled" = "Tài khoản đã bị vô hiệu hóa.";
+"auth.error.weakPassword" = "Mật khẩu quá yếu. Vui lòng chọn mật khẩu mạnh hơn.";
+"auth.error.requiresRecentLogin" = "Hành động yêu cầu đăng nhập lại gần đây.";
+"auth.error.system" = "Lỗi hệ thống. Vui lòng thử lại sau.";
+"auth.error.unknown" = "Lỗi không xác định. Vui lòng thử lại.";

@@ -11,7 +11,7 @@ import FSCalendar
 
 class CalendarVC: BaseVC {
     let viewModel = CalendarVM()
-    lazy var navigationView = NavigationViewFactory.createNavigationViewWithTitleOnly(title: "Lịch trình dự kiến")
+    lazy var navigationView = NavigationViewFactory.createNavigationViewWithTitleOnly(title: "schedule.title".localized)
     
     lazy var containerView = {
         let view = UIView()
@@ -53,13 +53,13 @@ class CalendarVC: BaseVC {
     
     lazy var selectedDateLabel = LabelFactory.createLabel(text : selectedDate, font: .medium16, textColor: .primaryTextColor)
     
-    lazy var currentDateLabel = LabelFactory.createLabel(text: "Hôm nay", font: .regular16, textColor: .primaryColor)
+    lazy var currentDateLabel = LabelFactory.createLabel(text: "schedule.today".localized, font: .regular16, textColor: .primaryColor)
     
     var selectedDate: String = ""
     let dateFormatter = DateFormatter()
     var placesForSelectedDate: [Calendar]? = []
     
-    lazy var titleCalendarLabel = LabelFactory.createLabel(text: "Địa điểm dự kiến đi",
+    lazy var titleCalendarLabel = LabelFactory.createLabel(text: "schedule.intenđe.destination".localized,
                                                            font: .medium18,
                                                            textColor: .primaryTextColor)
     
@@ -159,8 +159,8 @@ class CalendarVC: BaseVC {
                 if value?.isEmpty ?? true {
                     self.calendarTableView.setLottieBackground(
                         name: "emptyCalendar",
-                        title: "Bạn đang rảnh rỗi ?",
-                        message: "Bạn đã sẵn sàng cho chuyến phiêu lưu tiếp theo chưa ?",
+                        title: "popup.schedule.title".localized,
+                        message: "popup.schedule.message".localized,
                         topAnimation: 0,
                         topStv: -110
                     )
@@ -234,7 +234,7 @@ extension CalendarVC: UITableViewDelegate {
         
         let deleteAction = UIContextualAction(style: .destructive, title: "") { action, view, handler in
             let popupVC = PopupVC()
-            popupVC.titleLabel.text = "Xoá khỏi lịch trình ?"
+            popupVC.titleLabel.text = "popup.cf.delete".localized
             popupVC.modalTransitionStyle = .crossDissolve
             popupVC.modalPresentationStyle = .overCurrentContext
             self.viewModel.placeId.accept(self.viewModel.placeCalendar.value?[indexPath.section].blogId ?? "")

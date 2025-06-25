@@ -1,0 +1,173 @@
+//Common
+"common.search" = "Search";
+"common.forgot.password" = "Forgot Password ?";
+"common.cf" = "Confirm";
+"common.add" = "Add";
+"common.delete.success" = "Deleted successfully";
+"common.delete.faild" = "Failed to delete";
+
+//Forgot Pass
+"forgot.pass.title" = "Enter your email address to reset your password";
+
+//OTP Code
+"otp.code" = "OTP Code";
+"otp.code.title" = "An OTP code has been sent to the specified phone number. Please check your phone to receive the verification code.";
+"otp.code.resend.code" = "Resend Code";
+
+//TabBar
+"tabBar.home" = "Home";
+"tabBar.schedule" = "Schedule";
+"tabBar.favorite" = "Favorites";
+"tabBar.account" = "Account";
+
+//Home
+"home.title" = "Where would you like to \nexplore today";
+"home.title.hightLight" = "explore";
+"home.category" = "Category";
+"home.trending" = "Trending Blogs";
+"home.all" = "All";
+
+//Schedule
+"schedule.title" = "Planned Schedule";
+"schedule.today" = "Today";
+"schedule.intenđe.destination" = "Planned Destination";
+
+//Favorite
+"favorite.title" = "Favorite Blogs";
+
+//Account
+"account.title" = "Account";
+"account.profile" = "Profile";
+"account.security" = "Security";
+"account.noti" = "Notifications";
+"account.langugae.interface" = "Language & Interface";
+"account.logout" = "Log Out";
+"account.edit.profile" = "Edit Profile";
+"account.follow" = "Follow";
+"account.timeline" = "Timeline";
+"account.posts" = "Posts";
+"account.followers" = "followers";
+"account.following" = "following";
+"account.change.pass" = "Change Password";
+"account.empty.title" = "You haven’t done anything yet...";
+"account.empty.message" = "Start exploring and sharing!";
+"account.following.new" = "Following";
+"account.follow" = "Follow";
+"account.language" = "Language";
+"account.interface" = "Interface";
+"account.darkMode" = "Dark Mode";
+"account.vietnam" = "Vietnamese";
+"account.english" = "English";
+"account.write.articles" = "Write Articles";
+"account.name" = "Your Name";
+"account.phone" = "Phone Number";
+"account.interest" = "Interests";
+"account.date" = "Date of Birth";
+"account.address" = "Address";
+"account.edit" = "Edit";
+"placeholder.enter.name" = "Enter your full name";
+"placeholder.enter.phone" = "Enter your phone number";
+"placeholder.enter.interest" = "What are your interests?";
+"placeholder.enter.birthdate" = "Date of Birth";
+"placeholder.enter.address" = "Where are you located?";
+"account.save" = "Save";
+"account.inappropriate" = "Inappropriate date";
+"account.no.change" = "No information changed";
+
+//Popup
+"popup.schedule.title" = "Are you free?";
+"popup.schedule.message" = "Ready for your next adventure?";
+"popup.cf.delete" = "Remove from schedule?";
+"popup.favorite.title" = "No activity here yet";
+"popup.favorite.message" = "Start exploring and add to your favorites!";
+"popup.noti.email" = "Confirmation email sent!";
+"popup.camera.faild" = "Camera not available";
+"popup.cf.delete" = "Are you sure you want to delete this blog?";
+
+//Detail
+"detail.write.review" = "Write a Review";
+"detail.send" = "Send";
+
+//Create
+"create.edit.post" = "Edit Post";
+"create.add.post" = "Add Post";
+"create.post.content" = "Post Content";
+"create.add.new.block" = "Add New Block";
+"create.add.tag" = "Add Tag";
+"create.add.address" = "Add Address";
+"create.add" = "Add";
+
+//Category
+"category.food" = "Cuisine";
+"category.spirituality" = "Spirituality";
+"category.experience" = "Experience";
+"category.shopping" = "Shopping";
+"category.adventure" = "Adventure";
+"category.landscape" = "Landscape";
+
+//Trending
+"trending.trending" = "Trending";
+
+//Search
+"search.rcent" = "Recent Searches";
+"search.empty.title" = "No searches yet";
+"search.empty.message" = "Start exploring and search more!";
+
+//Filter
+"filter.title" = "Filter";
+"filter.review" = "Rating";
+"filter.dictrict" = "District";
+"filter.choose.dictrict" = "Choose District";
+"filter.apply.filter" = "Apply Filter";
+"filter.all" = "All";
+"filter.search.district" = "Search districts...";
+
+//Result
+"result.title" = "Search Results";
+"result.matching.result" = "Matching Results";
+"result.empty.title" = "Not Found";
+"result.empty.message" = "Please try a different search";
+
+// Auth - Email Verification
+"auth.email.sent" = "A verification email has been sent to you!";
+"auth.email.instruction" = "If you've verified, please press the confirm button below.";
+"auth.email.verified.button" = "I have verified";
+"auth.email.retry" = "Try again!";
+
+// Auth - Welcome
+"auth.welcome.hello" = "Hello!";
+"auth.welcome.title" = "Welcome to HaNoi360";
+
+// Auth - Login
+"auth.password" = "Password";
+"auth.login.button" = "Log In";
+"auth.login.question" = "Don't have an account? Sign Up";
+"auth.signup.button" = "Sign Up";
+
+// Auth - Form Validation
+"auth.validation.fill.all" = "Please fill in all fields!";
+"auth.get.started" = "Let's get started";
+"auth.signup.instruction" = "Please provide your information to create an account.";
+
+// Auth - Form Fields
+"auth.fullname" = "Full Name";
+"auth.error.name.empty" = "❗Name cannot be empty";
+"auth.error.email.invalid" = "❗Please check your email format";
+"auth.error.password.weak" = "❗Use a stronger password with 8 characters, uppercase, numbers, and symbols";
+
+// Auth - Navigation
+"auth.login.existing" = "Already have an account? Log In";
+"auth.login.with.google" = "        Log in with Google";
+"auth.login.or" = "Or log in instantly.";
+
+"auth.error.userNotFound" = "Account does not exist.";
+"auth.error.emailAlreadyInUse" = "Email is already in use.";
+"auth.error.wrongPassword" = "Incorrect password.";
+"auth.error.invalidEmail" = "Invalid email format.";
+"auth.error.networkError" = "Network error. Please check your Internet connection.";
+"auth.error.tooManyRequests" = "Device temporarily blocked due to unusual activity. Please try again later.";
+"auth.error.userDisabled" = "This account has been disabled.";
+"auth.error.weakPassword" = "Password too weak. Please choose a stronger one.";
+"auth.error.requiresRecentLogin" = "This action requires recent login.";
+"auth.error.system" = "System error. Please try again later.";
+"auth.error.unknown" = "Unknown error. Please try again.";

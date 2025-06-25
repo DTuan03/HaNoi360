@@ -106,29 +106,29 @@ class AuthRepository {
         if let authError = AuthErrorCode(_bridgedNSError: nsError) {
             switch authError.code {
             case .userNotFound:
-                return "Tài khoản không tồn tại."
+                return "auth.error.userNotFound".localized
             case .emailAlreadyInUse:
-                return "Email đã được sử dụng."
+                return "auth.error.emailAlreadyInUse".localized
             case .wrongPassword:
-                return "Sai mật khẩu."
+                return "auth.error.wrongPassword".localized
             case .invalidEmail:
-                return "Email không đúng định dạng."
+                return "auth.error.invalidEmail".localized
             case .networkError:
-                return "Lỗi kết nối. Vui lòng kiểm tra Internet."
+                return "auth.error.networkError".localized
             case .tooManyRequests:
-                return "Thiết bị tạm thời bị chặn do hoạt động bất thường. Vui lòng thử lại sau."
+                return "auth.error.tooManyRequests".localized
             case .userDisabled:
-                return "Tài khoản đã bị vô hiệu hóa."
+                return "auth.error.userDisabled".localized
             case .weakPassword:
-                return "Mật khẩu quá yếu. Vui lòng chọn mật khẩu mạnh hơn."
+                return "auth.error.weakPassword".localized
             case .requiresRecentLogin:
-                return "Hành động yêu cầu đăng nhập lại gần đây."
+                return "auth.error.requiresRecentLogin".localized
             default:
-                return "Lỗi hệ thống. Vui lòng thử lại sau."
+                return "auth.error.system".localized
             }
         }
         
-        return "Lỗi không xác định. Vui lòng thử lại."
+        return "auth.error.unknown".localized
     }
     
     

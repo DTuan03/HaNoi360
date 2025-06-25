@@ -10,7 +10,7 @@ import SnapKit
 
 class FavoriteVC: BaseVC {
     let viewModel = FavoriteVM()
-    lazy var navigationView = NavigationViewFactory.createNavigationViewWithTitleOnly(title: "Địa điểm yêu thích")
+    lazy var navigationView = NavigationViewFactory.createNavigationViewWithTitleOnly(title: "favorite.title".localized)
     
     lazy var tableView = {
         let tableView = TableViewFactory.createTableView()
@@ -50,8 +50,8 @@ class FavoriteVC: BaseVC {
                 if value?.isEmpty ?? true {
                     self.tableView.setLottieBackground(
                         name: "emptyFavorite",
-                        title: "Chưa có hoạt động nào ở đây",
-                        message: "Bắt đầu khám phá và thêm vào Yêu thích",
+                        title: "popup.favorite.title".localized,
+                        message: "popup.favorite.message".localized,
                         topAnimation: -350,
                         topStv: -500
                     )

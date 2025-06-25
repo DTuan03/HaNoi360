@@ -27,22 +27,22 @@ class SignUpVC: BaseVC {
     lazy var navigation = NavigationViewFactory.createNavigationViewWithBackButtonOnly(image: .back,
                                                                                        isHiddenBtn: true,
                                                                                        delegate: self)
-    lazy var titleLabel = LabelFactory.createLabel(text: "Bắt đầu thôi",
+    lazy var titleLabel = LabelFactory.createLabel(text: "auth.get.started".localized,
                                                    font: .bold24,
                                                    textAlignment: .center)
     
-    lazy var descriptionLabel = LabelFactory.createLabel(text: "Vui lòng điền thông tin và tạo tài khoản.",
+    lazy var descriptionLabel = LabelFactory.createLabel(text: "auth.signup.instruction".localized,
                                                          font: .regular16,
                                                          textColor: .secondaryTextColor,
                                                          textAlignment: .center)
     
     lazy var nameTextField = {
-        let tf = TextFieldFactory.createTextField(placeholder: "Họ tên")
+        let tf = TextFieldFactory.createTextField(placeholder: "auth.fullname".localized)
         tf.imageLeftView(image: .user)
         return tf
     }()
     
-    lazy var errorName = LabelFactory.createLabel(text: "❗Tên không được để trống",
+    lazy var errorName = LabelFactory.createLabel(text: "auth.error.name.empty".localized,
                                                   font: .light12,
                                                   textColor: .erorrColor)
     
@@ -55,39 +55,39 @@ class SignUpVC: BaseVC {
         return tf
     }()
     
-    lazy var errorEmail = LabelFactory.createLabel(text: "❗Kiểm tra định dạng email",
+    lazy var errorEmail = LabelFactory.createLabel(text: "auth.error.email.invalid".localized,
                                                    font: .light12,
                                                    textColor: .erorrColor)
     
     lazy var emailStv = [emailTextField, errorEmail].vStack(4)
     
     lazy var passwordTF = {
-        let tf = TextFieldFactory.createTextField(placeholder: "Mật khẩu")
+        let tf = TextFieldFactory.createTextField(placeholder: "auth.password".localized)
         tf.isSecureTextEntry = true
         tf.imageLeftView(image: .lock)
         tf.imageRightView(image: UIImage(systemName: "eye.slash.fill"), placeholder: "password")
         return tf
     }()
     
-    lazy var errorPass = LabelFactory.createLabel(text: "❗Nhập mật khẩu mạnh hơn, gồm 8 ký tự hoa, số, đặc biệt",
+    lazy var errorPass = LabelFactory.createLabel(text: "auth.error.password.weak".localized,
                                                   font: .light12,
                                                   textColor: .erorrColor)
     
     lazy var passStv = [passwordTF, errorPass].vStack(4)
     
-    lazy var signUpBtn = ButtonFactory.createButton("Đăng ký",
+    lazy var signUpBtn = ButtonFactory.createButton("auth.signup.button".localized,
                                                     font: .bold16,
                                                     textColor: .textButtonColor)
     
-    lazy var signUpLabel = LabelFactory.createLabel(text: "Bạn đã có tài khoản ? Đăng nhập",
+    lazy var signUpLabel = LabelFactory.createLabel(text: "auth.login.existing".localized,
                                                     font: .light18,
                                                     textAlignment: .center,
-                                                    highLighText: "Đăng nhập",
+                                                    highLighText: "auth.login.button".localized,
                                                     highLightFont: .bold18)
     
     lazy var stackView = [nameStv, emailStv, passStv, signUpBtn].vStack(22)
     
-    lazy var orSignInLabel = LabelFactory.createLabel(text: "Hoặc sử dụng Đăng nhập ngay lập tức.",
+    lazy var orSignInLabel = LabelFactory.createLabel(text: "auth.login.or".localized,
                                                       font: .medium16,
                                                       textColor: .secondaryTextColor,
                                                       textAlignment: .center)
@@ -99,17 +99,17 @@ class SignUpVC: BaseVC {
     }()
     
     lazy var googleBtn = {
-        let btn = ButtonFactory.createButton("      Đăng nhập bằng Google", font: .medium18, textColor: UIColor(hex: "#111827"), bgColor: .signInOtherButtonColor, rounded: true)
+        let btn = ButtonFactory.createButton("auth.login.with.google".localized, font: .medium18, textColor: UIColor(hex: "#111827"), bgColor: .signInOtherButtonColor, rounded: true)
         btn.setImage(.google, for: .normal)
         return btn
     }()
     
     lazy var signUpOtherSv = ([appleBtn, googleBtn]).vStack(20)
     
-    lazy var signInLabel = LabelFactory.createLabel(text: "Bạn đã có tài khoản ? Đăng nhập",
+    lazy var signInLabel = LabelFactory.createLabel(text: "auth.login.existing".localized,
                                                     font: .light18,
                                                     textAlignment: .center,
-                                                    highLighText: "Đăng nhập",
+                                                    highLighText: "auth.login.button".localized,
                                                     highLightFont: .bold18)
     
     lazy var activityIndicator =  {
@@ -187,24 +187,11 @@ class SignUpVC: BaseVC {
             make.centerX.equalToSuperview()
             make.bottom.equalToSuperview().inset(10)
         }
-        
-        //        errorName.snp.makeConstraints { make in
-        //            make.top.equalTo(nameTextField.snp.bottom).offset(2)
-        //            make.left.equalTo(nameTextField.snp.left).offset(5)
-        //        }
-        //
-        //        errorEmail.snp.makeConstraints { make in
-        //            make.top.equalTo(emailTextField.snp.bottom).offset(2)
-        //            make.left.equalTo(emailTextField.snp.left).offset(5)
-        //        }
-        //
-        //        errorPass.snp.makeConstraints { make in
-        //            make.top.equalTo(passwordTF.snp.bottom).offset(2)
-        //            make.left.equalTo(passwordTF.snp.left).offset(5)
-        //        }
+     
         errorName.isHidden = true
         errorEmail.isHidden = true
         errorPass.isHidden = true
+        appleBtn.isHidden = true
         
         signUpBtn.addSubview(activityIndicator)
         

@@ -15,7 +15,7 @@ class OTPVC: BaseVC {
                                                    font: .bold24,
                                                    textColor: .primaryTextColor,
                                                    textAlignment: .center)
-    lazy var descriptionLabel = LabelFactory.createLabel(text: "Mã OTP đã được gửi đến số điện thoại đã chỉ định. Vui lòng kiểm tra điện thoại của bạn để nhận mã xác thực.",
+    lazy var descriptionLabel = LabelFactory.createLabel(text: "otp.code.title".localized,
                                                          font: .regular16,
                                                          textColor: .secondaryTextColor,
                                                          textAlignment: .center)
@@ -46,13 +46,13 @@ class OTPVC: BaseVC {
         return sv
     }()
     
-    lazy var signInBtn = ButtonFactory.createButton("Xác nhận",
+    lazy var signInBtn = ButtonFactory.createButton("common.cf".localized,
                                                     font: .bold16,
                                                     textColor: .textButtonColor,
                                                     bgColor: .secondaryButtonColor)
     
     lazy var resendOTPLabel = {
-        let text = "Gửi lại mã"
+        let text = "otp.code.resend.code".localized
         let label = LabelFactory.createLabel(text: text,
                                              font: .regular16,
                                              textColor: .secondaryTextColor,

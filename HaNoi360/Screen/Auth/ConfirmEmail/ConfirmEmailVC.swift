@@ -12,16 +12,16 @@ import RxSwift
 class ConfirmEmailVC: BaseVC {
     var nameUser: String 
     lazy var navigationView = NavigationViewFactory.createNavigationViewWithBackButtonOnly(delegate: self)
-    lazy var titleLabel = LabelFactory.createLabel(text: "Xác thực email được gửi cho bạn !",
+    lazy var titleLabel = LabelFactory.createLabel(text: "auth.email.sent".localized,
                                                    font: .bold24,
                                                    textAlignment: .center)
     
-    lazy var descriptionLabel = LabelFactory.createLabel(text: "Nếu đã xác thực hãy nhấn nút xác nhận bên dưới.",
+    lazy var descriptionLabel = LabelFactory.createLabel(text: "auth.email.instruction".localized,
                                                          font: .regular16,
                                                          textColor: .secondaryTextColor,
                                                          textAlignment: .center)
     
-    lazy var confirmBtn = ButtonFactory.createButton("Tôi đã xác thực")
+    lazy var confirmBtn = ButtonFactory.createButton("auth.email.verified.button".localized)
     
     let viewModel = ConfirmEmailViewModel()
     
@@ -68,7 +68,7 @@ class ConfirmEmailVC: BaseVC {
                 if isConfirm {
                     self.navigationController?.pushViewController(SignInVC(), animated: true)
                 } else {
-                    Toast.showToast(message: "Hãy thử lại !", image: "toast_error")
+                    Toast.showToast(message: "auth.email.retry".localized, image: "toast_error")
                 }
             })
             .disposed(by: disposeBag)

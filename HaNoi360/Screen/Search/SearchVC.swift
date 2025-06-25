@@ -12,10 +12,10 @@ import SnapKit
 
 class SearchVC: BaseVC {
     let viewModel = SeachVM()
-    lazy var navigationView = NavigationViewFactory.createNavigationViewWithBackButtonAndTitle(image: .back, title: "Tìm kiếm", delegate: self)
+    lazy var navigationView = NavigationViewFactory.createNavigationViewWithBackButtonAndTitle(image: .back, title: "common.search".localized, delegate: self)
     
     lazy var searchTF = {
-        let tf =  TextFieldFactory.createTextField(placeholder: "Tìm kiếm",
+        let tf =  TextFieldFactory.createTextField(placeholder: "common.search".localized,
                                                    bgColor: .white)
         tf.imageLeftView(image: .search)
         tf.layer.borderWidth = 1
@@ -35,7 +35,7 @@ class SearchVC: BaseVC {
         return btn
     }()
     
-    lazy var recentSearcheLabel = LabelFactory.createLabel(text: "Tìm kiếm gần đây", font: .regular16, textColor: .labelSecondColor)
+    lazy var recentSearcheLabel = LabelFactory.createLabel(text: "search.rcent".localized, font: .regular16, textColor: .labelSecondColor)
     
     lazy var tableView = {
         let tableView = TableViewFactory.createTableView()

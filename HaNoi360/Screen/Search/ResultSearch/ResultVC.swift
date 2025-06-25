@@ -37,7 +37,7 @@ class ResultVC: BaseVC {
         return cv
     }()
     
-    lazy var recentSearcheLabel = LabelFactory.createLabel(text: "0 Kết quả phù hợp", font: .regular16, textColor: .labelSecondColor )
+    lazy var recentSearcheLabel = LabelFactory.createLabel(text: "result.matching.result".localized, font: .regular16, textColor: .labelSecondColor )
     
     lazy var stv = [filterClv, recentSearcheLabel].vStack(24)
     
@@ -90,7 +90,7 @@ class ResultVC: BaseVC {
             .subscribe(onNext: { [weak self] value in
                 guard let self = self else { return }
                 if let v = value, v.count != 0 {
-                    self.recentSearcheLabel.text = "\(v.count) Kết quả phù hợp"
+                    self.recentSearcheLabel.text = "\(v.count)" + "result.matching.result".localized
                 } else {
                     setupBgTableView()
                 }
@@ -106,7 +106,7 @@ class ResultVC: BaseVC {
     }
     
     func setupBgTableView() {
-        tableView.setImageBackground(image: "emptySearch", title: "Không tìm thấy", message: "Vui lòng tìm kiếm khác thay thế")
+        tableView.setImageBackground(image: "emptySearch", title: "result.empty".localized, message: "result.empty.message".localized)
     }
 }
 

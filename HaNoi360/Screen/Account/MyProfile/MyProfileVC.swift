@@ -64,26 +64,26 @@ class MyProfileVC: BaseVC {
     
     lazy var blogLbBuilder = LabelStackBuilder()
         .setFirstLabel(text: "34", textColor: .primaryTextColor, font: .extraBoldItalic13)
-        .setSecondLabel(text: "Bài viết", font: .extraBoldItalic13)
+        .setSecondLabel(text: "account.posts".localized, font: .extraBoldItalic13)
     
     lazy var numberBlogsLb = blogLbBuilder.build(spacing: 4, alignment: .center)
     
     lazy var followersLbBuilder = LabelStackBuilder()
         .setFirstLabel(text: "240", textColor: .primaryTextColor, font: .extraBoldItalic13)
-        .setSecondLabel(text: "người theo dõi", font: .extraBoldItalic13)
+        .setSecondLabel(text: "account.followers".localized, font: .extraBoldItalic13)
     
     lazy var followersLb = followersLbBuilder.build(spacing: 4, alignment: .center)
     
     lazy var followingLbBuilder = LabelStackBuilder()
         .setFirstLabel(text: "456", textColor: .primaryTextColor, font: .extraBoldItalic13)
-        .setSecondLabel(text: "đang theo dõi", font: .extraBoldItalic13)
+        .setSecondLabel(text: "account.following".localized, font: .extraBoldItalic13)
     
     lazy var followingLb = followingLbBuilder.build(spacing: 4, alignment: .center)
     
     lazy var descriptionLb = LabelFactory.createLabel(text: "Yêu du lịch, thích trải nghiệm", font: .regular16)
     
     lazy var editProfileBtn = {
-        let btn = ButtonFactory.createButton("Chỉnh sửa trang cá nhân", font: .medium14, textColor: .white, bgColor: .primaryColor, rounded: false, height: 30)
+        let btn = ButtonFactory.createButton("account.edit.profile".localized, font: .medium14, textColor: .white, bgColor: .primaryColor, rounded: false, height: 30)
         btn.layer.cornerRadius = 8
         btn.contentEdgeInsets = UIEdgeInsets(top: 8, left: 12, bottom: 8, right: 12)
         return btn
@@ -123,7 +123,7 @@ class MyProfileVC: BaseVC {
     lazy var segmentioView: Segmentio = {
         let segment = Segmentio()
         let content = [
-            SegmentioItem(title: "Dòng thời gian", image: nil),
+            SegmentioItem(title: "account.timeline".localized, image: nil),
             SegmentioItem(title: "Album", image: nil),
             SegmentioItem(title: "Check-in", image: nil)
         ]
@@ -289,8 +289,8 @@ class MyProfileVC: BaseVC {
         tv.backgroundColor = .clear
         tv.setLottieBackground(
             name: "emptyBlog",
-            title: "Bạn chưa có hoạt động nào...",
-            message: "Hãy trải nghiệm và chia sẻ nhé",
+            title: "account.empty.title".localized,
+            message: "account.empty.message".localized,
             topAnimation: -150,
             topStv: -180
         )
@@ -358,7 +358,7 @@ class MyProfileVC: BaseVC {
             actionButtons.isHidden = true
         case .owner:
             actionButtons.isHidden = false
-            editProfileBtn.setTitle("Chỉnh sửa trang cá nhân", for: .normal)
+            editProfileBtn.setTitle("account.edit.profile".localized, for: .normal)
         }
     }
     
@@ -401,10 +401,10 @@ class MyProfileVC: BaseVC {
             .subscribe(onNext: { [weak self] value in
                 guard let self = self else { return }
                 if value {
-                    Toast.showToast(message: "Xoá thành công", image: "toast_success")
+                    Toast.showToast(message: "common.delete.success".localized, image: "toast_success")
                     self.viewModel.getPlaces(authorId: userId) {}
                 } else {
-                    Toast.showToast(message: "Xoá thất bại", image: "toast_error")
+                    Toast.showToast(message: "common.delete.faild".localized, image: "toast_error")
                 }
             })
             .disposed(by: disposeBag)
@@ -449,12 +449,13 @@ class MyProfileVC: BaseVC {
                 self.bottomView.isHidden = true
                 self.checkInBottomView.isHidden = true
                 self.albumBottomView.isHidden = false
-                let count = value.count
+                let number = (value.count + 2) / 3
+                let height = Int(self.widthScreen / 3 + 10) * number
                 self.albumClv.snp.remakeConstraints { make in
                     make.top.equalToSuperview().offset(6)
                     make.left.right.equalToSuperview()
                     make.bottom.equalToSuperview()
-                    make.height.equalTo((Int(self.widthScreen / 3 + 10) * (count % 3)))
+                    make.height.equalTo(height)
                 }
             })
             .disposed(by: disposeBag)
@@ -464,9 +465,9 @@ class MyProfileVC: BaseVC {
                 guard let self = self else { return }
                 if self.myProfileType == .guest {
                     if viewModel.isFollowing.value {
-                        editProfileBtn.setTitle("Đang theo dõi", for: .normal)
+                        editProfileBtn.setTitle("account.following.new".localized, for: .normal)
                     } else {
-                        editProfileBtn.setTitle("Theo dõi", for: .normal)
+                        editProfileBtn.setTitle("account.follow".localized, for: .normal)
                     }
                 }
             })
@@ -558,8 +559,8 @@ class MyProfileVC: BaseVC {
             imagePicker.allowsEditing = false // Hoặc true nếu muốn chỉnh sửa
             present(imagePicker, animated: true, completion: nil)
         } else {
-            let alert = UIAlertController(title: "Thông báo",
-                                          message: "Camera không khả dụng",
+            let alert = UIAlertController(title: "account.noti".localized,
+                                          message: "popup.camera.faild".localized,
                                           preferredStyle: .alert)
             alert.addAction(UIAlertAction(title: "OK", style: .default))
             present(alert, animated: true)
@@ -678,6 +679,7 @@ extension MyProfileVC: MyProfileCellDelegate {
     func didDeleteBlog(cell: UITableViewCell) {
         guard let indexPath = contentTbv.indexPath(for: cell) else { return }
         let popupVC = PopupVC()
+        popupVC.titleLabel.text = "popup.cf.delete".localized
         popupVC.modalTransitionStyle = .crossDissolve
         popupVC.modalPresentationStyle = .overCurrentContext
         popupVC.onOk = {
@@ -843,7 +845,7 @@ class ImageLabelBuilder: UIView {
     
     lazy var writePostButton: UIButton = {
         let button = UIButton(type: .system)
-        button.setTitle("Viết bài", for: .normal)
+        button.setTitle("account.write.articles".localized, for: .normal)
         button.setImage(UIImage(systemName: "pencil"), for: .normal)
         button.tintColor = .iconColor
         button.setTitleColor(.secondaryTextColor, for: .normal)

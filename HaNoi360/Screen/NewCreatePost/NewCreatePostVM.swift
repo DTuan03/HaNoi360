@@ -113,8 +113,8 @@ class NewCreatePostVM {
             case .failure(let error):
                 print("Lỗi upload: \(error.localizedDescription)")
             }
+            completion()
         }
-        completion()
     }
     
     func uploadImageContent(completion: @escaping () -> Void) {

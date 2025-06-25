@@ -12,12 +12,12 @@ class ForgotPasswordVC: BaseVC {
     let viewModel = ForgotPasswordViewModel()
     lazy var navigation = NavigationViewFactory.createNavigationViewWithBackButtonOnly(image: .back,
                                                                                        delegate: self)
-    var titleForgotPasswordVC: String = "Quên mật khẩu"
+    var titleForgotPasswordVC: String = "common.forgot.password".localized
     lazy var titleLabel = LabelFactory.createLabel(text: titleForgotPasswordVC,
                                                    font: .bold24,
                                                    textColor: .primaryTextColor,
                                                    textAlignment: .center)
-    lazy var descriptionLabel = LabelFactory.createLabel(text: "Nhập địa chỉ email của bạn để đặt lại mật khẩu",
+    lazy var descriptionLabel = LabelFactory.createLabel(text: "forgot.pass.title".localized,
                                                          font: .regular16,
                                                          textColor: .secondaryTextColor,
                                                          textAlignment: .center)
@@ -27,7 +27,7 @@ class ForgotPasswordVC: BaseVC {
         return tf
     }()
     
-    lazy var requestBtn = ButtonFactory.createButton("Gửi",
+    lazy var requestBtn = ButtonFactory.createButton("detail.send".localized,
                                                      font: .bold16,
                                                      textColor: .textButtonColor)
     
@@ -73,7 +73,7 @@ class ForgotPasswordVC: BaseVC {
             .skip(1)
             .subscribe(onNext: { isSendMail in
                 if isSendMail {
-                    Toast.showToast(message: "Đã gửi mail xác nhận!", image: "toast_success")
+                    Toast.showToast(message: "popup.noti.email".localized, image: "toast_success")
                     DispatchQueue.main.asyncAfter(deadline: .now() + 3) {
                         self.navigationController?.popViewController(animated: true)
                     }

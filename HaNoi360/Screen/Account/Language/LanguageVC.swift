@@ -9,9 +9,9 @@ import UIKit
 import SnapKit
 
 class LanguageVC: BaseVC {
-    lazy var navigationView = NavigationViewFactory.createNavigationViewWithBackButtonAndTitle(image: .back, title: "Ngôn ngữ và Giao diện", delegate: self)
+    lazy var navigationView = NavigationViewFactory.createNavigationViewWithBackButtonAndTitle(image: .back, title: "account.langugae.interface".localized, delegate: self)
     
-    lazy var languageLb = LabelFactory.createLabel(text: "Ngôn ngữ", font: .medium16, textColor: .primaryTextColor)
+    lazy var languageLb = LabelFactory.createLabel(text: "account.language".localized, font: .medium16, textColor: .primaryTextColor)
     
     lazy var languageTableView = {
         let tableView = TableViewFactory.createTableView()
@@ -25,9 +25,9 @@ class LanguageVC: BaseVC {
     
     var row: Int?
     
-    lazy var themeLb = LabelFactory.createLabel(text: "Giao diện", font: .medium16, textColor: .primaryTextColor)
+    lazy var themeLb = LabelFactory.createLabel(text: "account.interface".localized, font: .medium16, textColor: .primaryTextColor)
     
-    lazy var darkModeLb = LabelFactory.createLabel(text: "Chế độ tối", font: .regular16, textColor: .primaryTextColor)
+    lazy var darkModeLb = LabelFactory.createLabel(text: "account.darkMode".localized, font: .regular16, textColor: .primaryTextColor)
     
     lazy var themeSwitch = createSwitch()
     
@@ -115,8 +115,21 @@ extension LanguageVC: UITableViewDataSource {
 
 extension LanguageVC: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        let langCode: String
+        switch indexPath.row {
+        case 0: langCode = "vi"
+        case 1: langCode = "en"
+        default: langCode = "vi"
+        }
+        UserDefaults.standard.set(langCode, forKey: "appLanguage")
+        UserDefaults.standard.set([langCode], forKey: "AppleLanguages")
         UserDefaults.standard.set(indexPath.row, forKey: "language")
-        languageTableView.reloadData()
+        UserDefaults.standard.synchronize()
+        if let window = UIApplication.shared.windows.first {
+            window.rootViewController = UINavigationController(rootViewController: TabBarVC())
+            window.makeKeyAndVisible()
+        }
+        tableView.reloadData()
     }
 }
 extension LanguageVC: NavigationViewDelegate {

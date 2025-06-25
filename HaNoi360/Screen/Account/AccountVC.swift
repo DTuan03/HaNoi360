@@ -12,7 +12,7 @@ import Kingfisher
 
 class AccountVC: BaseVC {
     let viewModel = ProfileVM()
-    lazy var navigationView = NavigationViewFactory.createNavigationViewWithTitleOnly(title: "Tài khoản")
+    lazy var navigationView = NavigationViewFactory.createNavigationViewWithTitleOnly(title: "account.title".localized)
     
     lazy var avatarIV = ImageViewFactory.createImageView(image: .avatarUser,
                                                          contentMode: .scaleAspectFill,
@@ -149,10 +149,11 @@ extension AccountVC: UITableViewDelegate {
             }
         case 1:
             let forgotPasswordVC = ForgotPasswordVC()
-            forgotPasswordVC.titleForgotPasswordVC = "Đổi mật khẩu"
+            forgotPasswordVC.titleForgotPasswordVC = "account.change.pass".localized
             navigationController?.pushViewController(forgotPasswordVC, animated: true)
         case 2:
-            print("Thong bao")
+            let vc = NotificationVC()
+            navigationController?.pushViewController(vc, animated: true)
         case 3:
             navigationController?.pushViewController(LanguageVC(), animated: true)
         case 4:

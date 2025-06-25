@@ -58,7 +58,7 @@ class SignUpViewModel {
         }
         else {
             self.isLoading.accept(false)
-            self.signUpError.accept("Nhập đủ thông tin!")
+            self.signUpError.accept("auth.validation.fill.all".localized)
         }
     }
     

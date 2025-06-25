@@ -17,7 +17,7 @@ class ProfileCell: UITableViewCell {
     
     lazy var valueLabel = LabelFactory.createLabel(text: "Dang Anh Tuan", font: .medium14)
     
-    lazy var editLabel = LabelFactory.createLabel(text: "Chỉnh sửa", font: .regular12, textColor: UIColor(hex: "#3366FF"))
+    lazy var editLabel = LabelFactory.createLabel(text: "account.edit".localized, font: .regular12, textColor: UIColor(hex: "#3366FF"))
     
     weak var delegate: ProfileCellDelegate?
     

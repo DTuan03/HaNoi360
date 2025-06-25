@@ -57,7 +57,7 @@ class CategoryVC: BaseVC {
     }()
     
     lazy var searchTF = {
-        let tf =  TextFieldFactory.createTextField(placeholder: "Tìm kiếm",
+        let tf =  TextFieldFactory.createTextField(placeholder: "common.search".localized,
                                                    bgColor: .clear,
                                                    textColor: .white,
                                                    rounded: 21)

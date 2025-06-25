@@ -25,14 +25,14 @@ class HomeVC: BaseVC {
     lazy var navigationView = NavigationViewFactory.createNavigationViewWithNotiButton(image: .noti,
                                                                                        delegate: self)
     
-    lazy var titleLabel = LabelFactory.createLabel(text: "Bạn muốn khám phá \nđịa điểm nào",
+    lazy var titleLabel = LabelFactory.createLabel(text: "home.title".localized,
                                                    font: .medium32,
-                                                   highLighText: "khám phá",
+                                                   highLighText: "home.title.hightLight".localized,
                                                    highLightColor: .hightlightColor,
                                                    highLightFont: .medium32)
     
     lazy var searchTF = {
-        let tf =  TextFieldFactory.createTextField(placeholder: "Tìm kiếm", bgColor: .clear)
+        let tf =  TextFieldFactory.createTextField(placeholder: "common.search".localized, bgColor: .clear)
         tf.imageLeftView(image: .search)
         tf.layer.borderWidth = 1
         tf.layer.borderColor = UIColor(hex: "#D1D5DB").cgColor
@@ -81,7 +81,7 @@ class HomeVC: BaseVC {
         return cv
     }()
     
-    lazy var categoryLabel = LabelFactory.createLabel(text: "Thể loại",
+    lazy var categoryLabel = LabelFactory.createLabel(text: "home.category".localized,
                                                       font: .medium18)
     
     lazy var categoryCV = {
@@ -99,10 +99,10 @@ class HomeVC: BaseVC {
         return cv
     }()
     
-    lazy var tredingLabel = LabelFactory.createLabel(text: "Điểm đến thịnh hành",
+    lazy var tredingLabel = LabelFactory.createLabel(text: "home.trending".localized,
                                                       font: .medium18)
     
-    lazy var allLabel = LabelFactory.createLabel(text: "Tất cả",
+    lazy var allLabel = LabelFactory.createLabel(text: "home.all".localized,
                                                  font: .medium14,
                                                  textColor: .primaryColor)
     

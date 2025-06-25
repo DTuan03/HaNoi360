@@ -15,11 +15,11 @@ class SignInVC: BaseVC {
     lazy var navigationView = NavigationViewFactory.createNavigationViewWithBackButtonOnly(image: .back,
                                                                                            isHiddenBtn: true,
                                                                                            delegate: self)
-    lazy var titleLabel = LabelFactory.createLabel(text: "Xin chào !",
+    lazy var titleLabel = LabelFactory.createLabel(text: "auth.welcome.hello".localized,
                                                    font: .bold24,
                                                    textAlignment: .center)
     
-    lazy var descriptionLabel = LabelFactory.createLabel(text: "Chào mừng đến với HaNoi360",
+    lazy var descriptionLabel = LabelFactory.createLabel(text: "auth.welcome.title".localized,
                                                          font: .regular16,
                                                          textColor: .secondaryTextColor,
                                                          textAlignment: .center)
@@ -32,25 +32,25 @@ class SignInVC: BaseVC {
     }()
     
     lazy var passwordTF = {
-        let tf = TextFieldFactory.createTextField(placeholder: "Mật khẩu")
+        let tf = TextFieldFactory.createTextField(placeholder: "auth.password".localized)
         tf.isSecureTextEntry = true
         tf.imageLeftView(image: .lock)
         tf.imageRightView(image: UIImage(systemName: "eye.slash.fill"), placeholder: "password")
         return tf
     }()
     
-    lazy var forgotPassLabel = LabelFactory.createLabel(text: "Quên mật khẩu ?",
+    lazy var forgotPassLabel = LabelFactory.createLabel(text: "common.forgot.password".localized,
                                                         font: .bold14,
                                                         textColor: .forgotPassLabelColor,
                                                         textAlignment: .right)
-    lazy var signInBtn = ButtonFactory.createButton("Đăng nhập",
+    lazy var signInBtn = ButtonFactory.createButton("auth.login.button".localized,
                                                     font: .bold16,
                                                     textColor: .textButtonColor)
     
-    lazy var signUpLabel = LabelFactory.createLabel(text: "Bạn chưa có tài khoản ? Đăng ký",
+    lazy var signUpLabel = LabelFactory.createLabel(text: "auth.login.question".localized,
                                                     font: .light18,
                                                     textAlignment: .center,
-                                                    highLighText: "Đăng ký",
+                                                    highLighText: "auth.signup.button".localized,
                                                     highLightFont: .bold18)
     lazy var stackView = [emailTextField, passwordTF, forgotPassLabel, signInBtn, signUpLabel].vStack(20)
     

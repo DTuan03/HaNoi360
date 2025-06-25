@@ -10,12 +10,12 @@ import RxCocoa
 
 class CategoryVM: BaseVM {
     let categories: [CategoryModel] = [
-        CategoryModel(id: "amThuc", name: "Ẩm thực", img: "amThuc"),
-        CategoryModel(id: "tamLinh", name: "Tâm linh", img: "tamLinh"),
-        CategoryModel(id: "traiNghiem", name: "Trải nghiệm", img: "traiNghiem"),
-        CategoryModel(id: "muaSam", name: "Mua sắm", img: "muaSam"),
-        CategoryModel(id: "maoHiem", name: "Mạo hiểm", img: "maoHiem"),
-        CategoryModel(id: "canhQuan", name: "Cảnh quan", img: "canhQuan")
+        CategoryModel(id: "amThuc", name: "category.food".localized, img: "amThuc"),
+        CategoryModel(id: "tamLinh", name: "category.spirituality".localized, img: "tamLinh"),
+        CategoryModel(id: "traiNghiem", name: "category.experience".localized, img: "traiNghiem"),
+        CategoryModel(id: "muaSam", name: "category.shopping".localized, img: "muaSam"),
+        CategoryModel(id: "maoHiem", name: "category.adventure".localized, img: "maoHiem"),
+        CategoryModel(id: "canhQuan", name: "category.landscape".localized, img: "canhQuan")
     ]
 
     var itemsCategory = BehaviorRelay<[CategoryModel]>(value: [])

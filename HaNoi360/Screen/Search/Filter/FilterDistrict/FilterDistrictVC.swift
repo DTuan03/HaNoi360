@@ -35,11 +35,11 @@ class FilterDistrictVC: BaseVC, FilterDistrictCellDelegate {
         return v
     }()
     
-    lazy var addBtn = ButtonFactory.createButton("Thêm", font: .medium18, textColor: .primaryColor, bgColor: .clear)
+    lazy var addBtn = ButtonFactory.createButton("common.add".localized, font: .medium18, textColor: .primaryColor, bgColor: .clear)
     
     let searchBarV: UISearchBar = {
         let sb = UISearchBar()
-        sb.placeholder = "Tìm kiếm quận/huyện ..."
+        sb.placeholder = "filter.search.district".localized
         sb.searchBarStyle = .minimal
         sb.backgroundColor = .clear
 

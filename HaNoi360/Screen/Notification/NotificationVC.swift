@@ -12,7 +12,7 @@ import RxCocoa
 
 class NotificationVC: BaseVC {
     let viewModel = NotificationVM()
-    lazy var navigationView = NavigationViewFactory.createNavigationViewWithBackButtonAndTitle(image: .back, title: "Thông báo", delegate: self)
+    lazy var navigationView = NavigationViewFactory.createNavigationViewWithBackButtonAndTitle(image: .back, title: "account.noti".localized, delegate: self)
     
     lazy var notiTable = {
         let tableView = TableViewFactory.createTableView()

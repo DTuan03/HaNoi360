@@ -12,9 +12,9 @@ struct AccountModel {
 }
 
 let accountData = [
-    AccountModel(icon: "profile", title: "Hồ sơ", nextIcon: "next"),
-    AccountModel(icon: "security", title: "Bảo mật", nextIcon: "next"),
-    AccountModel(icon: "notification", title: "Thông báo", nextIcon: "next"),
-    AccountModel(icon: "language", title: "Ngôn ngữ & Giao diện", nextIcon: "next"),
-    AccountModel(icon: "logout", title: "Đăng xuất", nextIcon: "")
+    AccountModel(icon: "profile", title: "account.profile".localized, nextIcon: "next"),
+    AccountModel(icon: "security", title: "account.security".localized, nextIcon: "next"),
+    AccountModel(icon: "notification", title: "account.noti".localized, nextIcon: "next"),
+    AccountModel(icon: "language", title: "account.langugae.interface".localized, nextIcon: "next"),
+    AccountModel(icon: "logout", title: "account.logout".localized, nextIcon: "")
 ]

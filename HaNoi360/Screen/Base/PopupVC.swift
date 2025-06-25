@@ -9,21 +9,6 @@ import UIKit
 import SnapKit
 
 class PopupVC: UIViewController {
-    //    var popupImage: String?
-    //    var popupTitle: String?
-    //    var popupMessgae: String?
-    //    
-    //    init(popupImage: String? = nil, popupTitle: String? = nil, popupMessgae: String? = nil) {
-    //        self.popupImage = popupImage
-    //        self.popupTitle = popupTitle
-    //        self.popupMessgae = popupMessgae
-    //        super.init(nibName: nil, bundle: nil)
-    //    }
-    //    
-    //    required init?(coder: NSCoder) {
-    //        fatalError("init(coder:) has not been implemented")
-    //    }
-    
     let containerView: UIView = {
         let view = UIView()
         view.backgroundColor = .backgroundPopupColor
@@ -35,7 +20,7 @@ class PopupVC: UIViewController {
                                               font: .bold18,
                                               textColor: .primaryTextColor)
     
-    let messageLabel = LabelFactory.createLabel(text: "Bạn có chắc chắn muốn xóa địa điểm này?",
+    let messageLabel = LabelFactory.createLabel(text: "Bạn có chắc chắn muốn xóa blog này?",
                                                 font: .regular16,
                                                 textColor: .secondaryTextColor,
                                                 textAlignment: .center)

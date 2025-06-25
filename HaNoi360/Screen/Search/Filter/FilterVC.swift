@@ -16,7 +16,7 @@ class FilterVC: BaseVC {
     
     lazy var navigationView = NavigationViewFactory.createNavigationViewWithBackButtonAndTitle(image: .back, title: "Lọc", delegate: self)
     
-    lazy var categoryLabel = LabelFactory.createLabel(text: "Thể loại", font: .medium18)
+    lazy var categoryLabel = LabelFactory.createLabel(text: "home.category".localized, font: .medium18)
     
     lazy var categoryCV = {
         let layout = UICollectionViewFlowLayout()
@@ -34,7 +34,7 @@ class FilterVC: BaseVC {
         return cv
     }()
     
-    lazy var ratingLabel = LabelFactory.createLabel(text: "Đánh giá", font: .medium18)
+    lazy var ratingLabel = LabelFactory.createLabel(text: "filter.review".localized, font: .medium18)
     
     lazy var rangeRating = {
         let rangeSlider = TTRangeSlider()
@@ -65,10 +65,10 @@ class FilterVC: BaseVC {
         return rangeSlider
     }()
     
-    lazy var districtLabel = LabelFactory.createLabel(text: "Quận/Huyện", font: .medium18)
+    lazy var districtLabel = LabelFactory.createLabel(text: "filter.dictrict".localized, font: .medium18)
     
     lazy var districtTF = {
-        let tf =  TextFieldFactory.createTextField(placeholder: "Chọn Quận/Huyện",
+        let tf =  TextFieldFactory.createTextField(placeholder: "filter.choose.dictrict",
                                                    bgColor: .textFiledColor)
         tf.imageLeftView(image: UIImage(systemName: "mappin.and.ellipse.circle")!)
         let paddingView = UIView(frame: CGRect(x: 0, y: 0, width: 32, height: 46))
@@ -88,9 +88,9 @@ class FilterVC: BaseVC {
     
     lazy var overlayView = UIViewFactory.overlayView()
     
-    lazy var filterBtn = ButtonFactory.createButton("Áp dụng lọc", font: .medium18, height: 48)
+    lazy var filterBtn = ButtonFactory.createButton("filter.apply.filter".localized, font: .medium18, height: 48)
     
-    var selectedCategory: Set<String> = ["Tất cả"]
+    var selectedCategory: Set<String> = ["filter.all".localized]
     var selectedIndexPath: Set<IndexPath> = [IndexPath(row: 0, section: 0)]
     var districtName: [String] = []
     
@@ -225,11 +225,11 @@ extension FilterVC: UICollectionViewDelegate {
         
         if indexPath == IndexPath(row: 0, section: 0) {
             selectedIndexPath = [indexPath]
-            selectedCategory = ["Tất cả"]
+            selectedCategory = ["filter.all".localized]
             viewModel.categoriesId.accept([id])
         } else {
             selectedIndexPath.remove(IndexPath(row: 0, section: 0))
-            selectedCategory.remove("Tất cả")
+            selectedCategory.remove("filter.all".localized)
             var id = viewModel.categoriesId.value
             id.remove("tatCa")
             if selectedIndexPath.contains(indexPath) {
