@@ -19,7 +19,7 @@ class CalendarCell: UITableViewCell {
         return view
     }()
         
-    lazy var placeIV = ImageViewFactory.createImageView(image: .intro1, contentMode: .scaleAspectFit, radius: 8)
+    lazy var placeIV = ImageViewFactory.createImageView(image: .intro1, contentMode: .scaleAspectFill, radius: 8)
     
     lazy var iconIV = ImageViewFactory.createImageView(image: UIImage(systemName: "calendar"), tintColor: .secondaryTextColor)
     

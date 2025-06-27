@@ -117,7 +117,7 @@ class MyProfileVM: BaseVM {
                         let followers = documents.compactMap { try? $0.data(as: FollowersModel.self) }
                         profile = ProfileModel(
                             userId: profile.userId,
-                            avatarUser: profile.avatarUser,
+                            avatarUrl: profile.avatarUrl,
                             name: profile.name,
                             email: profile.email,
                             phone: profile.phone,
@@ -137,7 +137,7 @@ class MyProfileVM: BaseVM {
                         let following = documents.compactMap { try? $0.data(as: FollowingModel.self) }
                         profile = ProfileModel(
                             userId: profile.userId,
-                            avatarUser: profile.avatarUser,
+                            avatarUrl: profile.avatarUrl,
                             name: profile.name,
                             email: profile.email,
                             phone: profile.phone,
@@ -181,7 +181,7 @@ class MyProfileVM: BaseVM {
         
         let currentUserData: [String: Any] = [
             "followeeId": targetUserId,
-            "avatarUrl": self.user.value?.avatarUser ?? "",
+            "avatarUrl": self.user.value?.avatarUrl ?? "",
             "name": self.user.value?.name ?? ""
         ]
         

@@ -83,6 +83,7 @@
 "popup.noti.email" = "Confirmation email sent!";
 "popup.camera.faild" = "Camera not available";
 "popup.cf.delete" = "Are you sure you want to delete this blog?";
+"popup.noti.title" = "You have no notifications yet.";
 
 //Detail
 "detail.write.review" = "Write a Review";
@@ -124,7 +125,7 @@
 
 //Result
 "result.title" = "Search Results";
-"result.matching.result" = "Matching Results";
+"result.matching.result" = "matching Results";
 "result.empty.title" = "Not Found";
 "result.empty.message" = "Please try a different search";
 
@@ -171,3 +172,66 @@
 "auth.error.requiresRecentLogin" = "This action requires recent login.";
 "auth.error.system" = "System error. Please try again later.";
 "auth.error.unknown" = "Unknown error. Please try again.";
+
+"empty.infomation" = "No information available";
+//toast
+"toast.edit.success" = "Post edited successfully";
+"toast.edit.faild" = "Failed to edit post";
+"toast.add.success" = "Post added successfully";
+"toast.add.faild" = "Failed to add post";
+
+//add schedule
+"add.schedule.success" = "Schedule added successfully";
+"add.schedule.faild" = "Failed to add schedule";
+"add.schedule.choose.date" = "Choose date";
+"add.schedule.cancel" = "Cancel";
+"add.schedule.confirm" = "Are you sure you want to add this location ?";
+"add.schedule.added.at" = "You added this location on";
+
+"favorite.success" = "Added to favorites successfully";
+"favorite.faild" = "Failed to add to favorites";
+"unfavorite.success" = "Removed from favorites";
+"unfavorite.faild" = "Failed to remove from favorites";
+"report.success" = "Report submitted successfully";
+
+"review.violation" = "Your comment has violated community standards";
+
+"review.appeal.message" = "If you believe your comment does not violate the guidelines, please submit a report for review.";
+"review.appeal.button" = "Report";
+
+"map.distance" = "Distance";
+"map.direction" = "   Directions   ";
+"map.no.place.found" = "No locations found";
+"map.try.other.search" = "Please try searching for a different location.";
+"map.unknown" = "Unknown";
+"map.no.route.found" = "No suitable route found";
+"map.try.other.origin" = "Please select a different starting point.";
+"map.enter.origin" = "Enter starting location";
+"map.enter.destination" = "Enter location";
+"map.selected" = "Selected";
+"map.invalid" = "Invalid";
+"map.only.hanoi" = "Please select a location within Hanoi.";
+"post.title" = "Post Title";
+"image.save.success" = "Image saved successfully";
+"image.save.failed" = "Failed to save image";
+
+//GetStar
+"getStart.skip" = "Skip";
+"getStart.slogan" = "Immerse yourself in the journey, find yourself \n through adventure.";
+"getStart.start" = "Get Started";
+"getStart.login" = "Log In";
+
+//Intro
+"intro.title.0" = "Jobs fill your pocket, adventures fill your soul.";
+"intro.highlight.0" = "adventures";
+"intro.description.0" = "Traveling in Hanoi is a wonderful journey to broaden your horizons and gain new, exciting, and rewarding experiences.";
+
+"intro.title.1" = "Live a life with no reason, travel Hanoi with no regrets.";
+"intro.highlight.1" = "travel";
+"intro.description.1" = "Hanoi is an ideal destination with many famous landmarks. Each trip brings a fresh feeling and never leaves you with regrets.";
+
+"intro.title.2" = "Hanoi within reach. \n Travel is living to the fullest.";
+"intro.highlight.2" = "fullest";
+"intro.description.2" = "Explore nature, meet new people, and experience unique cultures - Hanoi is where adventure dreams come true.";
+
+"intro.next" = "NEXT";

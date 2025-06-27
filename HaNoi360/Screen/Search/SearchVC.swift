@@ -21,7 +21,6 @@ class SearchVC: BaseVC {
         tf.layer.borderWidth = 1
         tf.layer.borderColor = UIColor(hex: "#D1D5DB").cgColor
         tf.returnKeyType = .search
-        tf.backgroundColor = .textFiledColor
         tf.delegate = self
         return tf
     }()

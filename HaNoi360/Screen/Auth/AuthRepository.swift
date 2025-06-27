@@ -138,10 +138,10 @@ class AuthRepository {
             "userId": user.uid,
             "email": user.email ?? "",
             "name": user.displayName ?? "",
-            "avatarUser": user.photoURL?.absoluteString ?? ""
+            "avatarUrl": user.photoURL?.absoluteString ?? ""
         ]
         UserDefaults.standard.set(user.displayName, forKey: "userName")
-        UserDefaults.standard.set(user.photoURL?.absoluteString, forKey: "avatarUser")
+        UserDefaults.standard.set(user.photoURL?.absoluteString, forKey: "avatarUrl")
         db.collection("users").document(user.uid).setData(userData, merge: true)
         completion()
     }

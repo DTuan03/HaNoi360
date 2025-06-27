@@ -11,19 +11,19 @@ import RxCocoa
 
 class GetStartedVC: BaseVC {
     lazy var navigation = NavigationViewFactory.createNavigationViewWithSkipButton(image: .skip,
-                                                                                   titleButton: "Bỏ qua",
+                                                                                   titleButton: "getStart.skip".localized,
                                                                                    delegate: self)
-    lazy var titleLabel = LabelFactory.createLabel(text: "Đắm mình trong hành \n trình, tìm thấy mình \n qua phiêu lưu.",
+    lazy var titleLabel = LabelFactory.createLabel(text: "getStart.slogan".localized,
                                                    font: .bold32,
                                                    textAlignment: .center)
     
     lazy var image = ImageViewFactory.createImageView(image: .getStarted)
     
-    lazy var startButton = ButtonFactory.createButton("Bắt đầu")
+    lazy var startButton = ButtonFactory.createButton("getStart.start".localized)
     
-    lazy var signInLabel = LabelFactory.createLabel(text: "Bạn đã có tài khoản ? Đăng nhập",
+    lazy var signInLabel = LabelFactory.createLabel(text: "auth.login.existing".localized,
                                                             font: .light18,
-                                                            highLighText: "Đăng nhập",
+                                                    highLighText: "getStart.login".localized,
                                                             highLightFont: .bold18)
     
     override func setupUI() {
@@ -33,6 +33,7 @@ class GetStartedVC: BaseVC {
         }
         titleLabel.snp.makeConstraints { make in
             make.top.equalTo(navigation.snp.bottom).offset(32)
+            make.left.right.equalToSuperview().inset(4)
             make.centerX.equalToSuperview()
         }
         image.snp.makeConstraints { make in

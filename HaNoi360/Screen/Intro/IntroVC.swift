@@ -21,25 +21,25 @@ class IntroVC: BaseVC {
         return pc
     }()
     
-    lazy var nextButton = ButtonFactory.createButton("TIẾP THEO",
+    lazy var nextButton = ButtonFactory.createButton("intro.next".localized,
                                                      font: .bold18)
     
     var introModel: [IntroModel] = [
-        IntroModel(title: "Công việc lấp đầy túi bạn, phiêu lưu lấp đầy tâm hồn.",
-                   highLight: "phiêu lưu",
-                   description: "Du lịch Hà Nội là một hành trình tuyệt vời để mở rộng tầm hiểu biết và mang lại những trải nghiệm mới mẻ, vừa thú vị vừa bổ ích.",
+        IntroModel(title: "intro.title.0".localized,
+                   highLight: "intro.highlight.0".localized,
+                   description: "intro.description.0".localized,
                    image: "intro1",
                    numberPageControl: 0),
         
-        IntroModel(title: "Sống cuộc đời không lý do, du lịch Hà Nội không hối tiếc.",
-                   highLight: "du lịch",
-                   description: "Hà Nội là điểm đến lý tưởng với nhiều địa danh nổi tiếng, mỗi chuyến đi đều mang lại cảm giác mới mẻ và không bao giờ khiến bạn phải tiếc nuối.",
+        IntroModel(title: "intro.title.1".localized,
+                   highLight: "intro.highlight.1".localized,
+                   description: "intro.description.1".localized,
                    image: "intro2",
                    numberPageControl: 1),
         
-        IntroModel(title: "Hà Nội trong tầm tay. \n Du lịch là sống trọn vẹn.",
-                   highLight: "trọn vẹn.",
-                   description: "Khám phá thiên nhiên, gặp gỡ con người mới, và trải nghiệm văn hóa đặc sắc - Hà Nội là nơi hiện thực hóa những ước mơ phiêu lưu đó.",
+        IntroModel(title: "intro.title.2".localized,
+                   highLight: "intro.highlight.2".localized,
+                   description: "intro.description.2".localized,
                    image: "intro3",
                    numberPageControl: 2)
     ]

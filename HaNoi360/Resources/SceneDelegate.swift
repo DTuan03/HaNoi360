@@ -15,7 +15,23 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     func scene(_ scene: UIScene, willConnectTo session: UISceneSession, options connectionOptions: UIScene.ConnectionOptions) {
         guard let windowScene = (scene as? UIWindowScene) else { return }
         window = UIWindow(windowScene: windowScene)
-        
+        let langCode: String
+        UserDefaults.standard.removeObject(forKey: "AppleLanguages")
+
+        if #available(iOS 16.0, *) {
+            langCode = Locale.current.language.languageCode?.identifier ?? "en"
+        } else {
+            langCode = Locale.current.languageCode ?? "en"
+        }
+        print("Ngon ngu: \(langCode)")
+        UserDefaults.standard.set(langCode, forKey: "appLanguage")
+        UserDefaults.standard.set([langCode], forKey: "AppleLanguages")
+        if langCode == "vi" {
+            UserDefaults.standard.set(0, forKey: "language")
+        } else {
+            UserDefaults.standard.set(1, forKey: "language")
+        }
+        UserDefaults.standard.synchronize()
         if let savedStyle = UserDefaults.standard.value(forKey: "darkModeEnabled") as? Int {
             window?.overrideUserInterfaceStyle = UIUserInterfaceStyle(rawValue: savedStyle) ?? .unspecified
         }

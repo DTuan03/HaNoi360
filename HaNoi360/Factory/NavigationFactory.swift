@@ -33,6 +33,7 @@ class NavigationViewFactory {
         backButton.snp.makeConstraints { make in
             make.left.equalToSuperview().offset(20)
             make.centerY.equalToSuperview()
+            make.width.height.equalTo(32)
         }
         
         lineView.snp.makeConstraints { make in
@@ -92,6 +93,7 @@ class NavigationViewFactory {
         backButton.snp.makeConstraints { make in
             make.left.equalToSuperview().offset(20)
             make.centerY.equalToSuperview()
+            make.width.height.equalTo(32)
         }
         
         titleLabel.snp.makeConstraints { make in

@@ -195,17 +195,12 @@ class MyProfileVC: BaseVC {
         view.backgroundColor = .clear
         
         view.addSubviews([contentTbv])
-        //        actionButtons.snp.makeConstraints { make in
-        //            make.left.right.top.equalToSuperview()
-        //            make.height.equalTo(35)
-        //        }
         
         contentTbv.snp.makeConstraints { make in
-            //            make.top.equalTo(actionButtons.snp.bottom).offset(6)
             make.top.equalToSuperview().offset(6)
             make.left.right.equalToSuperview()
             make.bottom.equalToSuperview()
-            make.height.equalTo(350 * viewModel.blogsPost.value.count)
+            make.height.equalTo(360 * viewModel.blogsPost.value.count)
         }
         
         return view
@@ -214,7 +209,6 @@ class MyProfileVC: BaseVC {
     lazy var checkInClv: UICollectionView = {
         let layout = UICollectionViewFlowLayout()
         layout.scrollDirection = .vertical
-//        layout.minimumInteritemSpacing = 32
         layout.sectionInset = UIEdgeInsets(top: 0, left: 23, bottom: 0, right: 23)
         
         let cv = UICollectionView(frame: .zero, collectionViewLayout: layout)
@@ -435,7 +429,7 @@ class MyProfileVC: BaseVC {
                 self.nameHeaderLb.text = value?.name
                 self.nameLb.text = value?.name
                 self.descriptionLb.text = value?.interest
-                self.avatarIv.kf.setImage(with: URL(string: value?.avatarUser ?? "https://upload.wikimedia.org/wikipedia/commons/8/89/Portrait_Placeholder.png"))
+                self.avatarIv.kf.setImage(with: URL(string: value?.avatarUrl ?? "https://upload.wikimedia.org/wikipedia/commons/8/89/Portrait_Placeholder.png"))
                 self.followersLbBuilder.first.text = "\(value?.followers?.count ?? 0)"
                 self.followingLbBuilder.first.text = "\(value?.following?.count ?? 0)"
             })
@@ -774,6 +768,25 @@ extension MyProfileVC: UICollectionViewDataSource {
         return UICollectionReusableView()
     }
     
+}
+
+extension MyProfileVC: UICollectionViewDelegate {
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        switch collectionView {
+            case checkInClv:
+            let url = viewModel.checkIn.value?[indexPath.section].url[indexPath.row] ?? ""
+            let vc = FullImageVC()
+            vc.imageView.kf.setImage(with: URL(string: url))
+            self.navigationController?.pushViewController(vc, animated: true)
+            case albumClv:
+            let url = viewModel.allUrlImage.value[indexPath.row]
+            let vc = FullImageVC()
+            vc.imageView.kf.setImage(with: URL(string: url))
+            self.navigationController?.pushViewController(vc, animated: true)
+            default:
+                print("loi")
+        }
+    }
 }
 
 extension MyProfileVC: UICollectionViewDelegateFlowLayout {

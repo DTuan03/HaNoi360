@@ -19,7 +19,7 @@ class FavoriteCell: UITableViewCell {
         return view
     }()
         
-    lazy var placeIV = ImageViewFactory.createImageView(image: .intro1, radius: 8)
+    lazy var placeIV = ImageViewFactory.createImageView(image: .intro1, contentMode: .scaleAspectFill, radius: 8)
     
     lazy var namePlaceLabel = LabelFactory.createLabel(text: "Ho Tay", font: .medium14, textColor: .primaryTextColor, numberOfLines: 1)
     

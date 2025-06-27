@@ -71,9 +71,9 @@ class MyProfileCell: UITableViewCell {
         }
         
         deleteIv.snp.makeConstraints { make in
-            make.width.height.equalTo(16)
-            make.right.equalToSuperview().inset(12)
-            make.top.equalToSuperview().offset(4)
+            make.width.height.equalTo(20)
+            make.right.equalToSuperview().inset(16)
+            make.top.equalToSuperview().offset(6)
         }
     }
     

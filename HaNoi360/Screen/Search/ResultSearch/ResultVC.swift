@@ -18,7 +18,7 @@ enum previousVCType {
 class ResultVC: BaseVC {
     let viewModel = ResultVM()
     
-    lazy var navigationView = NavigationViewFactory.createNavigationViewWithBackButtonAndTitle(image: .back, title: "Kết quả tìm kiếm", delegate: self)
+    lazy var navigationView = NavigationViewFactory.createNavigationViewWithBackButtonAndTitle(image: .back, title: "result.title".localized, delegate: self)
     
     var previousVCName: previousVCType = .search
     
@@ -90,8 +90,9 @@ class ResultVC: BaseVC {
             .subscribe(onNext: { [weak self] value in
                 guard let self = self else { return }
                 if let v = value, v.count != 0 {
-                    self.recentSearcheLabel.text = "\(v.count)" + "result.matching.result".localized
+                    self.recentSearcheLabel.text = "\(v.count) " + "result.matching.result".localized
                 } else {
+                    self.recentSearcheLabel.text = "0 " + "result.matching.result".localized
                     setupBgTableView()
                 }
             })
@@ -106,7 +107,7 @@ class ResultVC: BaseVC {
     }
     
     func setupBgTableView() {
-        tableView.setImageBackground(image: "emptySearch", title: "result.empty".localized, message: "result.empty.message".localized)
+        tableView.setImageBackground(image: "emptySearch", title: "result.empty.title".localized, message: "result.empty.message".localized)
     }
 }
 

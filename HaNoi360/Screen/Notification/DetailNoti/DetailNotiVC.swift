@@ -59,7 +59,7 @@ class DetailNotiVC: BaseVC {
         viewModel.noti
             .subscribe(onNext: { [weak self] value in
                 guard let self = self else { return }
-                self.titleLb.text = "Thông báo"
+                self.titleLb.text = "account.noti".localized
                 self.timeLb.text = value?.createdAt!.toString()
                 self.contentReviewLb.text = "Nội dung nhận xét: \(value?.reviewContent ?? "")"
                 self.contentLb.text = value?.message

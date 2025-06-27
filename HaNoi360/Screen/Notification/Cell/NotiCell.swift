@@ -19,7 +19,7 @@ class NotiCell: UITableViewCell {
         return view
     }()
         
-    lazy var iv = ImageViewFactory.createImageView(image: UIImage(systemName: "bell.fill"), tintColor: .blue, contentMode: .scaleAspectFit, radius: 8)
+    lazy var iv = ImageViewFactory.createImageView(image: .notiDetail, tintColor: .blue, contentMode: .scaleAspectFit, radius: 8)
     
     lazy var iconIV = ImageViewFactory.createImageView(image: UIImage(systemName: "calendar"), tintColor: .secondaryTextColor)
     
@@ -81,7 +81,7 @@ class NotiCell: UITableViewCell {
     
     func configDate(model: NotificationModel) {
         timeLb.text = model.createdAt!.toString()
-        titleLb.text = "Thông báo"
+        titleLb.text = "account.noti".localized
         contentLb.text = model.message
         isRead.isHidden = model.isRead!
     }

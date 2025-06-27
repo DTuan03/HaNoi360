@@ -29,7 +29,7 @@ extension String {
 
 class NewCreateScheduleVC: BaseVC {
     let viewModel = NewCreateScheduleVM()
-    lazy var chooseDateLabel = LabelFactory.createLabel(text: "Chọn ngày", font: .medium16)
+    lazy var chooseDateLabel = LabelFactory.createLabel(text: "add.schedule.choose.date".localized, font: .medium16)
     
     lazy var dateLabel = LabelFactory.createLabel(text: String.formatVietnameseDate(Date()), font: .regular32)
     
@@ -85,7 +85,7 @@ class NewCreateScheduleVC: BaseVC {
     var fromDate: Date?
     var toDate: Date = Date()
     
-    lazy var cancelLabel = LabelFactory.createLabel(text: "Huỷ", font: .regular16, textColor: .orange)
+    lazy var cancelLabel = LabelFactory.createLabel(text: "add.schedule.cancel".localized, font: .regular16, textColor: .orange)
     
     lazy var okLabel = LabelFactory.createLabel(text: "OK", font: .regular16, textColor: .orange)
     
@@ -221,9 +221,9 @@ class NewCreateScheduleVC: BaseVC {
                     let dateList = futureDates.joined(separator: ", ") // nối thành 1 chuỗi
                     
                     if dateList.isEmpty {
-                        popupVC.messageLabel.text = "Bạn có chắc chắn muốn thêm địa điểm này ?"
+                        popupVC.messageLabel.text = "add.schedule.confirm".localized
                     } else {
-                        popupVC.messageLabel.text = "Bạn đã thêm địa điểm này vào ngày \(dateList)"
+                        popupVC.messageLabel.text = "add.schedule.added.at".localized + " \(dateList)"
                     }
                                         
                     popupVC.onOk = {
@@ -254,10 +254,10 @@ class NewCreateScheduleVC: BaseVC {
         viewModel.isSuccess
             .subscribe(onNext: { isSuccess in
                 if isSuccess {
-                    Toast.showToast(message: "Thêm lịch trình thành công", image: "toast_success")
+                    Toast.showToast(message: "add.schedule.success".localized, image: "toast_success")
                     self.dismiss(animated: true)
                 } else {
-                    Toast.showToast(message: "Thêm lịch trình thất bại", image: "toast_error")
+                    Toast.showToast(message: "add.schedule.faild".localized, image: "toast_error")
                 }
             })
             .disposed(by: disposeBag)

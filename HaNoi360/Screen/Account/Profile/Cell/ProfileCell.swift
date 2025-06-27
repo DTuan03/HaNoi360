@@ -72,15 +72,15 @@ class ProfileCell: UITableViewCell {
             case 1:
                 valueLabel.text = model.email
             case 2:
-                valueLabel.text = model.phone ?? "Chưa có giá trị"
+            valueLabel.text = model.phone ?? "empty.infomation".localized
             case 3:
-                valueLabel.text = model.interest
+                valueLabel.text = model.interest ?? "empty.infomation".localized
             case 4:
-                valueLabel.text = model.date
+                valueLabel.text = model.date ?? "empty.infomation".localized
             case 5:
-                valueLabel.text = model.address
+                valueLabel.text = model.address ?? "empty.infomation".localized
             default:
-                valueLabel.text = ""
+                valueLabel.text = "empty.infomation".localized
             }
     }
 }

@@ -68,8 +68,7 @@ class NewDetailVM: BaseVM {
             return
         }
         let fields = [
-            "blogId": placeId,
-            "userId": userId
+            "blogId": placeId
         ]
         favoriteService.fetchDocumentsByFields(fields: fields as [String : Any]) { result in
             switch result {
@@ -156,7 +155,7 @@ class NewDetailVM: BaseVM {
         guard let placeId = placeId.value else {
             return
         }
-        
+       
         let query = Firestore.firestore()
             .collection("reviews")
             .whereField("blogId", isEqualTo: placeId)

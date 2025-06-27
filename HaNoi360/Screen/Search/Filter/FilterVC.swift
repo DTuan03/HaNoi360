@@ -68,7 +68,7 @@ class FilterVC: BaseVC {
     lazy var districtLabel = LabelFactory.createLabel(text: "filter.dictrict".localized, font: .medium18)
     
     lazy var districtTF = {
-        let tf =  TextFieldFactory.createTextField(placeholder: "filter.choose.dictrict",
+        let tf =  TextFieldFactory.createTextField(placeholder: "filter.choose.dictrict".localized,
                                                    bgColor: .textFiledColor)
         tf.imageLeftView(image: UIImage(systemName: "mappin.and.ellipse.circle")!)
         let paddingView = UIView(frame: CGRect(x: 0, y: 0, width: 32, height: 46))

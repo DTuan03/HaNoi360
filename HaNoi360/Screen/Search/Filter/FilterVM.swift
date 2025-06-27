@@ -11,6 +11,7 @@ import FirebaseFirestore
 
 class FilterVM: BaseVM {
     let categories: [CategoryModel] = [
+        CategoryModel(id: "tatCa", name: "filter.all".localized, img: "amThuc"),
         CategoryModel(id: "amThuc", name: "category.food".localized, img: "amThuc"),
         CategoryModel(id: "tamLinh", name: "category.spirituality".localized, img: "tamLinh"),
         CategoryModel(id: "traiNghiem", name: "category.experience".localized, img: "traiNghiem"),

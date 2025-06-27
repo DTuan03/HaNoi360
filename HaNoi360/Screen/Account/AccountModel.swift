@@ -11,10 +11,12 @@ struct AccountModel {
     let nextIcon: String
 }
 
-let accountData = [
-    AccountModel(icon: "profile", title: "account.profile".localized, nextIcon: "next"),
-    AccountModel(icon: "security", title: "account.security".localized, nextIcon: "next"),
-    AccountModel(icon: "notification", title: "account.noti".localized, nextIcon: "next"),
-    AccountModel(icon: "language", title: "account.langugae.interface".localized, nextIcon: "next"),
-    AccountModel(icon: "logout", title: "account.logout".localized, nextIcon: "")
-]
+var accountData: [AccountModel] {
+    return [
+        AccountModel(icon: "profile", title: "account.profile".localized, nextIcon: "next"),
+        AccountModel(icon: "security", title: "account.security".localized, nextIcon: "next"),
+        AccountModel(icon: "notification", title: "account.noti".localized, nextIcon: "next"),
+        AccountModel(icon: "language", title: "account.langugae.interface".localized, nextIcon: "next"),
+        AccountModel(icon: "logout", title: "account.logout".localized, nextIcon: "")
+    ]
+}

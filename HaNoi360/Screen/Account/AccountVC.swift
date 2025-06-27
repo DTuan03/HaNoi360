@@ -85,7 +85,7 @@ class AccountVC: BaseVC {
                 guard let self = self, let profile = profile else { return }
                 self.nameLabel.text = profile.name
                 self.emailLabel.text = profile.email
-                self.avatarIV.kf.setImage(with: URL(string: profile.avatarUser ?? "https://upload.wikimedia.org/wikipedia/commons/7/7c/Profile_avatar_placeholder_large.png"))
+                self.avatarIV.kf.setImage(with: URL(string: profile.avatarUrl ?? "https://upload.wikimedia.org/wikipedia/commons/7/7c/Profile_avatar_placeholder_large.png"))
             })
             .disposed(by: disposeBag)
         

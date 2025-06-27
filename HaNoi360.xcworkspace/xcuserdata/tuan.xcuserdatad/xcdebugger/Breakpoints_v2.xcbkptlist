@@ -7,97 +7,97 @@
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            uuid = "0344127E-019A-49AF-96DE-1EED665B121D"
+            uuid = "45D00BF6-DCA8-4F88-93B0-F02062F1A4C3"
             shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "HaNoi360/Screen/Account/Profile/ProfileModel.swift"
+            filePath = "HaNoi360/Screen/NewDetail/NewDetailVM.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "9"
-            endingLineNumber = "9"
-            landmarkName = "ProfileModel"
-            landmarkType = "14">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            uuid = "9DB45B56-5BEE-45C4-B73B-E558F9797139"
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "HaNoi360/Screen/Home/HomeVC.swift"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "292"
-            endingLineNumber = "292"
-            landmarkName = "bindState()"
+            startingLineNumber = "166"
+            endingLineNumber = "166"
+            landmarkName = "featchReview(completion:)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            uuid = "B29214BE-31F9-41A7-BC72-570BDD7F228D"
+            uuid = "A461C0DB-9F88-410D-B18E-F4C8CEA1CAD1"
             shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "HaNoi360/Screen/Auth/ConfirmEmail/ConfirmEmailVC.swift"
+            filePath = "HaNoi360/Screen/NewDetail/NewDetailVM.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "62"
-            endingLineNumber = "62"
-            landmarkName = "setupEvent()"
+            startingLineNumber = "171"
+            endingLineNumber = "171"
+            landmarkName = "featchReview(completion:)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            uuid = "46591A53-E484-4B2F-8944-4C122E4DC04F"
+            uuid = "F8E6DA14-7D6B-48BF-A776-44F43F3F1D7B"
             shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "HaNoi360/Screen/Account/MyProfile/MyProfileVC.swift"
+            filePath = "HaNoi360/Screen/NewDetail/NewDetailVM.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "800"
-            endingLineNumber = "800"
-            landmarkName = "collectionView(_:layout:sizeForItemAt:)"
+            startingLineNumber = "170"
+            endingLineNumber = "170"
+            landmarkName = "featchReview(completion:)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            uuid = "5BF0B752-DEF1-4101-BF6E-4D0B17A6E99A"
+            uuid = "44A3FC7B-2631-4BB7-A357-18A10F3B6D25"
             shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "HaNoi360/Screen/NewDetail/NewDetailVC.swift"
+            filePath = "HaNoi360/Screen/NewDetail/NewDetailVM.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "101"
-            endingLineNumber = "101"
-            landmarkName = "avatarAuthor"
-            landmarkType = "24">
+            startingLineNumber = "172"
+            endingLineNumber = "172"
+            landmarkName = "featchReview(completion:)"
+            landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            uuid = "48C39953-CA2F-4D15-89A8-6EA6EB05C90C"
+            uuid = "5FE8EF60-A68A-4B57-9C72-BF10AD8A6068"
             shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "HaNoi360/Screen/NewDetail/NewDetailVC.swift"
+            filePath = "HaNoi360/Screen/NewDetail/NewDetailVM.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "96"
-            endingLineNumber = "96"
-            landmarkName = "avatarAuthor"
-            landmarkType = "24">
+            startingLineNumber = "173"
+            endingLineNumber = "173"
+            landmarkName = "featchReview(completion:)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "DE2EC6AB-A79B-4F7D-9673-232E04A08A12"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "HaNoi360/Resources/SceneDelegate.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "22"
+            endingLineNumber = "22"
+            landmarkName = "scene(_:willConnectTo:options:)"
+            landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
    </Breakpoints>

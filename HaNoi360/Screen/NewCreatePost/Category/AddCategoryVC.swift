@@ -29,7 +29,7 @@ class AddCategoryVC: BaseVC {
         return v
     }()
     
-    lazy var addBtn = ButtonFactory.createButton("Thêm", font: .medium18, textColor: .primaryColor, bgColor: .clear)
+    lazy var addBtn = ButtonFactory.createButton("common.add".localized, font: .medium18, textColor: .primaryColor, bgColor: .clear)
     
     lazy var tableView = {
         let tv = TableViewFactory.createTableView()

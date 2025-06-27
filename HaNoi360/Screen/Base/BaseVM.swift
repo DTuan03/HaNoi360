@@ -21,7 +21,7 @@ class BaseVM {
     var nameUser: String {
         UserDefaults.standard.string(forKey: "userName") ?? "unknown"
     }
-    var avatarUser = UserDefaults.standard.string(forKey: "avatarUrl")
+    var avatarUser = UserDefaults.standard.string(forKey: "avatarUrl") ?? "https://upload.wikimedia.org/wikipedia/commons/8/89/Portrait_Placeholder.png"
     
     let db = Firestore.firestore()
     var listener: ListenerRegistration?

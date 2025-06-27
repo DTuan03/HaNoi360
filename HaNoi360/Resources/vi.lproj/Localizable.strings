@@ -85,6 +85,7 @@
 "popup.noti.email" = "Đã gửi email xác nhận!";
 "popup.camera.faild" = "Camera không khả dụng";
 "popup.cf.delete" = "Bạn có chắc muốn xoá blog này ?";
+"popup.noti.title" = "Bạn chưa có thông báo nào.";
 
 //detail
 "detail.write.review" = "Viết nhận xét";
@@ -126,7 +127,7 @@
 
 //result
 "result.title" = "Kết quả tìm kiếm";
-"result.matching.result" = "Kết quả phù hợp";
+"result.matching.result" = "kết quả phù hợp";
 "result.empty.title" = "Không tìm thấy";
 "result.empty.message" = "Vui lòng tìm kiếm khác thay thế";
 
@@ -173,3 +174,68 @@
 "auth.error.requiresRecentLogin" = "Hành động yêu cầu đăng nhập lại gần đây.";
 "auth.error.system" = "Lỗi hệ thống. Vui lòng thử lại sau.";
 "auth.error.unknown" = "Lỗi không xác định. Vui lòng thử lại.";
+
+"empty.infomation" = "Chưa có thông tin";
+
+//toast
+"toast.edit.success" = "Sửa bài viết thành công";
+"toast.edit.faild" = "Sửa bài viết thất bại";
+"toast.add.success" = "Thêm bài viết thành công";
+"toast.add.faild" = "Thêm bài viết thất bại";
+
+//add schedule
+"add.schedule.success" = "Thêm lịch trình thành công";
+"add.schedule.faild" = "Thêm lịch trình thất bại";
+"add.schedule.choose.date" = "Chọn ngày";
+"add.schedule.cancel" = "Huỷ";
+"add.schedule.confirm" = "Bạn có chắc chắn muốn thêm địa điểm này ?";
+"add.schedule.added.at" = "Bạn đã thêm địa điểm này vào ngày";
+
+"favorite.success" = "Yêu thích thành công";
+"favorite.faild" = "Yêu thích thất bại";
+"unfavorite.success" = "Đã bỏ yêu thích";
+"unfavorite.faild" = "Bỏ yêu thích thất bại";
+"report.success" = "Gửi báo cáo thành công";
+
+"review.violation" = "Nhận xét của bạn đã vi phạm tiêu chuẩn cộng đồng";
+
+"review.appeal.message" = "Nếu bạn cho rằng nhận xét của mình không vi phạm, vui lòng gửi báo cáo để chúng tôi xem xét.";
+"review.appeal.button" = "Báo cáo";
+
+"map.distance" = "Khoảng cách";
+"map.direction" = "   Chỉ đường   ";
+"map.no.place.found" = "Chưa tìm thấy địa điểm nào";
+"map.try.other.search" = "Vui lòng tìm kiếm địa điểm khác.";
+"map.unknown" = "Chưa xác định";
+"map.no.route.found" = "Không tìm thấy tuyến đường đi phù hợp";
+"map.try.other.origin" = "Vui lòng chọn địa điểm xuất phát khác.";
+"map.enter.origin" = "Nhập địa điểm xuất phát";
+"map.enter.destination" = "Nhập địa điểm";
+"map.selected" = "Đã chọn";
+"map.invalid" = "Không hợp lệ";
+"map.only.hanoi" = "Vui lòng chọn địa điểm trong Hà Nội.";
+"post.title" = "Tiêu đề bài viết";
+"image.save.success" = "Lưu ảnh thành công";
+"image.save.failed" = "Lưu ảnh thất bại";
+
+//GetStar
+"getStart.skip" = "Bỏ qua";
+"getStart.slogan" = "Đắm mình trong hành \n trình, tìm thấy mình \n qua phiêu lưu.";
+"getStart.start" = "Bắt đầu";
+"getStart.login" = "Đăng nhập";
+
+//Intro
+"intro.title.0" = "Công việc lấp đầy túi bạn, phiêu lưu lấp đầy tâm hồn.";
+"intro.highlight.0" = "phiêu lưu";
+"intro.description.0" = "Du lịch Hà Nội là một hành trình tuyệt vời để mở rộng tầm hiểu biết và mang lại những trải nghiệm mới mẻ, vừa thú vị vừa bổ ích.";
+
+"intro.title.1" = "Sống cuộc đời không lý do, du lịch Hà Nội không hối tiếc.";
+"intro.highlight.1" = "du lịch";
+"intro.description.1" = "Hà Nội là điểm đến lý tưởng với nhiều địa danh nổi tiếng, mỗi chuyến đi đều mang lại cảm giác mới mẻ và không bao giờ khiến bạn phải tiếc nuối.";
+
+"intro.title.2" = "Hà Nội trong tầm tay. \n Du lịch là sống trọn vẹn.";
+"intro.highlight.2" = "trọn vẹn.";
+"intro.description.2" = "Khám phá thiên nhiên, gặp gỡ con người mới, và trải nghiệm văn hóa đặc sắc - Hà Nội là nơi hiện thực hóa những ước mơ phiêu lưu đó.";
+
+"intro.next" = "TIẾP THEO";
+

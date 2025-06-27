@@ -18,8 +18,7 @@ class CalendarVM: BaseVM {
     
     func featchPlace() {
         let fields = [
-            "date": date.value,
-            "userId": userId
+            "date": date.value
         ] as [String : Any]
         isLoading.accept(true)
         calendarService.fetchDocumentsByFields(fields: fields as [String : Any]) { result in
@@ -34,7 +33,7 @@ class CalendarVM: BaseVM {
     }
     
     func featchPlaceEvent() {
-        calendarService.fetchWhereEqualTo(field: "userId", value: userId) { result in
+        calendarService.fetchAll { result in
             switch result {
             case .success(let calendarPlace):
                 let dates: [Date] = calendarPlace.map { $0.date.toDate() ?? Date() }

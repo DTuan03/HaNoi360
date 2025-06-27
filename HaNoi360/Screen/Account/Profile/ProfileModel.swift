@@ -7,7 +7,7 @@
 
 struct ProfileModel: Codable {
     let userId: String?
-    let avatarUser: String?
+    let avatarUrl: String?
     let name: String?
     let email: String?
     let phone: String?

@@ -36,12 +36,12 @@ class MapDetailVC: BaseVC {
     
     lazy var backBtn = {
         let btn = ButtonFactory.createImageButton(withImage: .back, radius: 20)
-        btn.backgroundColor = .white
+        btn.backgroundColor = UIColor(hex: "#CCCCCC")
         return btn
     }()
     
     lazy var searchTF = {
-        let tf = TextFieldFactory.createTextField(placeholder: "Nhập địa điểm xuất phát", bgColor: .white)
+        let tf = TextFieldFactory.createTextField(placeholder: "map.enter.origin".localized, bgColor: UIColor(hex: "#CCCCCC"))
         tf.imageLeftViewMapVC(image: UIImage(named: "search")!)
         tf.delegate = self
         tf.returnKeyType = .search
@@ -69,7 +69,7 @@ class MapDetailVC: BaseVC {
     
     lazy var closeBtn = ButtonFactory.createImageButton(withImage: UIImage(systemName: "multiply"), tinColor: .white)
     
-    lazy var chooseBtn = ButtonFactory.createButton("   Chỉ đường   ", font: .medium14, rounded: true)
+    lazy var chooseBtn = ButtonFactory.createButton("map.direction".localized, font: .medium14, rounded: true)
     
     weak var delegate: MapVCDelegate?
     
@@ -201,7 +201,7 @@ class MapDetailVC: BaseVC {
             
             print("Khoảng cách: \(String(format: "%.2f", distanceInKm)) km")
             
-            self.namePlaceLabel.text = ("Khoảng cách: \(String(format: "%.2f", distanceInKm)) km")
+            self.namePlaceLabel.text = ("map.distance".localized + ": \(String(format: "%.2f", distanceInKm)) km")
             
             // Vẽ route lên map
             self.mapView.addOverlay(route.polyline)
@@ -231,7 +231,7 @@ class MapDetailVC: BaseVC {
         let search = MKLocalSearch(request: request)
         search.start { [weak self] response, error in
             guard let `self` = self, let mapItem = response?.mapItems.first else {
-                self?.showAlert(title: "Chưa tìm thấy địa điểm nào", message: "Vui lòng tìm kiếm địa điểm khác.")
+                self?.showAlert(title: "map.no.place.found".localized, message: "map.try.other.search".localized)
                 return }
             let coordinate = mapItem.placemark.coordinate
             let location = CLLocation(latitude: coordinate.latitude, longitude: coordinate.longitude)
@@ -253,13 +253,13 @@ class MapDetailVC: BaseVC {
     func showResultContainerView(placemark: CLPlacemark) {
         self.chooseBtn.isHidden = false
         self.resultContainerView.isHidden = false
-        namePlaceLabel.text = placemark.name ?? "Chưa xác định"
+        namePlaceLabel.text = placemark.name ?? "map.unknown".localized
         if let coordinate = placemark.location?.coordinate {
             self.coordinateSearch = coordinate
         }
     }
     
-    func showAlert(title: String = "Không tìm thấy tuyến đường đi phù hợp", message: String = "Vui lòng chọn địa điểm xuất phát khác.") {
+    func showAlert(title: String = "map.no.route.found".localized, message: String = "map.try.other.origin".localized) {
         self.resultContainerView.isHidden = true
         let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
         alert.addAction(UIAlertAction(title: "OK", style: .cancel))

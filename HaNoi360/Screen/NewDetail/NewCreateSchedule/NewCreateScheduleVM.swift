@@ -28,7 +28,7 @@ class NewCreateScheduleVM: BaseVM {
     var choosedDatePlaceCurrent = BehaviorRelay<[String]?>(value: nil)
                     
     func featchPlaceCalendar() {
-        calendarService.fetchWhereEqualTo(field: "userId", value: userId) { result in
+        calendarService.fetchAll { result in
             switch result {
             case .success(let calendarPlace):
                 self.calendarPlace.accept(calendarPlace)
@@ -45,8 +45,7 @@ class NewCreateScheduleVM: BaseVM {
             return
         }
         let fields = [
-            "placeId": placeId,
-            "userId": userId
+            "blogId": placeId
         ]
         calendarService.fetchDocumentsByFields(fields: fields as [String : Any]) { result in
             switch result {

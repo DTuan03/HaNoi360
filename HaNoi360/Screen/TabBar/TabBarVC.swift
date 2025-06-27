@@ -33,25 +33,25 @@ class TabBarVC: BaseVC {
     
     lazy var homeBtn = ButtonFactory.createImageButton(withImage: UIImage(systemName: "house.fill"), tinColor: .iconNoSelectTabBarColor)
     
-    lazy var titleHomeLabel = LabelFactory.createLabel(text: "Trang chủ", font: .regular14, textColor: .iconNoSelectTabBarColor)
+    lazy var titleHomeLabel = LabelFactory.createLabel(text: "tabBar.home".localized, font: .regular14, textColor: .iconNoSelectTabBarColor)
     
     lazy var stvHome = [homeBtn, titleHomeLabel].vStack(alignment: .center, distribution: .fillEqually)
     
     lazy var calendarBtn = ButtonFactory.createImageButton(withImage: UIImage(systemName: "calendar.badge.plus"), tinColor: .iconNoSelectTabBarColor)
     
-    lazy var titleCalendarLabel = LabelFactory.createLabel(text: "Lịch trình", font: .regular14, textColor: .iconNoSelectTabBarColor)
+    lazy var titleCalendarLabel = LabelFactory.createLabel(text: "tabBar.schedule".localized, font: .regular14, textColor: .iconNoSelectTabBarColor)
     
     lazy var stvCalendar = [calendarBtn, titleCalendarLabel].vStack(alignment: .center, distribution: .fillEqually)
     
     lazy var favoriteBtn = ButtonFactory.createImageButton(withImage: UIImage(systemName: "heart"), tinColor: .iconNoSelectTabBarColor)
     
-    lazy var titleFavoriteLabel = LabelFactory.createLabel(text: "Yêu thích", font: .regular14, textColor: .iconNoSelectTabBarColor)
+    lazy var titleFavoriteLabel = LabelFactory.createLabel(text: "tabBar.favorite".localized, font: .regular14, textColor: .iconNoSelectTabBarColor)
     
     lazy var stvFavorite = [favoriteBtn, titleFavoriteLabel].vStack(alignment: .center, distribution: .fillEqually)
     
     lazy var profileBtn = ButtonFactory.createImageButton(withImage: UIImage(systemName: "person"), tinColor: .iconNoSelectTabBarColor)
     
-    lazy var titleSettingLabel = LabelFactory.createLabel(text: "Tài khoản", font: .regular14, textColor: .iconNoSelectTabBarColor)
+    lazy var titleSettingLabel = LabelFactory.createLabel(text: "tabBar.account".localized, font: .regular14, textColor: .iconNoSelectTabBarColor)
     
     lazy var stvProfile = [profileBtn, titleSettingLabel].vStack(alignment: .center, distribution: .fillEqually)
     

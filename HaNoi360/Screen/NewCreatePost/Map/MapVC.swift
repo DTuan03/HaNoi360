@@ -34,12 +34,12 @@ class MapVC: BaseVC {
     
     lazy var backBtn = {
         let btn = ButtonFactory.createImageButton(withImage: .back, radius: 20)
-        btn.backgroundColor = .backgroundColor
+        btn.backgroundColor = UIColor(hex: "#CCCCCC")
         return btn
     }()
     
     lazy var searchTF = {
-        let tf = TextFieldFactory.createTextField(placeholder: "Nhập địa điểm", bgColor: .white)
+        let tf = TextFieldFactory.createTextField(placeholder: "map.enter.destination".localized, bgColor: UIColor(hex: "#CCCCCC"))
         tf.imageLeftViewMapVC(image: UIImage(named: "search")!)
         tf.delegate = self
         tf.returnKeyType = .search
@@ -68,7 +68,7 @@ class MapVC: BaseVC {
     
     lazy var deleteBtn = ButtonFactory.createImageButton(withImage: UIImage(systemName: "multiply"), tinColor: .iconColor)
     
-    lazy var chooseBtn = ButtonFactory.createButton("   Chọn địa điểm   ", font: .medium14, rounded: true, height: 40)
+    lazy var chooseBtn = ButtonFactory.createButton("map.direction".localized, font: .medium14, rounded: true, height: 40)
     
     weak var delegate: MapVCDelegate?
     
@@ -93,7 +93,7 @@ class MapVC: BaseVC {
         let coordinate = mapView.convert(location, toCoordinateFrom: mapView)
         
         mapView.removeAnnotations(mapView.annotations)
-        addPinAtCoordinate(coordinate, title: "Đã chọn")
+        addPinAtCoordinate(coordinate, title: "map.selected".localized)
         getAddressFromCoordinate(coordinate)
     }
     
@@ -233,7 +233,7 @@ class MapVC: BaseVC {
     
     func showResultContainerView(placemark: CLPlacemark) {
         self.resultContainerView.isHidden = false
-        namePlaceLabel.text = placemark.name ?? "Chưa xác định"
+        namePlaceLabel.text = placemark.name ?? "map.unknown".localized
         if let coordinate = placemark.location?.coordinate {
 //            self.addressLabel.text = "Toạ độ: (\(coordinate.latitude), \(coordinate.longitude)"
             self.coordinate = coordinate
@@ -245,7 +245,8 @@ class MapVC: BaseVC {
     }
     
     func checkCiTy(placemark: CLPlacemark) -> Bool {
-        if placemark.administrativeArea == "Thành Phố Hà Nội" {
+        print("Thanh pho: \(placemark.administrativeArea)")
+        if placemark.administrativeArea == "Ha Noi" || placemark.administrativeArea == "Thành Phố Hà Nội" {
             return true
         } else {
             return false
@@ -254,7 +255,7 @@ class MapVC: BaseVC {
     
     func showAlert() {
         self.resultContainerView.isHidden = true
-        let alert = UIAlertController(title: "Không hợp lệ", message: "Vui lòng chọn địa điểm trong Hà Nội.", preferredStyle: .alert)
+        let alert = UIAlertController(title: "map.invalid".localized, message: "map.only.hanoi".localized, preferredStyle: .alert)
         alert.addAction(UIAlertAction(title: "OK", style: .cancel))
         self.present(alert, animated: true)
     }

@@ -16,7 +16,7 @@ class FavoriteVM: BaseVM {
     
     func featchPlace() {
         isLoading.accept(true)
-        favoriteService.fetchWhereEqualTo(field: "userId", value: userId) { result in
+        favoriteService.fetchAll { result in
             self.isLoading.accept(false)
             switch result {
             case .success(let places):
@@ -26,7 +26,6 @@ class FavoriteVM: BaseVM {
             }
         }
     }
-    
     
     func deleteFavorite() {
         isLoading.accept(true)

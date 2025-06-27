@@ -20,7 +20,7 @@ class AllReviewVM: BaseVM {
         
         let query = Firestore.firestore()
             .collection("reviews")
-            .whereField("placeId", isEqualTo: placeId)
+            .whereField("blogId", isEqualTo: placeId)
             .whereField("isFlagged", isEqualTo: false)
 //            .order(by: "createAt", descending: true)
         

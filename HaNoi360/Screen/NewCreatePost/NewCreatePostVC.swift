@@ -20,7 +20,7 @@ enum NewCreateBlogType {
 class NewCreatePostVC: BaseVC {
     let viewModel = NewCreatePostVM()
     var newCreateBlogType: NewCreateBlogType = .create
-    lazy var titleNavigation: String? = "Thêm bài viết"
+    lazy var titleNavigation: String? = "create.add.post".localized
     lazy var scrollView = ScrollViewFactory.createScrollView(backgroundColor: .backgroundColor,
                                                              showsVerticalScrollIndicator: true)
     
@@ -40,7 +40,7 @@ class NewCreatePostVC: BaseVC {
     }()
     
     lazy var titleTf = {
-        let tf = TextFieldFactory.createTextField(placeholder: "Tiêu đề bài viết", rounded: 8)
+        let tf = TextFieldFactory.createTextField(placeholder: "post.title".localized, rounded: 8)
         tf.imageLeftView(image: UIImage(systemName: "mappin.and.ellipse.circle")!, placeholder: "", padding: UIEdgeInsets(top: 8, left: 12, bottom: 8, right: 12), imageSize: CGSize(width: 16, height: 16))
         tf.layer.borderColor = UIColor.white.cgColor
         tf.layer.borderWidth = 1
@@ -52,7 +52,7 @@ class NewCreatePostVC: BaseVC {
     }()
     
     lazy var tagBtn = {
-        let btn = ButtonFactory.createImageButton(withImage: UIImage(systemName: "tag"), title: "   Thêm thẻ", tinColor: .primaryColor, font: .regular14)
+        let btn = ButtonFactory.createImageButton(withImage: UIImage(systemName: "tag"), title: "create.add.tag".localized, tinColor: .primaryColor, font: .regular14)
         btn.backgroundColor = .textFiledColor
         btn.layer.cornerRadius = 8
         btn.titleLabel?.lineBreakMode = .byTruncatingTail
@@ -66,7 +66,7 @@ class NewCreatePostVC: BaseVC {
     }()
     
     lazy var mapBtn = {
-        let btn = ButtonFactory.createImageButton(withImage: UIImage(systemName: "mappin"), title: "  Thêm địa chỉ", tinColor: .primaryColor, font: .regular12)
+        let btn = ButtonFactory.createImageButton(withImage: UIImage(systemName: "mappin"), title: "create.add.address".localized, tinColor: .primaryColor, font: .regular12)
         btn.backgroundColor = .textFiledColor
         btn.layer.cornerRadius = 8
         btn.layer.borderColor = UIColor.white.cgColor
@@ -79,7 +79,7 @@ class NewCreatePostVC: BaseVC {
     
     lazy var tagAndMapSV = [tagBtn, mapBtn].hStack(10, distribution: .fillEqually)
     
-    lazy var contentLb = LabelFactory.createLabel(text: "Nội dung bài viết", font: .medium14)
+    lazy var contentLb = LabelFactory.createLabel(text: "create.post.content".localized, font: .medium14)
     
     lazy var contentTableView = {
         let tableView = TableViewFactory.createTableView()
@@ -99,7 +99,7 @@ class NewCreatePostVC: BaseVC {
     var contentTableViewHeightConstraint: Constraint?
     
     lazy var createBlockNew = {
-        let btn = ButtonFactory.createButton("Thêm khối mới", font: .regular16, rounded: true, height: 40)
+        let btn = ButtonFactory.createButton("create.add.new.block".localized, font: .regular16, rounded: true, height: 40)
         btn.contentEdgeInsets = UIEdgeInsets(top: 8, left: 12, bottom: 8, right: 12)
         return btn
     }()
@@ -179,9 +179,9 @@ class NewCreatePostVC: BaseVC {
         
         switch newCreateBlogType {
         case .edit:
-            createBtn.setTitle("Sửa bài viết", for: .normal)
+            createBtn.setTitle("create.edit.post".localized, for: .normal)
         case .create:
-            createBtn.setTitle("Thêm bài viết", for: .normal)
+            createBtn.setTitle("create.add.post".localized, for: .normal)
         }
     }
     
@@ -270,16 +270,16 @@ class NewCreatePostVC: BaseVC {
                     self.resetForm()
                     switch newCreateBlogType {
                     case .edit:
-                        Toast.showToast(message: "Sửa bài viết thành công", image: "toast_success")
+                        Toast.showToast(message: "toast.edit.success".localized, image: "toast_success")
                     case .create:
-                        Toast.showToast(message: "Thêm bài viết thành công", image: "toast_success")
+                        Toast.showToast(message: "toast.add.success".localized, image: "toast_success")
                     }
                 } else {
                     switch newCreateBlogType {
                     case .edit:
-                        Toast.showToast(message: "Sửa bài viết thất bại", image: "toast_error")
+                        Toast.showToast(message: "toast.edit.faild".localized, image: "toast_error")
                     case .create:
-                        Toast.showToast(message: "Thêm bài viết thất bại", image: "toast_error")
+                        Toast.showToast(message: "toast.add.faild".localized, image: "toast_error")
                     }
                 }
             })
@@ -421,11 +421,11 @@ class NewCreatePostVC: BaseVC {
         viewModel.avatarIV.accept(nil)
         
         viewModel.categoryId.accept([])
-        tagBtn.setTitle("Thêm thẻ", for: .normal)
+        tagBtn.setTitle("create.add.tag".localized, for: .normal)
         
         viewModel.coordinate.accept(nil)
         viewModel.idAddress.accept(nil)
-        mapBtn.setTitle("Thêm địa chỉ", for: .normal)
+        mapBtn.setTitle("create.add.address".localized, for: .normal)
         
         viewModel.contentBlocks.accept([])
     }

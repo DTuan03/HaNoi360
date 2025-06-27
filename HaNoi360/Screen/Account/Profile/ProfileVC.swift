@@ -232,7 +232,7 @@ class PopupProfile: BaseVC, UITextFieldDelegate {
                             self.dismiss(animated: true)
                         }
                     } else {
-                        Toast.showToast(message: "account.inappropriate".localized, image: "error")
+                        Toast.showToast(message: "account.inappropriate".localized, image: "toast_error")
                     }
                 } else {
                     if self.valueOld != self.textField.text {
@@ -241,7 +241,7 @@ class PopupProfile: BaseVC, UITextFieldDelegate {
                             self.dismiss(animated: true)
                         }
                     } else {
-                        Toast.showToast(message: "account.no.change".localized, image: "error")
+                        Toast.showToast(message: "account.no.change".localized, image: "toast_error")
                     }
                 }
             })

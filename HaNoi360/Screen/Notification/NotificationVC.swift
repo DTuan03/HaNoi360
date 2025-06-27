@@ -42,6 +42,17 @@ class NotificationVC: BaseVC {
         viewModel.noti
             .subscribe(onNext: { [weak self] value in
                 guard let self = self else { return }
+                if value.isEmpty {
+                    self.notiTable.setLottieBackground(
+                        name: "emptyNoti",
+                        title: "popup.noti.title".localized,
+                        message: "  ".localized,
+                        topAnimation: -350,
+                        topStv: -300
+                    )
+                } else {
+                    self.notiTable.clearBackground()
+                }
                 self.notiTable.reloadData()
             })
             .disposed(by: disposeBag)

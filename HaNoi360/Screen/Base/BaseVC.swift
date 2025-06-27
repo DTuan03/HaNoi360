@@ -82,6 +82,6 @@ class BaseVC: UIViewController {
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-        print("[\(String(describing: type(of: self)))] appeared")
+        print("<HaNoi360> " + "[\(String(describing: type(of: self)))] appeared")
     }
 }

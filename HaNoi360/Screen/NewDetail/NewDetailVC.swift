@@ -126,19 +126,15 @@ class NewDetailVC: BaseVC {
             make.centerY.equalToSuperview()
             make.left.equalToSuperview().offset(4)
             make.width.equalTo(50)
+            make.height.equalTo(25)
         }
         
         infoSv.snp.makeConstraints { make in
             make.left.equalTo(backIv.snp.right).offset(8)
             make.top.right.equalToSuperview()
             make.bottom.equalToSuperview().inset(8)
-            //            make.right.equalTo(handleSv.snp.left).inset(4)
         }
         
-        //        handleSv.snp.makeConstraints { make in
-        //            make.top.equalToSuperview()
-        //            make.right.equalToSuperview().inset(8)
-        //        }
         return view
     }()
     
@@ -194,7 +190,7 @@ class NewDetailVC: BaseVC {
     
     lazy var starReview = CosmosViewFactory.createCosmosView()
     
-    lazy var rangeReviewLabel = LabelFactory.createLabel(text: "0/250", font: .regular16, textColor: .lightGray)
+    lazy var rangeReviewLabel = LabelFactory.createLabel(text: "0/200", font: .regular16, textColor: .lightGray)
     
     lazy var sendReviewBtn = {
         let btn = ButtonFactory.createButton("detail.send".localized, rounded: false, height: 38)
@@ -283,7 +279,6 @@ class NewDetailVC: BaseVC {
             make.top.equalTo(infoPost.snp.bottom).offset(8)
             make.left.right.equalToSuperview().inset(4)
             make.height.equalTo(1)
-            //            make.bottom.equalToSuperview()
         }
         
         writeReviewLabel.snp.makeConstraints { make in
@@ -365,7 +360,7 @@ class NewDetailVC: BaseVC {
         viewModel.countReview
             .subscribe(onNext: { [weak self] count in
                 guard let `self` = self else {return}
-                self.rangeReviewLabel.text = "\(count)/250"
+                self.rangeReviewLabel.text = "\(count)/200"
             })
             .disposed(by: disposeBag)
         
@@ -429,16 +424,15 @@ class NewDetailVC: BaseVC {
             .subscribe(onNext: { [weak self] isGross in
                 guard let self = self else { return }
                 if isGross {
-                    print("Qua tho tuc roi")
                     self.viewModel.updateFlagReview {
                         self.viewModel.featchReview {
                             let popupVC = PopupCalendarVC()
-                            popupVC.titleLabel.text = "Nhận xét của bạn đã vi phạm tiêu chuẩn cộng đồng"
-                            popupVC.messageLabel.text = "Nếu bạn cho rằng nhận xét của mình không vi phạm, vui lòng gửi báo cáo để chúng tôi xem xét."
-                            popupVC.okBtn.setTitle("Báo cáo", for: .normal)
+                            popupVC.titleLabel.text = "review.violation".localized
+                            popupVC.messageLabel.text = "review.appeal.message".localized
+                            popupVC.okBtn.setTitle("review.appeal.button".localized, for: .normal)
                             popupVC.onOk = {
                                 self.viewModel.updateUserAppealStatusForReview {
-                                    Toast.showToast(message: "Gửi báo cáo thành công", image: "toast_success")
+                                    Toast.showToast(message: "report.success".localized, image: "toast_success")
                                 }
                             }
                             popupVC.modalTransitionStyle = .crossDissolve
@@ -465,9 +459,9 @@ class NewDetailVC: BaseVC {
         viewModel.isAddFavorite
             .subscribe(onNext: { isFavorite in
                 if isFavorite {
-                    Toast.showToast(message: "Yêu thích thành công", image: "toast_success")
+                    Toast.showToast(message: "favorite.success".localized, image: "toast_success")
                 } else {
-                    Toast.showToast(message: "Yêu thích thất bại", image: "toast_error")
+                    Toast.showToast(message: "favorite.faild".localized, image: "toast_error")
                 }
             })
             .disposed(by: disposeBag)
@@ -475,9 +469,9 @@ class NewDetailVC: BaseVC {
         viewModel.isDeleteFavorite
             .subscribe(onNext: { isFavorite in
                 if isFavorite {
-                    Toast.showToast(message: "Đã bỏ yêu thích", image: "toast_success")
+                    Toast.showToast(message: "unfavorite.success".localized, image: "toast_success")
                 } else {
-                    Toast.showToast(message: "Bỏ yêu thích thất bại", image: "toast_error")
+                    Toast.showToast(message: "unfavorite.faild".localized, image: "toast_error")
                 }
             })
             .disposed(by: disposeBag)
@@ -605,7 +599,7 @@ class NewDetailVC: BaseVC {
         let vc = NewCreatePostVC()
         vc.newCreateBlogType = .edit
         vc.viewModel.blog.accept(viewModel.place.value)
-        vc.titleNavigation = "Sửa bài viết"
+        vc.titleNavigation = "create.edit.post".localized
         self.navigationController?.pushViewController(vc, animated: true)
     }
     
@@ -726,7 +720,7 @@ extension NewDetailVC: UITextViewDelegate, UIScrollViewDelegate {
         guard let stringRange = Range(range, in: currentText) else { return false }
         let updatedText = currentText.replacingCharacters(in: stringRange, with: text)
         self.viewModel.contentReview.accept(updatedText)
-        return updatedText.count <= 250
+        return updatedText.count <= 200
     }
     
     func textViewDidChange(_ textView: UITextView) {
@@ -742,7 +736,7 @@ extension NewDetailVC: ReviewCellDelegate {
         }
         
         viewModel.updateUserReportStatusForReview(reviewId: reviewId) {
-            Toast.showToast(message: "Gửi báo cáo thành công", image: "toast_success")
+            Toast.showToast(message: "report.success".localized, image: "toast_success")
             if let reviewCell = cell as? ReviewCell {
                 reviewCell.reportBtn.isHidden = true
             }
