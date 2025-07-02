@@ -47,12 +47,31 @@ class SignInVC: BaseVC {
                                                     font: .bold16,
                                                     textColor: .textButtonColor)
     
+    lazy var orSignInLabel = LabelFactory.createLabel(text: "auth.login.or".localized,
+                                                      font: .medium16,
+                                                      textColor: .secondaryTextColor,
+                                                      textAlignment: .center)
+    
+    lazy var appleBtn = {
+        let btn = ButtonFactory.createButton("      Đăng nhập bằng Apple ID", font: .medium18, textColor: UIColor(hex: "#111827"), bgColor: .signInOtherButtonColor, rounded: true)
+        btn.setImage(.apple, for: .normal)
+        return btn
+    }()
+    
+    lazy var googleBtn = {
+        let btn = ButtonFactory.createButton("auth.login.with.google".localized, font: .medium18, textColor: UIColor(hex: "#111827"), bgColor: .signInOtherButtonColor, rounded: true)
+        btn.setImage(.google, for: .normal)
+        return btn
+    }()
+    
+    lazy var signInOtherSv = ([appleBtn, googleBtn]).vStack(20)
+    
     lazy var signUpLabel = LabelFactory.createLabel(text: "auth.login.question".localized,
                                                     font: .light18,
                                                     textAlignment: .center,
                                                     highLighText: "auth.signup.button".localized,
                                                     highLightFont: .bold18)
-    lazy var stackView = [emailTextField, passwordTF, forgotPassLabel, signInBtn, signUpLabel].vStack(20)
+    lazy var stackView = [emailTextField, passwordTF, forgotPassLabel, signInBtn, signInOtherSv, signUpLabel].vStack(20)
     
     lazy var activityIndicator =  {
         let aI = UIActivityIndicatorView(style: .medium)
@@ -96,6 +115,7 @@ class SignInVC: BaseVC {
             make.centerY.equalToSuperview()
             make.centerX.equalToSuperview().offset(-55)
         }
+        appleBtn.isHidden = true
     }
     
     override func setupEvent() {
@@ -139,6 +159,12 @@ class SignInVC: BaseVC {
         viewModel.signUpError
             .subscribe(onNext: { errorMessage in
                 Toast.showToast(message: errorMessage, image: "toast_error")
+            })
+            .disposed(by: disposeBag)
+        
+        googleBtn.rx.tap
+            .subscribe(onNext: {
+                AuthRepository.shared.signInWithGoogle(self: self)
             })
             .disposed(by: disposeBag)
         

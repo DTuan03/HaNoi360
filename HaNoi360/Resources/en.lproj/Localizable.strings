@@ -82,7 +82,7 @@
 "popup.favorite.message" = "Start exploring and add to your favorites!";
 "popup.noti.email" = "Confirmation email sent!";
 "popup.camera.faild" = "Camera not available";
-"popup.cf.delete" = "Are you sure you want to delete this blog?";
+"popup.profile.cf.delete" = "Are you sure you want to delete this blog?";
 "popup.noti.title" = "You have no notifications yet.";
 
 //Detail

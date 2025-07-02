@@ -44,12 +44,12 @@ class LoadModel {
         return json
     }
 
-    func tokenize(text: String, wordIndex: [String: Int], maxLen: Int = 10) -> [Int] {
+    func tokenize(text: String, wordIndex: [String: Int], maxLen: Int = 200) -> [Int] {
         let tokens = text.lowercased().components(separatedBy: .whitespacesAndNewlines)
         var sequence = tokens.map { wordIndex[$0] ?? 0 }
 
         if sequence.count < maxLen {
-            sequence = Array(repeating: 0, count: maxLen - sequence.count) + sequence
+            sequence = sequence + Array(repeating: 0, count: maxLen - sequence.count)
         } else if sequence.count > maxLen {
             sequence = Array(sequence.suffix(maxLen))
         }
@@ -60,12 +60,12 @@ class LoadModel {
     func toMLMultiArray(_ intArray: [Int]) -> MLMultiArray? {
         let shape: [NSNumber] = [1, NSNumber(value: intArray.count)]  // Rank 2: [1, sequence_length]
 
-        guard let array = try? MLMultiArray(shape: shape, dataType: .int32) else {
+        guard let array = try? MLMultiArray(shape: shape, dataType: .float32) else {
             return nil
         }
 
         for (index, value) in intArray.enumerated() {
-            array[[0, index] as [NSNumber]] = NSNumber(value: value)
+            array[[0, index] as [NSNumber]] = NSNumber(value: Float(value))
         }
 
         return array
@@ -80,6 +80,7 @@ class LoadModel {
         do {
             let input = try MLDictionaryFeatureProvider(dictionary: ["embedding_input": inputArray])
             let prediction = try model.prediction(from: input)
+            print(prediction.featureNames)
             if let result = prediction.featureValue(for: "Identity")?.multiArrayValue?[0] {
                 print(result.floatValue)
                 completion(result.floatValue > 0.5)

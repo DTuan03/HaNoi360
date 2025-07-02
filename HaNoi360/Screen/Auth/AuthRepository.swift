@@ -131,8 +131,6 @@ class AuthRepository {
         return "auth.error.unknown".localized
     }
     
-    
-    
     func saveUser(_ user: User, completion: @escaping () -> Void) {
         let userData: [String: Any] = [
             "userId": user.uid,
@@ -145,4 +143,44 @@ class AuthRepository {
         db.collection("users").document(user.uid).setData(userData, merge: true)
         completion()
     }
+    
+    func signInWithGoogle(self: UIViewController) {
+        guard let clientID = FirebaseApp.app()?.options.clientID else { return }
+        
+        let config = GIDConfiguration(clientID: clientID)
+        GIDSignIn.sharedInstance.configuration = config
+        
+        GIDSignIn.sharedInstance.signIn(withPresenting: self) { [weak self] signInResult, error in
+            if let error = error {
+                print("Lỗi:", error.localizedDescription)
+                return
+            }
+            
+            guard let user = signInResult?.user,
+                  let idToken = user.idToken?.tokenString else {
+                print("Thiếu idToken hoặc accessToken")
+                return
+            }
+            let accessToken = user.accessToken.tokenString
+            
+            let credential = GoogleAuthProvider.credential(withIDToken: idToken, accessToken: accessToken)
+            Auth.auth().signIn(with: credential) { result, error in
+                if let error = error {
+                    print("Firebase đăng nhập thất bại:", error.localizedDescription)
+                    return
+                }
+                
+//                self?.isLoading.accept(true)
+                // Thành công → Lưu vào Firestore qua AuthRepository
+                if let firebaseUser = result?.user {
+                    AuthRepository.shared.saveUser(firebaseUser) {
+                        self?.navigationController?.pushViewController(TabBarVC(), animated: true)
+                        let defaults = UserDefaults.standard
+                        defaults.set(true, forKey: "isLoggedIn")
+                    }
+                }
+            }
+        }
+    }
+
 }

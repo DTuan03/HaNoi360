@@ -673,7 +673,8 @@ extension MyProfileVC: MyProfileCellDelegate {
     func didDeleteBlog(cell: UITableViewCell) {
         guard let indexPath = contentTbv.indexPath(for: cell) else { return }
         let popupVC = PopupVC()
-        popupVC.titleLabel.text = "popup.cf.delete".localized
+        popupVC.titleLabel.text = "popup.profile.cf.delete".localized
+        popupVC.messageLabel.text = ""
         popupVC.modalTransitionStyle = .crossDissolve
         popupVC.modalPresentationStyle = .overCurrentContext
         popupVC.onOk = {

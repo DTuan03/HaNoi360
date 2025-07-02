@@ -289,7 +289,7 @@ class SignUpVC: BaseVC {
         
         googleBtn.rx.tap
             .subscribe(onNext: {
-                self.signInWithGoogle()
+                AuthRepository.shared.signInWithGoogle(self: self)
             })
             .disposed(by: disposeBag)
     }
@@ -298,44 +298,6 @@ class SignUpVC: BaseVC {
         navigationController?.pushViewController(SignInVC(), animated: true)
     }
     
-    func signInWithGoogle() {
-        guard let clientID = FirebaseApp.app()?.options.clientID else { return }
-        
-        let config = GIDConfiguration(clientID: clientID)
-        GIDSignIn.sharedInstance.configuration = config
-        
-        GIDSignIn.sharedInstance.signIn(withPresenting: self) { [weak self] signInResult, error in
-            if let error = error {
-                print("Lỗi:", error.localizedDescription)
-                return
-            }
-            
-            guard let user = signInResult?.user,
-                  let idToken = user.idToken?.tokenString else {
-                print("Thiếu idToken hoặc accessToken")
-                return
-            }
-            let accessToken = user.accessToken.tokenString
-            
-            let credential = GoogleAuthProvider.credential(withIDToken: idToken, accessToken: accessToken)
-            Auth.auth().signIn(with: credential) { result, error in
-                if let error = error {
-                    print("Firebase đăng nhập thất bại:", error.localizedDescription)
-                    return
-                }
-                
-                self?.isLoading.accept(true)
-                // Thành công → Lưu vào Firestore qua AuthRepository
-                if let firebaseUser = result?.user {
-                    AuthRepository.shared.saveUser(firebaseUser) {
-                        self?.navigationController?.pushViewController(TabBarVC(), animated: true)
-                        let defaults = UserDefaults.standard
-                        defaults.set(true, forKey: "isLoggedIn")
-                    }
-                }
-            }
-        }
-    }
 }
 
 extension SignUpVC: NavigationViewDelegate {

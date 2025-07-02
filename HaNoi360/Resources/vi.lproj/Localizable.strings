@@ -84,7 +84,7 @@
 "popup.favorite.message" = "Bắt đầu khám phá và thêm vào yêu thích nhé";
 "popup.noti.email" = "Đã gửi email xác nhận!";
 "popup.camera.faild" = "Camera không khả dụng";
-"popup.cf.delete" = "Bạn có chắc muốn xoá blog này ?";
+"popup.profile.cf.delete" = "Bạn có chắc muốn xoá blog này ?";
 "popup.noti.title" = "Bạn chưa có thông báo nào.";
 
 //detail
