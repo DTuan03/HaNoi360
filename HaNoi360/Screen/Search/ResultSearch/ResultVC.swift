@@ -150,10 +150,10 @@ extension ResultVC: UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let detailVC = NewDetailVC()
-        detailVC.viewModel.placeId.accept(viewModel.resultSearch.value?[indexPath.section].blogId)
+        detailVC.viewModel.blogId.accept(viewModel.resultSearch.value?[indexPath.section].blogId)
         isLoading.accept(true)
-        detailVC.viewModel.isFavoritePlace {
-            detailVC.viewModel.featchPlace() {
+        detailVC.viewModel.isFavoriteBlog {
+            detailVC.viewModel.featchBlog() {
                 detailVC.viewModel.featchReview() {
                     self.isLoading.accept(false)
                     self.navigationController?.pushViewController(detailVC, animated: true)

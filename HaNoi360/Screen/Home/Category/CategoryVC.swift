@@ -49,7 +49,7 @@ class CategoryVC: BaseVC {
     }()
         
     lazy var backTitleButton = {
-        let btn = ButtonFactory.createImageButton(withImage: UIImage(systemName: "chevron.backward"), tinColor: .black)
+        let btn = ButtonFactory.createImageButton(withImage: UIImage(systemName: "chevron.backward"), tinColor: .iconColor)
         btn.snp.makeConstraints { make in
             make.height.width.equalTo(24)
         }
@@ -84,7 +84,7 @@ class CategoryVC: BaseVC {
         return btn
     }()
     
-    lazy var titleLabel = LabelFactory.createLabel(text: "Trải nghiệm", font: .medium18, textColor: .black, textAlignment: .center)
+    lazy var titleLabel = LabelFactory.createLabel(text: "Trải nghiệm", font: .medium18, textColor: .primaryTextColor, textAlignment: .center)
     
     lazy var searchStv = [backSearchButton, searchTF, filterBtn].hStack(10, distribution: .fill)
     
@@ -348,7 +348,7 @@ extension CategoryVC: UIScrollViewDelegate {
 
             let alpha = min(max(offsetY / maxOffset, 0), 1)
 
-            headerView.backgroundColor = UIColor.white.withAlphaComponent(alpha)
+            headerView.backgroundColor = UIColor.backgroundColor.withAlphaComponent(alpha)
 
             let maxCornerRadius: CGFloat = 24
             containerView.layer.cornerRadius = maxCornerRadius * (1 - alpha)
@@ -382,10 +382,10 @@ extension CategoryVC: UITableViewDataSource {
 extension CategoryVC: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let detailVC = NewDetailVC()
-        detailVC.viewModel.placeId.accept(viewModel.placesForCategory.value?[indexPath.row].blogId)
+        detailVC.viewModel.blogId.accept(viewModel.placesForCategory.value?[indexPath.row].blogId)
         isLoading.accept(true)
-        detailVC.viewModel.isFavoritePlace {
-            detailVC.viewModel.featchPlace() {
+        detailVC.viewModel.isFavoriteBlog {
+            detailVC.viewModel.featchBlog() {
                 detailVC.viewModel.featchReview() {
                     self.isLoading.accept(false)
                     self.navigationController?.pushViewController(detailVC, animated: true)

@@ -10,11 +10,11 @@ import RxCocoa
 import FirebaseFirestore
 
 class AllReviewVM: BaseVM {
-    var placeId = BehaviorRelay<String?>(value: nil)
+    var blogId = BehaviorRelay<String?>(value: nil)
     var review = BehaviorRelay<[ReviewModel]?>(value: nil)
 
     func featchReview(completion: @escaping () -> Void) {
-        guard let placeId = placeId.value else {
+        guard let placeId = blogId.value else {
             return
         }
         

@@ -13,6 +13,7 @@ import SnapKit
 
 class AllReviewVC: BaseVC {
     let viewModel = AllReviewVM()
+    lazy var authorBlog: String = ""
     lazy var avgReview: Double = 0
     lazy var navigationView = NavigationViewFactory.createNavigationViewWithBackButtonAndTitle(image: .back, title: "Nhận xét", delegate: self)
     
@@ -106,6 +107,9 @@ extension AllReviewVC: UITableViewDataSource {
             return UITableViewCell()
         }
         cell.selectionStyle = .none
+        if self.authorBlog != model.authorId {
+            cell.authorContainerView.isHidden = true
+        }
         cell.configData(model: model)
         cell.delegate = self
         return cell

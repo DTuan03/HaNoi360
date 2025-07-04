@@ -358,10 +358,10 @@ extension HomeVC: UICollectionViewDelegate {
             viewModel.getPlaces(idDistrict: viewModel.districts[indexPath.row].id)
         case placeCV:
             let detailVC = NewDetailVC()
-            detailVC.viewModel.placeId.accept(viewModel.itemsPlace.value[indexPath.row].blogId)
+            detailVC.viewModel.blogId.accept(viewModel.itemsPlace.value[indexPath.row].blogId)
             isLoading.accept(true)
-            detailVC.viewModel.isFavoritePlace {
-                detailVC.viewModel.featchPlace() {
+            detailVC.viewModel.isFavoriteBlog {
+                detailVC.viewModel.featchBlog() {
                     detailVC.viewModel.featchReview() {
                         self.isLoading.accept(false)
                         self.navigationController?.pushViewController(detailVC, animated: true)
@@ -378,10 +378,10 @@ extension HomeVC: UICollectionViewDelegate {
             self.navigationController?.pushViewController(vc, animated: true)
         default:
             let detailVC = NewDetailVC()
-            detailVC.viewModel.placeId.accept(viewModel.itemsTrendingPlace.value[indexPath.row].blogId)
+            detailVC.viewModel.blogId.accept(viewModel.itemsTrendingPlace.value[indexPath.row].blogId)
             isLoading.accept(true)
-            detailVC.viewModel.isFavoritePlace {
-                detailVC.viewModel.featchPlace() {
+            detailVC.viewModel.isFavoriteBlog {
+                detailVC.viewModel.featchBlog() {
                     detailVC.viewModel.featchReview() {
                         self.isLoading.accept(false)
                         self.navigationController?.pushViewController(detailVC, animated: true)

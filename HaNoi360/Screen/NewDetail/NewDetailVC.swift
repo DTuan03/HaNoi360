@@ -90,12 +90,12 @@ class NewDetailVC: BaseVC {
     
     lazy var backIv = ImageViewFactory.createImageView(image: .back)
     
-    lazy var nameAuthor = LabelFactory.createLabel(text: viewModel.place.value?.authorName, font: .bold16, textColor: .primaryTextColor, numberOfLines: 1)
+    lazy var nameAuthor = LabelFactory.createLabel(text: viewModel.blog.value?.authorName, font: .bold16, textColor: .primaryTextColor, numberOfLines: 1)
     
     lazy var avatarAuthor: UIImageView = {
         let iv = ImageViewFactory.createImageView(contentMode: .scaleAspectFill, radius: 25)
         var url: String = "https://upload.wikimedia.org/wikipedia/commons/8/89/Portrait_Placeholder.png"
-        if let t = viewModel.place.value?.authorAvatar {
+        if let t = viewModel.blog.value?.authorAvatar {
             url = t.isEmpty ? "https://upload.wikimedia.org/wikipedia/commons/8/89/Portrait_Placeholder.png" : t
         }
         iv.kf.setImage(with: URL(string: url))
@@ -107,7 +107,7 @@ class NewDetailVC: BaseVC {
     
     lazy var locationIv = ImageViewFactory.createImageView(image: .location)
     
-    lazy var locationLb = LabelFactory.createLabel(text: viewModel.place.value?.address, font: .medium14, textColor: UIColor(hex: "#808080"), numberOfLines: 1)
+    lazy var locationLb = LabelFactory.createLabel(text: viewModel.blog.value?.address, font: .medium14, textColor: UIColor(hex: "#808080"), numberOfLines: 1)
     
     //    lazy var locationSv = [locationIv, locationLb].hStack(4, distribution: .fill)
     
@@ -153,9 +153,9 @@ class NewDetailVC: BaseVC {
         return cv
     }()
     
-    lazy var titleLb = LabelFactory.createLabel(text: viewModel.place.value?.title, font: .bold22)
+    lazy var titleLb = LabelFactory.createLabel(text: viewModel.blog.value?.title, font: .bold22)
     
-    lazy var createAtLb = LabelFactory.createLabel(text: viewModel.place.value?.createAt?.toString(format: "'Ngày' dd 'tháng' MM 'năm' yyyy"), font: .extraBoldItalic14, textColor: .secondaryTextColor)
+    lazy var createAtLb = LabelFactory.createLabel(text: viewModel.blog.value?.createAt?.toString(format: "'Ngày' dd 'tháng' MM 'năm' yyyy"), font: .extraBoldItalic14, textColor: .secondaryTextColor)
     
     lazy var infoPost = [titleLb, createAtLb].vStack(4)
     
@@ -202,7 +202,7 @@ class NewDetailVC: BaseVC {
     
     lazy var reviewLabel = LabelFactory.createLabel(text: "Nhận xét", font: .medium20)
     
-    lazy var reviewTableView = {
+    lazy var reviewTbv = {
         let tableView = TableViewFactory.createTableView()
         tableView.showsVerticalScrollIndicator = false
         tableView.register(ReviewCell.self, forCellReuseIdentifier: "ReviewCell")
@@ -250,7 +250,7 @@ class NewDetailVC: BaseVC {
         
         scrollView.addSubview(contentView)
         
-        contentView.addSubviews([overlayView, categoryClv, infoPost, contentTbv, writeReviewLabel, avatarUser, reviewTextView, starReview, rangeReviewLabel, sendReviewBtn, reviewLabel, reviewTableView, moreLabel])
+        contentView.addSubviews([overlayView, categoryClv, infoPost, contentTbv, writeReviewLabel, avatarUser, reviewTextView, starReview, rangeReviewLabel, sendReviewBtn, reviewLabel, reviewTbv, moreLabel])
         contentView.snp.makeConstraints { make in
             make.top.equalToSuperview()
             make.left.right.equalToSuperview()
@@ -320,13 +320,13 @@ class NewDetailVC: BaseVC {
             make.left.equalToSuperview().inset(10)
         }
         
-        reviewTableView.snp.makeConstraints { make in
+        reviewTbv.snp.makeConstraints { make in
             make.top.equalTo(reviewLabel.snp.bottom).offset(8)
             make.left.right.equalToSuperview().inset(20)
         }
         
         moreLabel.snp.makeConstraints { make in
-            make.top.equalTo(reviewTableView.snp.bottom).offset(8)
+            make.top.equalTo(reviewTbv.snp.bottom).offset(8)
             make.centerX.equalToSuperview()
             make.bottom.equalToSuperview().inset(48)
         }
@@ -338,7 +338,7 @@ class NewDetailVC: BaseVC {
             self.avatarUser.kf.setImage(with: placeholderURL)
         }
 
-        let isAuthor = self.viewModel.place.value?.authorId == self.viewModel.userId
+        let isAuthor = self.viewModel.blog.value?.authorId == self.viewModel.userId
         self.editIv.isHidden = !isAuthor
     }
     
@@ -384,9 +384,7 @@ class NewDetailVC: BaseVC {
                     Toast.showToast(message: "Đánh giá thành công", image: "toast_success")
                     self.reviewTextView.text = ""
                     self.starReview.rating = 1
-                    self.viewModel.featchReview {
-                        
-                    }
+                    self.viewModel.featchReview {}
                     self.sendReviewBtn.isEnabled = false
                     self.sendReviewBtn.backgroundColor = .lightGray
                     DispatchQueue.global(qos: .userInitiated).async {
@@ -399,10 +397,10 @@ class NewDetailVC: BaseVC {
         viewModel.review
             .subscribe(onNext: { [weak self] review in
                 guard let self = self else { return }
-                self.reviewTableView.reloadData()
-                self.reviewTableView.layoutIfNeeded()
-                self.reviewTableView.snp.updateConstraints { make in
-                    make.height.equalTo(self.reviewTableView.contentSize.height)
+                self.reviewTbv.reloadData()
+                self.reviewTbv.layoutIfNeeded()
+                self.reviewTbv.snp.updateConstraints { make in
+                    make.height.equalTo(self.reviewTbv.contentSize.height)
                 }
                 if review?.count == 0 || review == nil {
                     self.reviewLabel.isHidden =  true
@@ -533,8 +531,8 @@ class NewDetailVC: BaseVC {
     
     @objc func calendarIVAction() {
         let vc = NewCreateScheduleVC()
-        vc.viewModel.placeId.accept(self.viewModel.placeId.value ?? "")
-        vc.viewModel.place.accept(self.viewModel.place.value)
+        vc.viewModel.placeId.accept(self.viewModel.blogId.value ?? "")
+        vc.viewModel.place.accept(self.viewModel.blog.value)
         vc.viewModel.featchPlaceCalendar()
         vc.modalTransitionStyle = .coverVertical
         vc.modalPresentationStyle = .overCurrentContext
@@ -543,9 +541,9 @@ class NewDetailVC: BaseVC {
     
     @objc func mapIVAction() {
         let vc = MapDetailVC()
-        vc.placeLocation = CLLocationCoordinate2D(latitude: CLLocationDegrees(viewModel.place.value?.coordinates.latitude ?? 0), longitude: CLLocationDegrees(viewModel.place.value?.coordinates.longitude ?? 0))
-        vc.namePlace = viewModel.place.value?.title
-        vc.address = viewModel.place.value?.address
+        vc.placeLocation = CLLocationCoordinate2D(latitude: CLLocationDegrees(viewModel.blog.value?.coordinates.latitude ?? 0), longitude: CLLocationDegrees(viewModel.blog.value?.coordinates.longitude ?? 0))
+        vc.namePlace = viewModel.blog.value?.title
+        vc.address = viewModel.blog.value?.address
         navigationController?.pushViewController(vc, animated: true)
     }
     
@@ -559,17 +557,17 @@ class NewDetailVC: BaseVC {
     @objc func infoSvAction() {
         let vc = MyProfileVC()
         //so sanh xem 2 userId giong nhau khong
-        if viewModel.userId == viewModel.place.value?.authorId {
+        if viewModel.userId == viewModel.blog.value?.authorId {
             vc.myProfileType = .owner
             vc.viewModel.fetchInfoUser(userId: self.viewModel.userId) {
-                vc.viewModel.getPlaces(authorId: self.viewModel.place.value?.authorId ?? "") {
+                vc.viewModel.getPlaces(authorId: self.viewModel.blog.value?.authorId ?? "") {
                     self.navigationController?.pushViewController(vc, animated: true)
                 }
             }
         } else {
             vc.myProfileType = .guest
-            vc.viewModel.fetchInfoUser(userId: (self.viewModel.place.value?.authorId)!) {
-                vc.viewModel.getPlaces(authorId: self.viewModel.place.value?.authorId ?? "") {
+            vc.viewModel.fetchInfoUser(userId: (self.viewModel.blog.value?.authorId)!) {
+                vc.viewModel.getPlaces(authorId: self.viewModel.blog.value?.authorId ?? "") {
                     self.navigationController?.pushViewController(vc, animated: true)
                 }
             }
@@ -586,8 +584,9 @@ class NewDetailVC: BaseVC {
     
     @objc func moreLabelAction() {
         let vc = AllReviewVC()
-        vc.viewModel.placeId.accept(viewModel.placeId.value)
-        vc.avgReview = viewModel.place.value?.avgRating ?? 0
+        vc.viewModel.blogId.accept(viewModel.blogId.value)
+        vc.avgReview = viewModel.blog.value?.avgRating ?? 0
+        vc.authorBlog = (viewModel.blog.value?.authorId)!
         isLoading.accept(true)
         vc.viewModel.featchReview() {
             self.isLoading.accept(false)
@@ -598,7 +597,7 @@ class NewDetailVC: BaseVC {
     @objc func editIvAction() {
         let vc = NewCreatePostVC()
         vc.newCreateBlogType = .edit
-        vc.viewModel.blog.accept(viewModel.place.value)
+        vc.viewModel.blog.accept(viewModel.blog.value)
         vc.titleNavigation = "create.edit.post".localized
         self.navigationController?.pushViewController(vc, animated: true)
     }
@@ -652,8 +651,8 @@ extension NewDetailVC: UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         switch tableView {
         case contentTbv:
-            return viewModel.place.value?.contentBlocks.count ?? 0
-        case reviewTableView:
+            return viewModel.blog.value?.contentBlocks.count ?? 0
+        case reviewTbv:
             if viewModel.review.value?.count ?? 0 < 4 {
                 return viewModel.review.value?.count ?? 0
             } else {
@@ -667,7 +666,7 @@ extension NewDetailVC: UITableViewDataSource {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         switch tableView {
         case contentTbv:
-            let block = viewModel.place.value?.contentBlocks[indexPath.row]
+            let block = viewModel.blog.value?.contentBlocks[indexPath.row]
             
             switch block?.type {
             case .heading:
@@ -699,11 +698,14 @@ extension NewDetailVC: UITableViewDataSource {
             case .none:
                 return UITableViewCell()
             }
-        case reviewTableView:
+        case reviewTbv:
             guard let cell = tableView.dequeueReusableCell(withIdentifier: "ReviewCell", for: indexPath) as? ReviewCell, let model = viewModel.review.value?[indexPath.row] else {
                 return UITableViewCell()
             }
             cell.selectionStyle = .none
+            if viewModel.blog.value?.authorId != model.authorId {
+                cell.authorContainerView.isHidden = true
+            }
             cell.configData(model: model)
             cell.delegate = self
             return cell
@@ -730,7 +732,7 @@ extension NewDetailVC: UITextViewDelegate, UIScrollViewDelegate {
 
 extension NewDetailVC: ReviewCellDelegate {
     func didReport(cell: UITableViewCell) {
-        guard let indexPath = reviewTableView.indexPath(for: cell),
+        guard let indexPath = reviewTbv.indexPath(for: cell),
               let reviewId = viewModel.review.value?[indexPath.row].reviewId else {
             return
         }

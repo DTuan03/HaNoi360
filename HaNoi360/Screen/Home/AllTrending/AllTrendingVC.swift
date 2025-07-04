@@ -78,10 +78,10 @@ extension AllTrendingVC: UICollectionViewDataSource {
 extension AllTrendingVC: UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         let detailVC = NewDetailVC()
-        detailVC.viewModel.placeId.accept(viewModel.itemsTrendingPlace.value[indexPath.row].blogId)
+        detailVC.viewModel.blogId.accept(viewModel.itemsTrendingPlace.value[indexPath.row].blogId)
         isLoading.accept(true)
-        detailVC.viewModel.isFavoritePlace {
-            detailVC.viewModel.featchPlace() {
+        detailVC.viewModel.isFavoriteBlog {
+            detailVC.viewModel.featchBlog() {
                 detailVC.viewModel.featchReview() {
                     self.isLoading.accept(false)
                     self.navigationController?.pushViewController(detailVC, animated: true)

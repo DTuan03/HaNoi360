@@ -19,9 +19,30 @@ class ReviewCell: UITableViewCell {
     let disbosbag = DisposeBag()
     lazy var avatarIV = ImageViewFactory.createImageView(image: .test, contentMode: .scaleAspectFill, radius: 25)
     
-    lazy var nameLabel = LabelFactory.createLabel(text: "Thinh Minh Lan", font: .medium16)
+    lazy var nameLabel = LabelFactory.createLabel(font: .medium16)
     
-    lazy var sv1 = [avatarIV, nameLabel].hStack(8)
+    lazy var authorIv = {
+        let iv = ImageViewFactory.createImageView(image: UIImage(systemName: "pencil.line"), tintColor: UIColor(hex: "#379ae6"))
+        iv.snp.makeConstraints { make in
+            make.width.height.equalTo(16)
+        }
+        return iv
+    }()
+    
+    lazy var authorLabel = LabelFactory.createLabel(text: "detatil.review.author".localized, font: UIFont.italicSystemFont(ofSize: 12), textColor: UIColor(hex: "#379ae6"))
+    
+    lazy var authorSv = [authorIv, authorLabel].hStack(2)
+    
+    lazy var authorContainerView: UIView = {
+        let view = UIView()
+        view.addSubview(authorSv)
+        authorSv.snp.makeConstraints { make in
+            make.edges.equalToSuperview()
+        }
+        return view
+    }()
+    
+    lazy var sv1 = [avatarIV, nameLabel, authorContainerView].hStack(8)
     
     lazy var reportIconIV = ImageViewFactory.createImageView(image: .ellipsisVertical)
     

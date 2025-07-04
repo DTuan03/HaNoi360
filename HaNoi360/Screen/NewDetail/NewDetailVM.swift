@@ -19,12 +19,12 @@ class NewDetailVM: BaseVM {
         CategoryModel(id: "canhQuan", name: "category.landscape".localized, img: "canhQuan")
     ]
     
-    var placeId = BehaviorRelay<String?>(value: nil)
-    var place = BehaviorRelay<BlogPost?>(value: nil)
+    var blogId = BehaviorRelay<String?>(value: nil)
+    var blog = BehaviorRelay<BlogPost?>(value: nil)
     
     var isAddFavorite = PublishRelay<Bool>()
     var isFavorite = BehaviorRelay<Bool>(value: false)
-    var placeFavorite = BehaviorRelay<FavoriteModel?>(value: nil)
+    var blogFavorite = BehaviorRelay<FavoriteModel?>(value: nil)
     var idFavorite = BehaviorRelay<String>(value: "")
     
     var isDeleteFavorite = PublishRelay<Bool>()
@@ -45,15 +45,15 @@ class NewDetailVM: BaseVM {
     
     var categoryHastag = BehaviorRelay<[String]>(value: [])
     
-    func featchPlace(completion: @escaping () -> Void) {
-        guard let id = placeId.value else {
+    func featchBlog(completion: @escaping () -> Void) {
+        guard let id = blogId.value else {
             return
         }
         blogService.fetchWhereEqualTo(field: "blogId", value: id) { result in
             self.isLoading.accept(false)
             switch result {
-            case .success(let place):
-                self.place.accept(place.first)
+            case .success(let blog):
+                self.blog.accept(blog.first)
             case .failure(let error):
                 print("Loi: \(error)")
             }
@@ -62,20 +62,20 @@ class NewDetailVM: BaseVM {
         }
     }
     
-    func isFavoritePlace(completion: @escaping () -> Void) {
+    func isFavoriteBlog(completion: @escaping () -> Void) {
         isLoading.accept(true)
-        guard let placeId = placeId.value else {
+        guard let blogId = blogId.value else {
             return
         }
         let fields = [
-            "blogId": placeId
+            "blogId": blogId
         ]
         favoriteService.fetchDocumentsByFields(fields: fields as [String : Any]) { result in
             switch result {
-            case .success(let places):
-                if !places.isEmpty {
+            case .success(let blogs):
+                if !blogs.isEmpty {
                     self.isFavorite.accept(true)
-                    self.placeFavorite.accept(places.first)
+                    self.blogFavorite.accept(blogs.first)
                 }
             case .failure(_):
                 self.isFavorite.accept(false)
@@ -86,15 +86,15 @@ class NewDetailVM: BaseVM {
     
     func addFavorite() {
 //        let id = Firestore.firestore().collection("favorites").document().documentID
-        idFavorite.accept(placeId.value!)
-        let favoritePlace = FavoriteModel(favoriteId: placeId.value,
-                                          blogId: placeId.value,
-                                          avatarBlog: place.value?.avatarBlog,
-                                          title: place.value?.title,
-                                          address: place.value?.address,
-                                          avgRating: place.value?.avgRating,
+        idFavorite.accept(blogId.value!)
+        let favoriteBlog = FavoriteModel(favoriteId: blogId.value,
+                                          blogId: blogId.value,
+                                          avatarBlog: blog.value?.avatarBlog,
+                                          title: blog.value?.title,
+                                          address: blog.value?.address,
+                                          avgRating: blog.value?.avgRating,
                                           createdAt: Date())
-        favoriteService.set(favoritePlace, withId: placeId.value!) { result in
+        favoriteService.set(favoriteBlog, withId: blogId.value!) { result in
             switch result {
             case .success():
                 self.isAddFavorite.accept(true)
@@ -107,7 +107,7 @@ class NewDetailVM: BaseVM {
     
     func deleteFavorite() {
         if idFavorite.value.isEmpty {
-            favoriteService.delete(id: placeFavorite.value!.favoriteId ?? "") { result in
+            favoriteService.delete(id: blogFavorite.value!.favoriteId ?? "") { result in
                 switch result {
                 case .success():
                     self.isDeleteFavorite.accept(true)
@@ -133,7 +133,7 @@ class NewDetailVM: BaseVM {
         isLoading.accept(true)
         let id = Firestore.firestore().collection("reviews").document().documentID
         let review = ReviewModel(reviewId: id,
-                                 blogId: placeId.value,
+                                 blogId: blogId.value,
                                  authorId: userId,
                                  authorName: nameUser,
                                  authorAvatar: avatarUser,
@@ -152,13 +152,13 @@ class NewDetailVM: BaseVM {
     }
     
     func featchReview(completion: @escaping () -> Void) {
-        guard let placeId = placeId.value else {
+        guard let blogId = blogId.value else {
             return
         }
        
         let query = Firestore.firestore()
             .collection("reviews")
-            .whereField("blogId", isEqualTo: placeId)
+            .whereField("blogId", isEqualTo: blogId)
             .whereField("isFlagged", isEqualTo: false)
             .order(by: "createAt", descending: true)
 //            .limit(to: 4)
@@ -230,7 +230,7 @@ class NewDetailVM: BaseVM {
     }
     
     func mapCategory() {
-        let categoryId = place.value?.category
+        let categoryId = blog.value?.category
         
         let categoryName = categoryId?.compactMap { id in
             categories.first(where:  { $0.id == id })?.name

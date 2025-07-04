@@ -90,6 +90,7 @@
 //detail
 "detail.write.review" = "Viết nhận xét";
 "detail.send" = "Gửi";
+"detatil.review.author" = "Tác giả";
 
 //create
 "create.edit.post" = "Sửa bài viết";
