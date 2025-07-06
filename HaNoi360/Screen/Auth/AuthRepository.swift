@@ -171,7 +171,6 @@ class AuthRepository {
                 }
                 
 //                self?.isLoading.accept(true)
-                // Thành công → Lưu vào Firestore qua AuthRepository
                 if let firebaseUser = result?.user {
                     AuthRepository.shared.saveUser(firebaseUser) {
                         self?.navigationController?.pushViewController(TabBarVC(), animated: true)

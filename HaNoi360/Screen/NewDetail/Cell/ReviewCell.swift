@@ -17,7 +17,7 @@ protocol ReviewCellDelegate: AnyObject {
 
 class ReviewCell: UITableViewCell {
     let disbosbag = DisposeBag()
-    lazy var avatarIV = ImageViewFactory.createImageView(image: .test, contentMode: .scaleAspectFill, radius: 25)
+    lazy var avatarIV = ImageViewFactory.createImageView(contentMode: .scaleAspectFill, radius: 25)
     
     lazy var nameLabel = LabelFactory.createLabel(font: .medium16)
     

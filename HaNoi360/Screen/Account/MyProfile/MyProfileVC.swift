@@ -60,7 +60,7 @@ class MyProfileVC: BaseVC {
     
     lazy var nameLb = LabelFactory.createLabel(text: viewModel.user.value?.name, font: .bold18, textColor: .primaryTextColor)
     
-    lazy var avatarIv = ImageViewFactory.createImageView(image: .test, contentMode: .scaleAspectFill, radius: 40)
+    lazy var avatarIv = ImageViewFactory.createImageView(contentMode: .scaleAspectFill, radius: 40)
     
     lazy var blogLbBuilder = LabelStackBuilder()
         .setFirstLabel(text: "34", textColor: .primaryTextColor, font: .extraBoldItalic13)

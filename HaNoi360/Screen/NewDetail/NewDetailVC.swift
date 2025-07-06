@@ -173,8 +173,7 @@ class NewDetailVC: BaseVC {
     
     lazy var writeReviewLabel = LabelFactory.createLabel(text: "detail.write.review".localized, font: .medium20)
     
-    lazy var avatarUser = ImageViewFactory.createImageView(image: .test,
-                                                           contentMode: .scaleAspectFill,
+    lazy var avatarUser = ImageViewFactory.createImageView(contentMode: .scaleAspectFill,
                                                            radius: 25)
     
     lazy var reviewTextView = {

@@ -14,7 +14,7 @@ protocol MyProfileCellDelegate: AnyObject {
 
 class MyProfileCell: UITableViewCell {
     
-    lazy var avatarIv = ImageViewFactory.createImageView(image: .test, contentMode: .scaleAspectFill, radius: 30)
+    lazy var avatarIv = ImageViewFactory.createImageView(contentMode: .scaleAspectFill, radius: 30)
 
     lazy var nameLb = LabelFactory.createLabel(text: "Đặng Anh Tuấn", font: .bold18, textColor: .primaryTextColor)
 

@@ -23,39 +23,6 @@ class BaseVM {
     }
     var avatarUser = UserDefaults.standard.string(forKey: "avatarUrl") ?? "https://upload.wikimedia.org/wikipedia/commons/8/89/Portrait_Placeholder.png"
     
-    let db = Firestore.firestore()
-    var listener: ListenerRegistration?
-    init() {
-//        setupListener()
-    }
-    
-    func setupListener() {
-        listener = db.collection("notifications")
-            .whereField("userId", isEqualTo: userId)
-            .addSnapshotListener { [weak self] snapshot, error in
-                guard let _ = self else { return }
-                guard let snapshot = snapshot else {
-                    print("Lỗi: \(error?.localizedDescription ?? "Không rõ lỗi")")
-                    return
-                }
-                
-                for diff in snapshot.documentChanges {
-                    switch diff.type {
-                    case .added:
-                        print("Thêm mới: \(diff.document.data())")
-                    case .modified:
-                        print("Sửa: \(diff.document.data())")
-                    case .removed:
-                        print("Xóa: \(diff.document.data())")
-                    }
-                }
-            }
-    }
-    
-    deinit {
-        listener?.remove()
-    }
-    
     lazy var calendarService = BaseFirestoreService<NewCreateScheduleModel>(collectionPath: "users/\(userId)/calendars")
     lazy var favoriteService = BaseFirestoreService<FavoriteModel>(collectionPath: "users/\(userId)/favorites")
     let reviewService = BaseFirestoreService<ReviewModel>(collectionPath: "reviews")

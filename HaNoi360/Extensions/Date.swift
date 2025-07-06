@@ -21,8 +21,8 @@ extension String {
     func toDate(format: String = "dd/MM/yyyy") -> Date? {
         let formatter = DateFormatter()
         formatter.dateFormat = format
-        formatter.locale = Locale(identifier: "vi_VN") // nếu dùng định dạng Việt
-        formatter.timeZone = TimeZone.current          // hoặc cụ thể: TimeZone(identifier: "Asia/Ho_Chi_Minh")
+        formatter.locale = Locale(identifier: "vi_VN")
+        formatter.timeZone = TimeZone.current
         return formatter.date(from: self)
     }
 }

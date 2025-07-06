@@ -38,7 +38,7 @@ extension List: DetachableObject {
             if let detachableObject = $0 as? DetachableObject,
                let element = detachableObject.detached() as? Element {
                 result.append(element)
-            } else { // Then it is a primitive
+            } else {
                 result.append($0)
             }
         }

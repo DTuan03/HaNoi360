@@ -58,7 +58,7 @@ class LoadModel {
     }
 
     func toMLMultiArray(_ intArray: [Int]) -> MLMultiArray? {
-        let shape: [NSNumber] = [1, NSNumber(value: intArray.count)]  // Rank 2: [1, sequence_length]
+        let shape: [NSNumber] = [1, NSNumber(value: intArray.count)]
 
         guard let array = try? MLMultiArray(shape: shape, dataType: .float32) else {
             return nil

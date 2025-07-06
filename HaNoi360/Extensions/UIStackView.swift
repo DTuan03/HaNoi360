@@ -25,9 +25,9 @@ extension UIStackView {
     
     func removeArrangedSubviews(_ views: UIView...) {
         views.forEach { self.removeArrangedSubview($0) }
-        // Deactivate all constraints
+        
         NSLayoutConstraint.deactivate(views.flatMap({ $0.constraints }))
-        // Remove the views from self
+        
         views.forEach({ $0.removeFromSuperview() })
     }
     
@@ -37,10 +37,10 @@ extension UIStackView {
             return allSubviews + [subview]
         }
         
-        // Deactivate all constraints
+        
         NSLayoutConstraint.deactivate(removedSubviews.flatMap({ $0.constraints }))
         
-        // Remove the views from self
+        
         removedSubviews.forEach({ $0.removeFromSuperview() })
     }
     

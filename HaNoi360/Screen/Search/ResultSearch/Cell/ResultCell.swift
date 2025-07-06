@@ -20,7 +20,7 @@ class ResultCell: UITableViewCell {
         return view
     }()
         
-    lazy var placeIV = ImageViewFactory.createImageView(image: .test, contentMode: .scaleAspectFill, radius: 8)
+    lazy var placeIV = ImageViewFactory.createImageView(contentMode: .scaleAspectFill, radius: 8)
     
     lazy var namePlaceLabel = LabelFactory.createLabel(text: "Ho Tay", font: .medium14, textColor: .primaryTextColor, numberOfLines: 1)
     

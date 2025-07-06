@@ -14,7 +14,7 @@ class CategoryPlaceCell: UITableViewCell {
         return view
     }()
         
-    lazy var placeIV = ImageViewFactory.createImageView(image: .test, contentMode: .scaleAspectFill, radius: 12)
+    lazy var placeIV = ImageViewFactory.createImageView(contentMode: .scaleAspectFill, radius: 12)
     
     lazy var namePlaceLabel = LabelFactory.createLabel(text: "Ho Tay", font: .medium16, textColor: .primaryTextColor)
     
