@@ -204,7 +204,7 @@ class MapVC: BaseVC {
         request.naturalLanguageQuery = keyword
         
         let hanoiCenter = CLLocationCoordinate2D(latitude: 21.028511, longitude: 105.804817)
-        let hanoiRegion = MKCoordinateRegion(center: hanoiCenter, latitudinalMeters: 50000, longitudinalMeters: 50000)
+        let hanoiRegion = MKCoordinateRegion(center: hanoiCenter, latitudinalMeters: 0.1, longitudinalMeters: 0.1)
         request.region = hanoiRegion
         
         let search = MKLocalSearch(request: request)

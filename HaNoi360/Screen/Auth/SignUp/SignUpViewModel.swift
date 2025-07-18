@@ -61,22 +61,4 @@ class SignUpViewModel {
             self.signUpError.accept("auth.validation.fill.all".localized)
         }
     }
-    
-//    func signUpWithGG() {
-//        isLoading.accept(true)
-//        AuthRepository.shared.signInWithGG(completion: { result in
-//            switch result {
-//            case .success(let success):
-//                self.signUpSuccess.accept(true)
-//                self.isLoading.accept(false)
-//            case .failure(let failure):
-//                let error = self.getAuthErrorMessage(error)
-//                self.signUpError.accept(error)
-//                self.isLoading.accept(false)
-//            }
-//        })
-//    }
-    
-    
-
 }

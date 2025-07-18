@@ -189,7 +189,7 @@ class NewDetailVC: BaseVC {
     
     lazy var starReview = CosmosViewFactory.createCosmosView()
     
-    lazy var rangeReviewLabel = LabelFactory.createLabel(text: "0/200", font: .regular16, textColor: .lightGray)
+    lazy var rangeReviewLabel = LabelFactory.createLabel(text: "0/200 từ", font: .regular16, textColor: .lightGray)
     
     lazy var sendReviewBtn = {
         let btn = ButtonFactory.createButton("detail.send".localized, rounded: false, height: 38)
@@ -254,7 +254,7 @@ class NewDetailVC: BaseVC {
             make.top.equalToSuperview()
             make.left.right.equalToSuperview()
             make.width.equalTo(scrollView.snp.width)
-            make.bottom.equalToSuperview()
+            make.bottom.equalToSuperview().inset(48)
         }
         
         overlayView.snp.makeConstraints { make in
@@ -322,12 +322,13 @@ class NewDetailVC: BaseVC {
         reviewTbv.snp.makeConstraints { make in
             make.top.equalTo(reviewLabel.snp.bottom).offset(8)
             make.left.right.equalToSuperview().inset(20)
+            make.height.equalTo(1)
         }
         
         moreLabel.snp.makeConstraints { make in
             make.top.equalTo(reviewTbv.snp.bottom).offset(8)
             make.centerX.equalToSuperview()
-            make.bottom.equalToSuperview().inset(48)
+            make.bottom.equalToSuperview()
         }
         
         if let urlString = UserDefaults.standard.string(forKey: "avatarUrl"),
@@ -359,7 +360,7 @@ class NewDetailVC: BaseVC {
         viewModel.countReview
             .subscribe(onNext: { [weak self] count in
                 guard let `self` = self else {return}
-                self.rangeReviewLabel.text = "\(count)/200"
+                self.rangeReviewLabel.text = "\(count)/200 từ"
             })
             .disposed(by: disposeBag)
         
@@ -397,9 +398,11 @@ class NewDetailVC: BaseVC {
             .subscribe(onNext: { [weak self] review in
                 guard let self = self else { return }
                 self.reviewTbv.reloadData()
-                self.reviewTbv.layoutIfNeeded()
-                self.reviewTbv.snp.updateConstraints { make in
-                    make.height.equalTo(self.reviewTbv.contentSize.height)
+                DispatchQueue.main.async {
+                    self.reviewTbv.layoutIfNeeded()
+                    self.reviewTbv.snp.updateConstraints { make in
+                        make.height.equalTo(self.reviewTbv.contentSize.height)
+                    }
                 }
                 if review?.count == 0 || review == nil {
                     self.reviewLabel.isHidden =  true
@@ -555,7 +558,6 @@ class NewDetailVC: BaseVC {
     
     @objc func infoSvAction() {
         let vc = MyProfileVC()
-        //so sanh xem 2 userId giong nhau khong
         if viewModel.userId == viewModel.blog.value?.authorId {
             vc.myProfileType = .owner
             vc.viewModel.fetchInfoUser(userId: self.viewModel.userId) {
@@ -711,21 +713,36 @@ extension NewDetailVC: UITableViewDataSource {
         default:
             return UITableViewCell()
         }
-       
+        
     }
 }
 
 extension NewDetailVC: UITextViewDelegate, UIScrollViewDelegate {
     func textView(_ textView: UITextView, shouldChangeTextIn range: NSRange, replacementText text: String) -> Bool {
         let currentText = textView.text ?? ""
-        guard let stringRange = Range(range, in: currentText) else { return false }
-        let updatedText = currentText.replacingCharacters(in: stringRange, with: text)
-        self.viewModel.contentReview.accept(updatedText)
-        return updatedText.count <= 200
+        
+        if let textRange = Range(range, in: currentText) {
+            let updatedText = currentText.replacingCharacters(in: textRange, with: text)
+            self.viewModel.contentReview.accept(updatedText)
+            let words = updatedText
+                .trimmingCharacters(in: .whitespacesAndNewlines)
+                .components(separatedBy: .whitespacesAndNewlines)
+                .filter { !$0.isEmpty }
+            
+            return words.count <= 200
+        }
+        
+        return true
     }
     
     func textViewDidChange(_ textView: UITextView) {
-        self.viewModel.countReview.accept(textView.text.count)
+        let text = textView.text ?? ""
+        let wordCount = text
+            .trimmingCharacters(in: .whitespacesAndNewlines)
+            .components(separatedBy: .whitespacesAndNewlines)
+            .filter { !$0.isEmpty }
+            .count
+        self.viewModel.countReview.accept(wordCount)
     }
 }
 
@@ -741,6 +758,7 @@ extension NewDetailVC: ReviewCellDelegate {
             if let reviewCell = cell as? ReviewCell {
                 reviewCell.reportBtn.isHidden = true
             }
+            self.viewModel.featchReview {}
         }
     }
 }

@@ -160,6 +160,7 @@ class NewDetailVM: BaseVM {
             .collection("reviews")
             .whereField("blogId", isEqualTo: blogId)
             .whereField("isFlagged", isEqualTo: false)
+            .whereField("report", isEqualTo: false)
             .order(by: "createAt", descending: true)
 //            .limit(to: 4)
         

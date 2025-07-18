@@ -73,7 +73,7 @@ class NewCreateScheduleVM: BaseVM {
                                            avgRating: place.value?.avgRating ?? 0,
                                            date: date.value ?? Date().toString(),
                                            createAt: Date())
-        calendarService.set(place, withId: id /*placeId.value ?? ""*/) { result in
+        calendarService.set(place, withId: id) { result in
             switch result {
             case .success():
                 self.isSuccess.accept(true)

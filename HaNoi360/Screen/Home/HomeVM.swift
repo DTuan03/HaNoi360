@@ -41,7 +41,7 @@ class HomeVM: BaseVM {
         District(id: "TH29", name: "Thường Tín"),
         District(id: "TH30", name: "Ứng Hòa")
     ]
-
+    
     var itemsNameDistrict = BehaviorRelay<[District]>(value: [])
     var itemsPlace = BehaviorRelay<[BlogPost]>(value: [])
     
@@ -90,5 +90,5 @@ class HomeVM: BaseVM {
             }
         }
     }
-
+    
 }

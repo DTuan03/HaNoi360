@@ -19,7 +19,7 @@ class ReviewCell: UITableViewCell {
     let disbosbag = DisposeBag()
     lazy var avatarIV = ImageViewFactory.createImageView(contentMode: .scaleAspectFill, radius: 25)
     
-    lazy var nameLabel = LabelFactory.createLabel(font: .medium16)
+    lazy var nameLabel = LabelFactory.createLabel(font: .medium16, numberOfLines: 0)
     
     lazy var authorIv = {
         let iv = ImageViewFactory.createImageView(image: UIImage(systemName: "pencil.line"), tintColor: UIColor(hex: "#379ae6"))
@@ -48,7 +48,7 @@ class ReviewCell: UITableViewCell {
     
     lazy var starReview = CosmosViewFactory.createCosmosView(updateOnTouch: false)
 
-    lazy var contentReviewLabel = LabelFactory.createLabel(text: "", font: .regular14)
+    lazy var contentReviewLabel = LabelFactory.createLabel(text: "", font: .regular14, numberOfLines: 0)
     
     lazy var sv = [sv1, starReview, contentReviewLabel].vStack(8)
     
@@ -76,6 +76,7 @@ class ReviewCell: UITableViewCell {
     func setupUI() {
         self.backgroundColor = .clear
         contentView.addSubviews([sv, reportIconIV, reportBtn])
+        authorContainerView.isHidden = true
         avatarIV.snp.makeConstraints { make in
             make.width.height.equalTo(50)
         }

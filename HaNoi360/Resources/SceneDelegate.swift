@@ -6,14 +6,16 @@
 //
 
 import UIKit
+import RxSwift
 
 class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 
     var window: UIWindow?
-
+    let disposeBag = DisposeBag()
 
     func scene(_ scene: UIScene, willConnectTo session: UISceneSession, options connectionOptions: UIScene.ConnectionOptions) {
         guard let windowScene = (scene as? UIWindowScene) else { return }
+        observeNetwork()
         window = UIWindow(windowScene: windowScene)
         let langCode: String
         UserDefaults.standard.removeObject(forKey: "AppleLanguages")
@@ -44,19 +46,23 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         
         let navigation = UINavigationController(rootViewController: firstVC)
         
-
+        
         window?.rootViewController = navigation
         window?.makeKeyAndVisible()
     }
     
-//    func scene(_ scene: UIScene,
-//               openURLContexts URLContexts: Set<UIOpenURLContext>) {
-//        guard let url = URLContexts.first?.url else { return }
-//
-//        GIDSignIn.sharedInstance().handle(url,
-//                                          sourceApplication: nil,
-//                                          annotation: nil)
-//    }
+    func observeNetwork() {
+        NetworkMonitor.shared.connectionStatus
+            .skip(1)
+            .subscribe(onNext: { isConnected in
+                if isConnected {
+                    print("Có mạng")
+                } else {
+                    print("Mất mạng")
+                }
+            })
+            .disposed(by: disposeBag)
+    }
 
     func sceneDidDisconnect(_ scene: UIScene) {
         // Called as the scene is being released by the system.
