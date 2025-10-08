@@ -26,6 +26,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         //Login feature added
         //Sửa dùng rebase và merge
         //gộp commit
+        //gộp commit 2
         return true
     }
     
