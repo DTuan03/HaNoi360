@@ -25,6 +25,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         FirebaseApp.configure()
         //Login feature added
         //Sửa dùng rebase và merge
+        //gộp commit
         return true
     }
     
