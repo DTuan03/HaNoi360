@@ -24,6 +24,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         IQKeyboardManager.shared.isEnabled = true
         FirebaseApp.configure()
         //Login feature added
+        //Sửa dùng rebase và merge
         return true
     }
     
